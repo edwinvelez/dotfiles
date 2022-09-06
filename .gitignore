@@ -1,0 +1,18 @@
+# Ignore everything
+/**
+
+# Except for the following files
+!.gitignore
+!.gtkrc-2.0
+!.xinitrc
+!.Xresources
+!.zshrc
+
+# Except for the following directories and their content
+!.config
+!.config/gtk-3.0
+!.config/gtk-3.0/**
+!.config/i3/
+!.config/i3/**
+!.config/polybar
+!.config/polybar/**
