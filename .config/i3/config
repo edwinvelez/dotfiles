@@ -201,6 +201,9 @@ exec_always --no-startup-id picom --config $HOME/.config/picom.conf
 # Display Wallpaper
 exec_always --no-startup-id feh --bg-fill $HOME/.config/i3/wallpaper.png
 
+# Focus follows mouse
+focus_follows_mouse no
+
 # polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
