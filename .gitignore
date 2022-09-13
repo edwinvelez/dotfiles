@@ -10,6 +10,8 @@
 
 # Except for the following directories and their content
 !.config
+!.config/alacritty
+!.config/alacritty/**
 !.config/gtk-3.0
 !.config/gtk-3.0/**
 !.config/i3/
