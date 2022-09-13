@@ -4,7 +4,7 @@
 include "/home/edwinvelez/.gtkrc-2.0.mine"
 gtk-theme-name="Materia-dark"
 gtk-icon-theme-name="Papirus-Dark"
-gtk-font-name="Roboto Medium 12"
+gtk-font-name="Fira Code weight=450 14"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=0
 gtk-toolbar-style=GTK_TOOLBAR_BOTH
@@ -15,5 +15,5 @@ gtk-enable-event-sounds=1
 gtk-enable-input-feedback-sounds=1
 gtk-xft-antialias=1
 gtk-xft-hinting=1
-gtk-xft-hintstyle="hintfull"
+gtk-xft-hintstyle="hintmedium"
 gtk-xft-rgba="rgb"
