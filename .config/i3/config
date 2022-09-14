@@ -226,7 +226,7 @@ mode "resize" { # These bindings trigger as soon as you enter the resize mode
 
 ### SETTINGS FOR i3-gaps
 
-# for_window [class=".*"] border pixel 3
+for_window [class=".*"] border pixel 3
 
 # Set inner/outer gaps
 
