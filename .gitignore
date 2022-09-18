@@ -10,6 +10,7 @@
 
 # Except for the following directories and their content
 !.config
+!.config/chrome-flags.conf
 !.config/alacritty
 !.config/alacritty/**
 !.config/gtk-3.0
