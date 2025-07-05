@@ -4,6 +4,7 @@ echo "Installing fonts"
 pacman -S \
   gnu-free-fonts \
   inter-font \
+  nerd-fonts \
   noto-fonts \
   noto-fonts-emoji \
   noto-fonts-extra \
@@ -19,7 +20,6 @@ pacman -S \
   ttf-droid \
   \
   ttf-fira-code \
-  ttf-firacode-nerd \
   ttf-fira-mono \
   otf-fira-mono \
   \
