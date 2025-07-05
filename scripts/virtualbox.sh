@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "Installing VirtualBox"
-pacman -S \
+sudo pacman -S \
   virtualbox \
   virtualbox-host-modules-arch \
   virtualbox-guest-iso \
@@ -9,6 +9,3 @@ pacman -S \
 
 echo "Adding user to vboxusers group"
 usermod -aG vboxusers $USER
-
-echo "Installing VirtualBox extensions"
-paru -S virtualbox-ext-oracle --noconfirm --needed
