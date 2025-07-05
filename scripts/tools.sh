@@ -29,4 +29,5 @@ pacman -S \
   xdotool \
   zip \
   zsh \
+  zsh-completions \
   --noconfirm --needed
