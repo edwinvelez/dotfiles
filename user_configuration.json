@@ -241,7 +241,7 @@
     "type": "nm"
   },
   "ntp": true,
-  "packages": [],
+  "packages": ["git"],
   "parallel_downloads": 0,
   "profile_config": {
     "gfx_driver": "Nvidia (proprietary)",
