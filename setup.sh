@@ -33,21 +33,21 @@ pacman -S \
   --noconfirm --needed
 
 echo "Enabling Uncomplicated Firewall (ufw) daemon"
-systemctl enable --now ufw.service
+systemctl enable ufw.service
 ufw default deny
 ufw enable
 
 echo "Enabling NetworkManager daemon"
-systemctl enable --now NetworkManager.service
+systemctl enable NetworkManager.service
 
 echo "Enabling sshd daemon"
-systemctl enable --now sshd.service
+systemctl enable sshd.service
 
 echo "Enabling S.M.A.R.T daemon"
-systemctl enable --now smartd.service
+systemctl enable smartd.service
 
 echo "Enabling radio device wizard daemon"
-systemctl enable --now NetworkManager-dispatcher.service
+systemctl enable NetworkManager-dispatcher.service
 
 echo "Installing NVIDIA video drivers"
 pacman -S \
@@ -126,7 +126,7 @@ pacman -S \
   blueman \
   --noconfirm --needed
 
-systemctl enable --now bluetooth.service
+systemctl enable bluetooth.service
 
 echo "Installing printer packages"
 pacman -S \
@@ -136,7 +136,7 @@ pacman -S \
   --noconfirm --needed
 
 echo "Enabling printing services daemon"
-systemctl enable --now cups.service
+systemctl enable cups.service
 
 echo "Installing Docker"
 pacman -S \
