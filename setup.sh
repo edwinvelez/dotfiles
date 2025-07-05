@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+USERNAME=edwinvelez
+
+echo "Change username settings"
+usermod -s /usr/bin/zsh $USERNAME -c "Edwin Velez"
+
 echo "Synchronizing pacman database"
 pacman -Syy
 
@@ -140,7 +145,7 @@ pacman -S \
   --noconfirm --needed
 
 echo "Adding user to the docker group."
-usermod -aG docker edwinvelez
+usermod -aG docker $USERNAME
 
 echo "Enabling Docker socket"
 systemctl enable docker.socket
