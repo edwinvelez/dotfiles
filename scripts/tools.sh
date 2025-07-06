@@ -9,6 +9,7 @@ pacman -S \
   fwupd \
   git \
   gnome-keyring \
+  keychain \
   \
   materia-gtk-theme \
   papirus-icon-theme \
