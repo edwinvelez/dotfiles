@@ -8,7 +8,7 @@ paru -S \
   \
   google-chrome \
   visual-studio-code-bin \
-  zoom
+  zoom \
   --noconfirm --needed --sudoloop
 
 # https://wiki.archlinux.org/title/Dropbox#Prevent_automatic_updates
