@@ -57,7 +57,7 @@ CORE_PACKAGES=(
     "curl" "networkmanager" "openssh" "wget"
 
     # --- CLI Tools & Shells ---
-    "btop" "chezmoi" "eza" "fastfetch" "fd" "neovim" "ripgrep" "starship" "vim" "zsh"
+    "btop" "chezmoi" "eza" "fastfetch" "fd" "neovim" "ranger" "ripgrep" "starship" "vim" "zsh" "zsh-autosuggestions" "zsh-syntax-highlighting"
 
     # --- File Systems & Archives ---
     "exfatprogs" "ntfs-3g" "tar" "unzip" "zip"
