@@ -70,6 +70,9 @@ CORE_PACKAGES=(
     
     # --- GUI Dependencies & Theming ---
     "gnome-keyring" "libnotify" "materia-gtk-theme" "papirus-icon-theme"
+
+    # --- GUI Applications & Media ---
+    "vlc" "vlc-plugin-ass" "vlc-plugin-ffmpeg" "vlc-plugin-matroska"
     
     # --- Virtualization ---
     "docker" "docker-compose" "virtualbox" "virtualbox-guest-iso" "virtualbox-host-dkms"
