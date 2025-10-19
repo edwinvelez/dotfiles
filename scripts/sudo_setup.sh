@@ -53,11 +53,14 @@ CORE_PACKAGES=(
     "efibootmgr" "less" "linux" "linux-headers" "man-db" "man-pages" "smartmontools"
     "udisks2" "xdg-user-dirs"
 
+    # --- Security ---
+    "ufw"
+
     # --- Networking & Remote Access ---
     "curl" "networkmanager" "openssh" "wget"
 
     # --- CLI Tools & Shells ---
-    "btop" "chezmoi" "eza" "fastfetch" "fd" "neovim" "ranger" "ripgrep" "starship" "vim" "zsh" "zsh-autosuggestions" "zsh-syntax-highlighting"
+    "btop" "chezmoi" "eza" "fastfetch" "fd" "neovim" "ripgrep" "starship" "vim" "zsh" "zsh-autosuggestions" "zsh-syntax-highlighting"
 
     # --- File Systems & Archives ---
     "exfatprogs" "ntfs-3g" "tar" "unzip" "zip"
@@ -70,9 +73,6 @@ CORE_PACKAGES=(
     
     # --- GUI Dependencies & Theming ---
     "gnome-keyring" "libnotify" "materia-gtk-theme" "papirus-icon-theme"
-
-    # --- GUI Applications & Media ---
-    "vlc" "vlc-plugin-ass" "vlc-plugin-ffmpeg" "vlc-plugin-matroska"
     
     # --- Virtualization ---
     "docker" "docker-compose" "virtualbox" "virtualbox-guest-iso" "virtualbox-host-dkms"
@@ -135,19 +135,52 @@ EOF
 }
 
 #
+# Installs the correct CPU microcode package based on the detected hardware vendor.
+# This is a critical security and stability update.
+#
+install_microcode() {
+    echo "Detecting CPU vendor for microcode installation..."
+    if grep -q "GenuineIntel" /proc/cpuinfo; then
+        echo "Intel CPU detected. Installing intel-ucode..."
+        pacman -S --noconfirm --needed intel-ucode
+    elif grep -q "AuthenticAMD" /proc/cpuinfo; then
+        echo "AMD CPU detected. Installing amd-ucode..."
+        pacman -S --noconfirm --needed amd-ucode
+    else
+        echo "Warning: Could not determine CPU vendor. Skipping microcode installation."
+    fi
+}
+
+#
+# Configures the Uncomplicated Firewall (ufw) with secure, sane defaults.
+#
+configure_firewall() {
+    echo "Configuring firewall with default rules..."
+    # By default, deny all incoming traffic.
+    ufw default deny incoming
+    # By default, allow all outgoing traffic.
+    ufw default allow outgoing
+    # Explicitly allow SSH connections to prevent being locked out of remote servers.
+    ufw allow ssh
+    echo "Firewall configured. It will be enabled on next boot."
+}
+
+
+#
 # Enables essential systemd services to start automatically on boot.
 #
 configure_services() {
     echo "Enabling core systemd services for next boot..."
-    systemctl enable bluetooth.service
-    systemctl enable cups.socket
-    systemctl enable docker.service
-    systemctl enable NetworkManager.service
-    systemctl enable reflector.timer # This will keep the mirrorlist updated weekly.
-    systemctl enable saned.socket
-    systemctl enable smartd.service
-    systemctl enable sshd.service
-    systemctl enable udisks2.service
+    systemctl enable bluetooth.service         # Enables Bluetooth functionality.
+    systemctl enable cups.socket               # Enables the CUPS printing service.
+    systemctl enable docker.service            # Enables the Docker container engine.
+    systemctl enable NetworkManager.service    # Manages network connections.
+    systemctl enable reflector.timer           # Periodically updates the mirrorlist for pacman.
+    systemctl enable saned.socket              # Enables network scanning services.
+    systemctl enable smartd.service            # Monitors hard drive health (S.M.A.R.T.).
+    systemctl enable sshd.service              # Enables remote access via SSH.
+    systemctl enable udisks2.service           # Manages disk and auto-mounting functionality.
+    systemctl enable ufw.service               # Enables the Uncomplicated Firewall.
     echo "Core services enabled."
 }
 
@@ -177,25 +210,29 @@ prompt_de_choice() {
 echo "--- Starting Arch Linux Post-Install Setup ---"
 
 # STEP 1: Install Reflector and Configure Mirrors
-# Reflector must be installed before it can be configured and run.
 echo "Installing reflector to manage mirrorlists..."
 pacman -Syu --noconfirm --needed reflector
 configure_reflector
 
-# STEP 2: Install Core Packages and Fonts
+# STEP 2: Install CPU Microcode
+install_microcode
+
+# STEP 3: Install Core Packages and Fonts
 echo "Updating system and installing all core packages and fonts..."
 pacman -Syu --noconfirm --needed "${CORE_PACKAGES[@]}" "${FONTS[@]}"
 
-# STEP 3: Rebuild Initial Ramdisk
-# This is crucial to ensure that new kernel modules, especially the NVIDIA
-# drivers, are included in the boot image.
+# STEP 4: Configure Firewall
+configure_firewall
+
+# STEP 5: Rebuild Initial Ramdisk
+# This is crucial to ensure new kernel modules (NVIDIA, microcode) are in the boot image.
 echo "Rebuilding initramfs to include new kernel modules..."
 mkinitcpio -P
 
-# STEP 4: Enable Core System Services
+# STEP 6: Enable Core System Services
 configure_services
 
-# STEP 5: Install Desktop Environment
+# STEP 7: Install Desktop Environment
 prompt_de_choice
 
 if [ ${#DE_PACKAGES[@]} -gt 0 ]; then
@@ -214,7 +251,7 @@ if [ ${#DE_PACKAGES[@]} -gt 0 ]; then
     fi
 fi
 
-# STEP 6: Configure User Account
+# STEP 8: Configure User Account
 echo "Configuring user account for '$USERNAME'..."
 
 # Add the user to essential groups for docker and virtualization.
