@@ -60,7 +60,7 @@ CORE_PACKAGES=(
     "curl" "networkmanager" "openssh" "wget"
 
     # --- CLI Tools & Shells ---
-    "btop" "chezmoi" "eza" "fastfetch" "fd" "neovim" "ripgrep" "starship" "vim" "zsh" "zsh-autosuggestions" "zsh-syntax-highlighting"
+    "btop" "chezmoi" "eza" "fastfetch" "fd" "ncdu" "neovim" "ranger" "ripgrep" "starship" "vim" "zsh" "zsh-autosuggestions" "zsh-syntax-highlighting"
 
     # --- File Systems & Archives ---
     "exfatprogs" "ntfs-3g" "tar" "unzip" "zip"
@@ -89,6 +89,9 @@ HYPRLAND_PACKAGES=(
     # --- Display Manager ---
     "sddm"
 
+    # --- File Management ---
+    "thunar" "thunar-archive-plugin" "thunar-volman"
+
     # --- GUI Components & Toolkits ---
     "dunst" "kitty" "qt5ct" "qt6ct" "waybar" "wofi"
 
@@ -99,7 +102,7 @@ HYPRLAND_PACKAGES=(
 # --- Desktop Environment: XFCE ---
 XFCE_PACKAGES=(
     # --- Core XFCE Components ---
-    "thunar" "xfce4" "xfce4-goodies"
+    "xfce4" "xfce4-goodies"
     
     # --- Display Manager ---
     "lightdm" "lightdm-gtk-greeter"
