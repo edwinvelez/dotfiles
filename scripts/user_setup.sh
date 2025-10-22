@@ -117,6 +117,15 @@ install_bun() {
     fi
 }
 
+#
+# Enables and starts user-specific systemd services.
+#
+configure_user_services() {
+    echo "--> Enabling user systemd services..."
+    systemctl --user enable ssh-agent.service # Enable and start the ssh-agent service for the user.
+    echo "User services enabled."
+}
+
 
 # --- Main Execution ---
 
@@ -128,7 +137,10 @@ install_paru
 # Step 2: Install all user packages
 install_packages_with_paru
 
-# Step 3: Configure user applications
+# Step 3: Enable user systemd services
+configure_user_services
+
+# Step 4: Configure user applications
 configure_dropbox
 install_oh_my_zsh
 install_bun
