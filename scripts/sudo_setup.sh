@@ -81,7 +81,7 @@ CORE_PACKAGES=(
 # --- Desktop Environment: Hyprland ---
 HYPRLAND_PACKAGES=(
     # --- Core Hyprland Components ---
-    "hyprland" "hyprpaper" "hyprpolkitagent" "xdg-desktop-portal-hyprland"
+    "hyprland" "hyprpaper" "hyprpolkitagent" "xdg-desktop-portal-hyprland" "xdg-desktop-portal-gtk"
     
     # --- Audio Management ---
     "pavucontrol" "pipewire" "pipewire-alsa" "pipewire-jack" "pipewire-pulse" "wireplumber"
