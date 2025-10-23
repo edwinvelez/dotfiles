@@ -84,7 +84,7 @@ HYPRLAND_PACKAGES=(
     "hyprland" "hyprpaper" "hyprpolkitagent" "xdg-desktop-portal-hyprland"
     
     # --- Audio Management ---
-    "pavucontrol" "pipewire" "pipewire-alsa" "pipewire-jack" "pipewire-pulse"
+    "pavucontrol" "pipewire" "pipewire-alsa" "pipewire-jack" "pipewire-pulse" "wireplumber"
     
     # --- Display Manager ---
     "sddm"
