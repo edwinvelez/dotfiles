@@ -1,0 +1,5 @@
+[global]
+  font = "Roboto 10"
+  frame_width = 1
+  gap_width = 2
+  corner_radius = 5

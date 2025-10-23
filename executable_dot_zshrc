@@ -1,0 +1,76 @@
+# ~/.zshrc - Zsh Configuration File
+
+# --- Environment Variables & PATH ---
+
+export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket # See https://wiki.archlinux.org/title/SSH_keys#Start_ssh-agent_with_systemd_user
+
+# Oh My Zsh installation directory
+export ZSH="$HOME/.oh-my-zsh"
+
+# Bun JavaScript runtime installation directory
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# --- Zsh History Configuration ---
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+setopt APPEND_HISTORY       # Append to history file, don't overwrite
+setopt SHARE_HISTORY        # Share history between all sessions
+setopt INC_APPEND_HISTORY   # Immediately append to the history file, not just on close
+setopt HIST_IGNORE_DUPS     # Ignore duplicate entries in history
+setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks from history entries
+setopt HIST_IGNORE_SPACE    # Ignore commands that start with a space
+
+# --- Oh My Zsh Framework ---
+# Load the Oh My Zsh framework. This must be done after setting the ZSH variable.
+# It handles plugin loading, theming, and the completion system.
+
+# Set the theme and plugins before sourcing Oh My Zsh.
+ZSH_THEME="robbyrussell"
+plugins=(git) # Add more plugins here, e.g., plugins=(git docker kubectl)
+
+# Source the main OMZ script if it exists.
+# Note: Oh My Zsh automatically runs 'autoload -Uz compinit && compinit'.
+if [ -f "$ZSH/oh-my-zsh.sh" ]; then
+    source "$ZSH/oh-my-zsh.sh"
+else
+    echo "Warning: Oh My Zsh not found at '$ZSH'. Please check the path."
+fi
+
+# --- Prompt Configuration ---
+# Initialize the Starship prompt. This should be done *after* loading Oh My Zsh
+# to ensure Starship takes precedence over the ZSH_THEME.
+if command -v starship &> /dev/null; then
+    eval "$(starship init zsh)"
+fi
+
+# --- Keybindings & Completions ---
+# Set custom keybindings and source additional completion scripts.
+
+# Use Vi keybindings for command-line editing.
+bindkey -v
+
+# Enable menu-style tab completion.
+zstyle ':completion:*' menu select
+
+# Source Bun's completion script if it exists.
+if [ -s "$HOME/.bun/_bun" ]; then
+    source "$HOME/.bun/_bun"
+fi
+
+# --- Manual Plugin Sourcing ---
+# Source plugins installed system-wide via pacman. Per Zsh guidelines,
+# zsh-syntax-highlighting should be the very last thing sourced in your config.
+
+ZSH_AUTOSUGGESTIONS_PATH="/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+if [ -f "$ZSH_AUTOSUGGESTIONS_PATH" ]; then
+    source "$ZSH_AUTOSUGGESTIONS_PATH"
+fi
+
+# IMPORTANT: This must be the last plugin sourced for it to work correctly.
+ZSH_SYNTAX_HIGHLIGHTING_PATH="/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if [ -f "$ZSH_SYNTAX_HIGHLIGHTING_PATH" ]; then
+    source "$ZSH_SYNTAX_HIGHLIGHTING_PATH"
+fi

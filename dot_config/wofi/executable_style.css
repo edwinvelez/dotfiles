@@ -1,0 +1,8 @@
+* {
+  font-family: "Roboto", "Noto Sans", sans-serif;
+  font-size: 16px;
+}
+
+#battery, #custom-keyboard, #pulseaudio, #clock, #memory {
+  font-family: "JetBrains Mono Nerd Font", "Noto Sans", sans-serif;
+}
