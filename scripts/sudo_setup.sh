@@ -93,7 +93,7 @@ HYPRLAND_PACKAGES=(
     "thunar" "thunar-archive-plugin" "thunar-volman"
 
     # --- GUI Components & Toolkits ---
-    "dunst" "kitty" "qt5ct" "qt6ct" "waybar" "wofi"
+    "dunst" "kitty" "qt5-wayland" "qt5ct" "qt6-wayland" "qt6ct" "waybar" "wofi"
 
     # --- Utilities ---
     "grim" "slurp" "wl-clipboard"
