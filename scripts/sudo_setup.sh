@@ -165,6 +165,8 @@ configure_firewall() {
     ufw default allow outgoing
     # Explicitly allow SSH connections to prevent being locked out of remote servers.
     ufw allow ssh
+    # Enable the firewall.
+    ufw enable
     echo "Firewall configured. It will be enabled on next boot."
 }
 
