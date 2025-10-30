@@ -51,7 +51,7 @@ CORE_PACKAGES=(
 
     # --- System Utilities & Management ---
     "efibootmgr" "less" "linux" "linux-headers" "man-db" "man-pages" "smartmontools"
-    "udisks2""udiskie" "xdg-user-dirs"
+    "udisks2" "udiskie" "xdg-user-dirs"
 
     # --- Security ---
     "ufw"
