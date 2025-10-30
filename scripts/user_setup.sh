@@ -35,6 +35,7 @@ PACKAGES_TO_INSTALL=(
 
     # --- Arch User Repository (AUR) Packages ---
     "dropbox"
+    "thunar-dropbox"
     "google-chrome"
     "grimblast"
     "nwg-look"
