@@ -69,7 +69,7 @@ CORE_PACKAGES=(
     "libva-nvidia-driver" "linux-firmware-nvidia" "nvidia-dkms" "nvidia-settings" "nvidia-utils"
     
     # --- System Services ---
-    "bluez" "bluez-libs" "bluez-utils" "cups" "hplip" "sane"
+    "blueman" "bluez" "bluez-libs" "bluez-utils" "cups" "hplip" "sane"
     
     # --- GUI Dependencies & Theming ---
     "gnome-keyring" "libnotify" "materia-gtk-theme" "papirus-icon-theme"
