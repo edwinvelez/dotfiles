@@ -63,7 +63,7 @@ CORE_PACKAGES=(
     "btop" "chezmoi" "eza" "fastfetch" "fd" "ncdu" "neovim" "ranger" "ripgrep" "starship" "vim" "zsh" "zsh-autosuggestions" "zsh-syntax-highlighting"
 
     # --- File Systems & Archives ---
-    "exfatprogs" "ntfs-3g" "tar" "unzip" "zip"
+    "exfatprogs" "gvfs" "ntfs-3g" "tar" "unzip" "zip"
 
     # --- NVIDIA Graphics Drivers ---
     "libva-nvidia-driver" "linux-firmware-nvidia" "nvidia-dkms" "nvidia-settings" "nvidia-utils"
