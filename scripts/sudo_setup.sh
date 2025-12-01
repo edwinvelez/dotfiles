@@ -54,7 +54,7 @@ CORE_PACKAGES=(
     "udisks2" "udiskie" "xdg-user-dirs"
 
     # --- Security ---
-    "ufw"
+    "gufw" "ufw" "ufw-extras"
 
     # --- Networking & Remote Access ---
     "curl" "networkmanager" "openssh" "wget"
