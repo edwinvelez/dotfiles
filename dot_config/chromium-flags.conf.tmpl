@@ -1,3 +1,11 @@
+# Set scaling factor
+# Set scaling factor
+{{- if eq .chezmoi.hostname "my-laptop" }}
+--force-device-scale-factor=1.5
+{{- else }}
+--force-device-scale-factor=1.0
+{{- end }}
+
 # Enable Wayland (Ozone) platform integration
 --enable-features=UseOzonePlatform
 --ozone-platform=wayland
@@ -9,6 +17,7 @@
 # Optional: Improve performance with GPU acceleration
 # --ignore-gpu-blocklist is often necessary to force the use of the GPU
 --ignore-gpu-blocklist
+
 # Use the Vulkan graphics backend for hardware acceleration (often better than OpenGL on Wayland)
 --enable-features=VulkanFromANGLE,UseVulkanForWebGL,EnableVulkan
 
