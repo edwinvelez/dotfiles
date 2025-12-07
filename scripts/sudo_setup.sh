@@ -114,6 +114,24 @@ FONTS=(
     "ttf-hack-nerd" "ttf-iosevka-nerd" "ttf-jetbrains-mono-nerd" "ttf-liberation" "ttf-roboto"
 )
 
+# --- Optional GPU Driver Packages ---
+NVIDIA_PACKAGES=(
+    "libva-nvidia-driver" "linux-firmware-nvidia" "nvidia-dkms"
+    "nvidia-settings" "nvidia-utils"
+)
+
+AMD_PACKAGES=(
+    # Open-source drivers for AMD GPUs. `mesa` is the core, but these add
+    # Vulkan and video acceleration support.
+    "vulkan-radeon" "libva-mesa-driver"
+)
+
+INTEL_PACKAGES=(
+    # Open-source drivers for Intel iGPUs. `mesa` is the core, but these add
+    # Vulkan and modern video acceleration support.
+    "vulkan-intel" "intel-media-driver"
+)
+
 # --- Functions ---
 
 #
@@ -210,6 +228,40 @@ prompt_de_choice() {
     done
 }
 
+#
+# Prompts the user to select optional GPU drivers for installation.
+#
+prompt_gpu_drivers() {
+    local choice
+    while true; do
+        echo "Select GPU drivers to install:"
+        echo "  1. NVIDIA (Proprietary)"
+        echo "  2. AMD (Open Source)"
+        echo "  3. Intel (Open Source)"
+        echo "  4. None (or using default Mesa drivers included with system)"
+        read -p "Enter your choice (1-4): " choice
+        case "$choice" in
+            1)
+                echo "Adding NVIDIA drivers to the installation list."
+                CORE_PACKAGES+=("${NVIDIA_PACKAGES[@]}")
+                break
+                ;;
+            2)
+                echo "Adding AMD drivers to the installation list."
+                CORE_PACKAGES+=("${AMD_PACKAGES[@]}")
+                break
+                ;;
+            3)
+                echo "Adding Intel drivers to the installation list."
+                CORE_PACKAGES+=("${INTEL_PACKAGES[@]}")
+                break
+                ;;
+            4) echo "Skipping dedicated GPU driver installation."; break ;;
+            *) echo "Invalid choice. Please try again." ;;
+        esac
+    done
+}
+
 # --- Main Execution ---
 
 echo "--- Starting Arch Linux Post-Install Setup ---"
@@ -222,22 +274,25 @@ configure_reflector
 # STEP 2: Install CPU Microcode
 install_microcode
 
-# STEP 3: Install Core Packages and Fonts
-echo "Updating system and installing all core packages and fonts..."
+# STEP 3: Select GPU Drivers
+prompt_gpu_drivers
+
+# STEP 4: Install Core Packages and Fonts
+echo "Updating system and installing all selected packages and fonts..."
 pacman -Syu --noconfirm --needed "${CORE_PACKAGES[@]}" "${FONTS[@]}"
 
-# STEP 4: Configure Firewall
+# STEP 5: Configure Firewall
 configure_firewall
 
-# STEP 5: Rebuild Initial Ramdisk
+# STEP 6: Rebuild Initial Ramdisk
 # This is crucial to ensure new kernel modules (NVIDIA, microcode) are in the boot image.
 echo "Rebuilding initramfs to include new kernel modules..."
 mkinitcpio -P
 
-# STEP 6: Enable Core System Services
+# STEP 7: Enable Core System Services
 configure_services
 
-# STEP 7: Install Desktop Environment
+# STEP 8: Install Desktop Environment
 prompt_de_choice
 
 if [ ${#DE_PACKAGES[@]} -gt 0 ]; then
@@ -256,7 +311,7 @@ if [ ${#DE_PACKAGES[@]} -gt 0 ]; then
     fi
 fi
 
-# STEP 8: Configure User Account
+# STEP 9: Configure User Account
 echo "Configuring user account for '$USERNAME'..."
 
 # Add the user to essential groups for docker and virtualization.
