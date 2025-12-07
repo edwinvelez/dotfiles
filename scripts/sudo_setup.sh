@@ -96,7 +96,7 @@ HYPRLAND_PACKAGES=(
     "dunst" "kitty" "pyqt5" "qt5-wayland" "qt5ct" "qt6-wayland" "qt6ct" "waybar" "wofi"
 
     # --- Utilities ---
-    "grim" "slurp" "wl-clipboard"
+    "grim" "nwg-displays" "nwg-look" "slurp" "wl-clipboard"
 )
 
 # --- Desktop Environment: XFCE ---

@@ -38,7 +38,6 @@ PACKAGES_TO_INSTALL=(
     "thunar-dropbox"
     "google-chrome"
     "grimblast"
-    "nwg-look"
     "virtualbox-ext-oracle"
     "visual-studio-code-bin"
     "zoom"
