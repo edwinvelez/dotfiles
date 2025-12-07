@@ -1,20 +1,31 @@
+# ---------------------------------------------------------
+# WAYLAND & DISPLAY
+# ---------------------------------------------------------
 # Set scaling factor
 {{- if eq .chezmoi.hostname "my-desktop" }}
 --force-device-scale-factor=1.0
 {{- else if eq .chezmoi.hostname "my-laptop" }}
 --force-device-scale-factor=1.5
 {{- end }}
-
-# Enable Wayland (Ozone) platform integration
+--ozone-platform-hint=auto
 --enable-features=UseOzonePlatform
 --ozone-platform=wayland
 
-# Enable other Wayland specific features if needed for stability/fixes
---enable-features=WaylandWindowDecorations
---enable-features=WaylandLinuxDrmSyncobj
+# ---------------------------------------------------------
+# NVIDIA SPECIFIC FIXES (CRITICAL)
+# ---------------------------------------------------------
+# Fixes flickering/sync issues on NVIDIA 555+ drivers
+--enable-features=WaylandWindowDecorations,WaylandLinuxDrmSyncobj
 
-# These flags force the browser to use graphics hardware for rendering, which 
-# dramatically improves performance, especially for video playback, complex 
-# web pages, and gaming within the browser.
+# ---------------------------------------------------------
+# VIDEO ACCELERATION (VA-API via NVDEC)
+# ---------------------------------------------------------
+# Force the browser to use the NVIDIA translation driver
+--enable-features=VaapiVideoDecodeLinuxGL,VaapiVideoDecoder
 --ignore-gpu-blocklist
---enable-features=VulkanFromANGLE,UseVulkanForWebGL,EnableVulkan
+--enable-gpu-rasterization
+--enable-zero-copy
+
+# Bypass the internal blocklist that disables acceleration on NVIDIA
+--disable-features=UseChromeOSDirectVideoDecoder
+--enable-features=VaapiIgnoreDriverChecks
