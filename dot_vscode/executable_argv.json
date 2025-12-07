@@ -16,7 +16,7 @@
 
 	// Unique id used for correlating crash reports sent from this instance.
 	// Do not edit this value.
-	"crash-reporter-id": "86263162-177f-4aac-abb9-eb2ecc38efc6",
-
-	"password-store": "gnome-libsecret"
+	"crash-reporter-id":   "86263162-177f-4aac-abb9-eb2ecc38efc6",
+	"password-store":      "gnome-libsecret",
+	"ozone-platform-hint": "wayland"
 }
