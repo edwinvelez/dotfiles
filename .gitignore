@@ -1,0 +1,21 @@
+# --- Dropbox & OS Noise ---
+.dropbox
+.dropbox.cache
+.DS_Store
+*.swp
+*.tmp
+
+# --- State & History "Noise" ---
+**/history
+**/Recent/
+**/recent-files.xml
+**/*.log
+**/cache/
+**/cached/
+
+# --- App-Specific Exclusions ---
+# We ignore Thunar/GTK bookmarks because drive paths differ between Desktop/Laptop
+**/bookmarks
+
+# --- Git Specific ---
+.git/

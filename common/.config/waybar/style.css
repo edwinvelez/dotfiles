@@ -1,0 +1,57 @@
+@import "colors.css";
+
+/* Reset global bar background to transparent to keep the "Island" look */
+window#waybar {
+    background-color: transparent;
+    color: @text-main;
+    font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
+    font-size: 13px;
+}
+
+/* Base style for your "Islands" using Materia Colors */
+.modules-left, .modules-center, .modules-right {
+    background: @bg-island;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2px 10px;
+    margin-top: 5px; /* Adds space from the top of the screen */
+}
+
+/* Individual Module Spacing */
+#workspaces button {
+    padding: 0 5px;
+    color: @text-dim;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    color: @accent;
+    border-bottom: 2px solid @accent;
+}
+
+#workspaces button.urgent {
+    color: @red;
+}
+
+#pulseaudio, #network, #cpu, #memory, #tray, #clock {
+    padding: 0 14px;
+    margin: 0 6px;
+}
+
+#tray {
+    margin-right: 8px;
+}
+
+/* System Stat Colors */
+#cpu { color: @red; }
+#memory { color: @green; }
+#clock { color: @accent; font-weight: bold; }
+#pulseaudio { color: @amber; }
+#network { color: @accent; }
+
+/* Specific fix for the Tray icons */
+#tray > .passive,
+#tray > .active,
+#tray > .needs-attention {
+    margin: 0 4px;
+}

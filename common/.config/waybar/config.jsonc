@@ -1,0 +1,69 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 0,
+    "margin-top": 10,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 4,
+
+    // Choose which modules appear on the bar
+    "modules-left": ["hyprland/workspaces", "hyprland/mode"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "clock", "tray", "custom/gpu"],
+
+    // --- Module Configurations ---
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+	    "1": "",  // Web browing
+            "2": "",  // Code
+            "3": "",  // Terminal
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+
+    "hyprland/window": {
+        "format": " {title} ",
+        "max-length": 50,
+        "separate-outputs": true
+    },
+
+    "cpu": { "format": "  {usage}%", "interval": 2 },
+    "memory": { "format": "  {}%" },
+
+    "clock": {
+	"interval": 60,
+        "format": "{:%H:%M  %d/%m}",
+	"max-length": 25,
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟",
+        "format-icons": { "default": ["", "", ""] },
+        "on-click": "pavucontrol"
+    },
+
+    "network": {
+        "format-wifi": "  {essid}",
+        "format-ethernet": "󰈀  {ipaddr}",
+        "format-disconnected": "⚠ Disconnected"
+    },
+
+    "custom/gpu": {
+        "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
+        "format": "󰢮  {}%",
+        "interval": 5,
+        "tooltip": false
+    },
+
+    "tray": {
+        "icon-size": 18,
+        "spacing": 12
+    }
+}
