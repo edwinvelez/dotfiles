@@ -2,27 +2,30 @@
 # EDWIN VELEZ - .zshrc 
 # =========================
 
-# --- 1. Environment Variables & Paths ---
+# Point Git and SSH to the socket created in execs.conf
+export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+
+# --- Environment Variables & Paths ---
 export ZSH="$HOME/.oh-my-zsh"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$HOME/.local/bin:$PATH"
 export EDITOR="nvim"
 export KEYTIMEOUT=1 
 
-# --- 2. Startup Visuals ---
+# --- Startup Visuals ---
 # Fastfetch first so it doesn't push the prompt down after it appears
 if command -v fastfetch &> /dev/null; then
     fastfetch
 fi
 
-# --- 3. Zsh History ---
+# --- Zsh History ---
 export HISTFILE="$HOME/.histfile"
 export HISTSIZE=10000
 export SAVEHIST=10000
 setopt APPEND_HISTORY SHARE_HISTORY INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS HIST_REDUCE_BLANKS HIST_IGNORE_SPACE
 
-# --- 4. Oh My Zsh & Starship ---
+# --- Oh My Zsh & Starship ---
 ZSH_THEME=""
 plugins=(git sudo)
 
@@ -32,7 +35,7 @@ if command -v starship &> /dev/null; then
     eval "$(starship init zsh)"
 fi
 
-# --- 5. Keybindings & Vi Mode ---
+# --- Keybindings & Vi Mode ---
 bindkey -v
 zstyle ':completion:*' menu select
 zstyle ':omz:update' mode auto      # update automatically without asking
@@ -49,13 +52,13 @@ function zle-keymap-select {
 zle -N zle-keymap-select
 echo -ne '\e[5 q' # Initial cursor state
 
-# --- 6. FZF Integration ---
+# --- FZF Integration ---
 # Enables Ctrl+R history search and file finding
 if command -v fzf &> /dev/null; then
     source <(fzf --zsh)
 fi
 
-# --- 7. Aliases ---
+# --- Aliases ---
 # Modern CLI Replacements
 alias v="nvim"
 alias ls="eza --icons --group-directories-first" 
@@ -73,7 +76,7 @@ alias check-nocow="lsattr -d ~/Dropbox ~/VirtualBox\ VMs /var/lib/docker"
 # System Health Check
 alias health="python3 ~/.local/bin/health-check.py"
 
-# --- 8. Functions ---
+# --- Functions ---
 # Manual Btrfs Snapshot Utility
 snap-now() {
     local desc="${1:-Manual_Snapshot_$(date +%Y-%m-%d_%H%M)}"
@@ -82,13 +85,15 @@ snap-now() {
     echo "Snapshot created. View with 'snapper list'."
 }
 
-# --- 9. SSH Agent Integration ---
-# Reuses the socket set in hyprland.conf
-if [ -n "$SSH_AUTH_SOCK" ]; then
-    ssh-add ~/.ssh/id_ed25519_github 2>/dev/null
+# --- SSH Agent Identity ---
+if [[ -S "$SSH_AUTH_SOCK" ]]; then
+    # Only try to add if the key actually exists on this machine
+    if [ -f "$HOME/.ssh/id_ed25519_github" ]; then
+        ssh-add -l >| /dev/null || ssh-add ~/.ssh/id_ed25519_github 2>/dev/null
+    fi
 fi
 
-# --- 10. Plugin Sourcing ---
+# --- Plugin Sourcing ---
 # Sourced at the end to ensure they don't interfere with custom keybindings
 [ -f "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 [ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
