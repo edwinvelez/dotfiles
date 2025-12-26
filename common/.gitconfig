@@ -1,3 +1,17 @@
 [user]
-	email = 2299753+edwinvelez@users.noreply.github.com
-	name = Edwin Velez
+    name = Edwin Velez
+    email = 2299753+edwinvelez@users.noreply.github.com
+
+[core]
+    editor = nvim
+    # Helps with cross-platform line ending issues
+    autocrlf = input
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
