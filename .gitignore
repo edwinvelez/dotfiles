@@ -19,3 +19,9 @@
 
 # --- Git Specific ---
 .git/
+
+# Ignore sensitive Gemini CLI data
+common/.gemini/google_accounts.json
+common/.gemini/oauth_creds.json
+common/.gemini/state.json
+common/.gemini/tmp/
