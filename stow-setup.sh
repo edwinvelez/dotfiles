@@ -41,9 +41,8 @@ run_stow() {
     local package=$1
     if [[ -d "$DOTFILES_DIR/$package" ]]; then
         echo -e "${BLUE}:: $MODE_VERB package: ${YELLOW}$package${NC}"
-        # We allow stow to fail (e.g. if unstowing a package that isn't there)
-        # 2>/dev/null suppresses "not stowed" errors during cleanup for a cleaner log
-        stow $SIMULATE -v $ACTION -t "$TARGET_HOME" "$package" 2>/dev/null || true
+        # We removed the 2>/dev/null so you can see the Stow output
+        stow $SIMULATE -v $ACTION -t "$TARGET_HOME" "$package" || true
     else
         echo -e "${RED}!! Package '$package' not found in $DOTFILES_DIR. Skipping.${NC}"
     fi
