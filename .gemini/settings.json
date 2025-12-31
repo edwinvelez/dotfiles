@@ -4,5 +4,8 @@
     "footer": {
       "hideContextPercentage": false
     }
+  },
+  "general": {
+    "previewFeatures": true
   }
 }
