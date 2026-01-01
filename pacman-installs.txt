@@ -87,6 +87,7 @@ snapper
 starship
 stow
 thunar-archive-plugin
+thunar-dropbox
 thunar-volman
 tldr
 tree
