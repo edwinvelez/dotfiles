@@ -1,3 +1,5 @@
+alsa-tools
+alsa-utils
 amd-ucode
 base
 base-devel
