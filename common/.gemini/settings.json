@@ -7,5 +7,12 @@
     "auth": {
       "selectedType": "oauth-personal"
     }
+  },
+  "context": {
+    "fileFiltering": {
+      "customIgnoreFilePaths": [
+        "global.geminiignore"
+      ]
+    }
   }
 }

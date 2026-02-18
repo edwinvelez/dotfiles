@@ -1,53 +1,67 @@
 # GEMINI Project Analysis: Dotfiles
 
-This document provides an overview of this dotfiles repository, its structure, and how to manage the configurations.
+This repository implements a **Layered Configuration Architecture** for managing a customized Linux environment across
+heterogeneous hardware. It leverages [GNU Stow](https://www.gnu.org/software/stow/) for symlink management, orchestrated
+by a Python-based automation layer.
 
-## Project Overview
+## Architectural Patterns
 
-This is a personal dotfiles repository for managing a customized Linux environment. It uses GNU Stow to symlink configuration files into the user's home directory. The repository is structured to support multiple machine profiles, allowing for different configurations on different hardware (e.g., a desktop and a laptop).
+* **Layered Configuration:** Configurations are split into `common` (universal), `bin` (shared scripts), and
+  hardware-specific layers (`desktop`, `laptop`). This ensures DRY (Don't Repeat Yourself) principles across machines.
+* **Idempotency:** The setup automation is designed to be executed multiple times without side effects, ensuring the
+  target state matches the repository.
+* **Single Source of Truth:** All configurations reside in this repository; the `$HOME` directory is treated as a
+  projection of this state.
 
-The primary components of the managed environment include:
+## Directory Structure
 
-*   **Window Manager:** [Hyprland](https://hyprland.org/) (a dynamic tiling Wayland compositor)
-*   **Shell:** Zsh (`.zshrc`)
-*   **Terminal:** Kitty (`kitty.conf`)
-*   **Application Launcher/Bar:** Waybar
-*   **Notification Daemon:** Dunst
-*   **File Manager:** Ranger
-*   **Editor:** VSCode
-*   **Git:** Global `.gitconfig`
+* `common/`: Base configurations shared across all environments (Zsh, Hyprland core, Kitty, etc.).
+* `bin/`: Local binaries and utility scripts symlinked to `~/.local/bin`.
+* `desktop/`: Overrides and additions for high-performance desktop environments (NVIDIA-specific Hyprland configs,
+  high-refresh-rate settings).
+* `laptop/`: Overrides for mobile environments (Intel GPU drivers, power management, HiDPI scaling).
 
-## Directory Structure and Profiles
+## Setup and Automation
 
-The repository is organized into profiles to tailor configurations for specific machines:
+The environment is managed via `stow-setup.py`.
 
-*   `common/`: Contains the base configuration files that are shared across all machines.
-*   `bin/`: Contains executable scripts and binaries that should be available in the user's `$PATH`.
-*   `desktop/`: Contains configuration files specific to the user's desktop machine. This profile is set up for an NVIDIA GPU.
-*   `laptop/`: Contains configuration files specific to the user's laptop. This profile is configured for an Intel GPU and handles high-DPI scaling.
+### Prerequisites
 
-## Setup and Usage
+* **GNU Stow:** Required for symlink orchestration.
+* **Python 3.x:** Required for the automation script.
 
-The configurations are deployed using the `stow-setup.sh` script.
+### Usage
 
-**To deploy the dotfiles:**
+```bash
+# Preview changes (Dry Run)
+python3 stow-setup.py --dry-run
 
-1.  Clone the repository to your home directory.
-2.  Make sure GNU Stow is installed on your system.
-3.  Run the setup script:
-    ```bash
-    ./stow-setup.sh
-    ```
+# Apply configurations (Auto-detects hardware)
+python3 stow-setup.py
 
-The script performs the following actions:
-*   It identifies the machine's hostname.
-*   It always deploys the `common` and `bin` directories.
-*   It deploys either the `desktop` or `laptop` directory based on the hostname. If the hostname is not recognized, it defaults to the `laptop` profile.
-*   It uses `stow -vt ~ <directory>` to create symlinks from the repository to the home directory (`~`).
+# Remove all symlinks (Factory Reset)
+python3 stow-setup.py --delete
+```
+
+### Automation Logic & Layer Priority
+
+The `stow-setup.py` script applies layers in a deterministic order to handle overrides:
+
+1. **Base Layers (`common/`, `bin/`):** Universal configurations and scripts.
+2. **Hardware Layer (`desktop/` or `laptop/`):** Applied last. Files in this layer will override (overwrite the symlink)
+   any conflicting paths defined in the base layers.
+
+**Detection Heuristics (in order of priority):**
+
+1. **Explicit Flag:** `--profile [desktop|laptop]`
+2. **Systemd Chassis Detection:** Uses `hostnamectl chassis` to identify hardware type.
+3. **Hostname Mapping:** Matches system hostname against a predefined map in the script.
+4. **Hardware Heuristics:** Detects laptop profile via battery presence (`/sys/class/power_supply/BAT0`).
 
 ## Development Conventions
 
-*   **Adding New Shared Configurations:** Place new configuration files in the `common` directory in a path that mirrors their intended location in the home directory.
-*   **Adding Machine-Specific Configurations:** Add new files to the appropriate profile directory (`desktop` or `laptop`). If a configuration needs to override a file from the `common` directory, place it in the machine-specific directory with the same path. Stow will handle the symlinking priority.
-*   **Custom Scripts:** Place custom scripts in the `bin/.local/bin` directory to make them available in the shell's path.
-*   **Hostname Configuration:** The `stow-setup.sh` script uses hostnames (`my-desktop`, `my-laptop`) to determine which profile to deploy. You may need to update these hostnames in the script to match your machines.
+* **Adding Packages:** Create a directory at the root and mirror the internal structure of `$HOME`.
+* **Overrides:** To override a `common` config for a specific profile, mirror the file path in the hardware-specific
+  directory. Stow handles the link priority during the hardware layer application.
+* **Architectural Critique:** Avoid deep nesting in the repository structure. Prefer flat, discoverable package names.
+  Ensure all scripts in `bin/` are POSIX-compliant or explicitly specify their runtime requirements.

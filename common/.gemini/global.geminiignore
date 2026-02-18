@@ -1,0 +1,23 @@
+# --- Repository Metadata ---
+.git/
+.idea/
+.vscode/
+
+# --- OS Metadata ---
+.DS_Store
+
+# --- Runtime & Local State ---
+**/__pycache__/
+**/*.log
+**/*.swp
+**/*.tmp
+
+# --- Sync Metadata ---
+.dropbox
+.dropbox.cache
+
+# --- Dotfiles Specific Sensitive Data ---
+common/.gemini/google_accounts.json
+common/.gemini/oauth_creds.json
+common/.gemini/state.json
+common/.gemini/tmp/
