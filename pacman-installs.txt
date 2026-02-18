@@ -24,6 +24,7 @@ eza
 fastfetch
 fd
 ffmpegthumbnailer
+fwupd
 fzf
 git
 gnome-keyring
@@ -41,6 +42,7 @@ hyprshot
 inter-font
 jetbrains-toolbox
 intel-ucode
+inxi
 kitty
 less
 libappindicator
