@@ -10,6 +10,7 @@ bluez
 bluez-utils
 brightnessctl
 btop
+btrfs-assistant
 btrfs-progs
 cliphist
 cups
@@ -56,6 +57,7 @@ ncdu
 neovim
 network-manager-applet
 networkmanager
+networkmanager-openvpn
 noto-fonts
 noto-fonts-emoji
 ntfs-3g
@@ -81,6 +83,7 @@ qt6ct
 ranger
 reflector
 ripgrep
+rclone
 rsync
 sane
 sddm
