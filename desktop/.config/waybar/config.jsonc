@@ -7,19 +7,19 @@
     "margin-right": 10,
     "spacing": 4,
 
-    // Choose which modules appear on the bar
+    // Desktop: GPU enabled, Battery disabled
     "modules-left": ["hyprland/workspaces", "hyprland/mode"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["pulseaudio", "cpu", "memory", "network", "clock", "tray", "custom/gpu"],
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "clock", "tray"],
 
     // --- Module Configurations ---
     "hyprland/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
         "format-icons": {
-	    "1": "",  // Web browing
-            "2": "",  // Code
-            "3": "",  // Terminal
+            "1": "",
+            "2": "",
+            "3": "",
             "urgent": "",
             "focused": "",
             "default": ""
@@ -36,9 +36,9 @@
     "memory": { "format": "  {}%" },
 
     "clock": {
-	"interval": 60,
+        "interval": 60,
         "format": "{:%H:%M  %d/%m}",
-	"max-length": 25,
+        "max-length": 25,
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
 

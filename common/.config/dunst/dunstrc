@@ -2,12 +2,13 @@
     ### Display ###
     monitor = 0
     follow = mouse
-    width = 300
-    height = 100
+    width = 350
+    height = 120
     origin = top-right
-    offset = 10x10
+    offset = 20x60
     scale = 0
     notification_limit = 5
+    corner_radius = 12
 
     ### Progress Bar ###
     progress_bar = true
@@ -28,7 +29,7 @@
     ### Icons ###
     enable_recursive_icon_lookup = true
     icon_position = left
-    min_icon_size = 32
+    min_icon_size = 48
     max_icon_size = 64
 
     ### Colors (Materia-Dark Inspired) ###
@@ -44,8 +45,7 @@
     background = "#242424"
     foreground = "#DCDCDC"
     timeout = 10
-    # Highlight frame for normal alerts
-    frame_color = "#5294E2" 
+    frame_color = "#5294E2"
 
 [urgency_critical]
     background = "#900000"
