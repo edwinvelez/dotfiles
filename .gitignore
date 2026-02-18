@@ -1,26 +1,42 @@
-# --- Dropbox & OS Noise ---
-.dropbox
-.dropbox.cache
-.DS_Store
+# --- System & Temporary ---
 *.swp
 *.tmp
+.DS_Store
 
-# --- State & History "Noise" ---
+# --- State, History & Caches ---
+**/*.log
 **/history
 **/Recent/
 **/recent-files.xml
-**/*.log
 **/cache/
 **/cached/
+.node_repl_history
+.zcompdump*
 
-# --- App-Specific Exclusions ---
-# We ignore Thunar/GTK bookmarks because drive paths differ between Desktop/Laptop
-**/bookmarks
+# --- IDEs & Editors ---
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
 
-# --- Git Specific ---
-.git/
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.python-version
+.python_history
 
-# Ignore sensitive Gemini CLI data
+# --- Secrets & Environment ---
+.env
+.env.*
+
+# --- Gemini CLI (Project Specific) ---
 common/.gemini/google_accounts.json
 common/.gemini/oauth_creds.json
 common/.gemini/state.json
