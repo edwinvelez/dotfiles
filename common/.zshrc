@@ -56,10 +56,10 @@ alias py-env="python -m venv .venv && source .venv/bin/activate"
 
 # --- Btrfs Utilities ---
 # Verify NoCOW attributes on performance-critical directories
-alias check-nocow="~/.local/bin/check-nocow"
+alias check-nocow="check-nocow"
 
 # System Health Check
-alias check-health="~/.local/bin/check-health.py"
+alias check-health="check-health.py"
 
 # --- Functions ---
 # Manual Btrfs Snapshot Utility

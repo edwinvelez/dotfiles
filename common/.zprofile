@@ -16,3 +16,11 @@ if [[ -S "$SSH_AUTH_SOCK" ]]; then
         ssh-add -l >| /dev/null || ssh-add ~/.ssh/id_ed25519_github 2>/dev/null
     fi
 fi
+
+# --- XDG Data Directories ---
+# Initialize with system defaults if unset, then export.
+# This ensures Flatpaks and system apps are discoverable without overwriting existing paths.
+: ${XDG_DATA_DIRS:=/usr/local/share:/usr/share}
+[[ -d "/var/lib/flatpak/exports/share" ]] && XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share"
+[[ -d "$HOME/.local/share/flatpak/exports/share" ]] && XDG_DATA_DIRS="$XDG_DATA_DIRS:$HOME/.local/share/flatpak/exports/share"
+export XDG_DATA_DIRS
