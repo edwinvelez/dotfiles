@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+## Ensure sudo access upfront
+if [[ $EUID -ne 0 ]]; then
+    sudo -v || { echo "[!] Error: Sudo authentication failed"; exit 1; }
+fi
+
+PATHS=(
+    "$HOME/Dropbox"
+    "$HOME/VirtualBox VMs"
+    "/var/lib/docker"
+)
+
+echo "Btrfs NOCOW Audit"
+echo "================="
+
+for dir in "${PATHS[@]}"; do
+    if [ ! -d "$dir" ]; then
+        echo "[-] SKIP: $dir (Not found)"
+        continue
+    fi
+
+    ## Execute lsattr via sudo to ensure consistent access across restricted paths
+    attr=$(sudo lsattr -d "$dir" 2>/dev/null)
+
+    if [[ "$attr" == *"C"* ]]; then
+        echo "[✓] OK:    $dir (NOCOW active)"
+    else
+        # Extract only the attribute flags column
+        flags=$(echo "$attr" | awk '{print $1}')
+        echo "[!] WARN: $dir (NOCOW MISSING - Fragmentation Risk)"
+        echo "    Current attributes: $flags"
+    fi
+done
