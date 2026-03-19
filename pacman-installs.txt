@@ -1,6 +1,7 @@
 alsa-tools
 alsa-utils
 amd-ucode
+atool
 base
 base-devel
 bat
@@ -25,6 +26,8 @@ eza
 fastfetch
 fd
 ffmpegthumbnailer
+file-roller
+fnm
 fwupd
 fzf
 git
