@@ -1,0 +1,12 @@
+[nodejs]
+symbol = " "
+style = "bold green"
+detect_files = ["package.json", ".node-version", ".nvmrc"]
+detect_extensions = ["js", "ts", "jsx", "tsx"]
+disabled = false
+
+[bun]
+symbol = "🥟 "
+style = "bold unicode"
+detect_files = ["bun.lock", "bun.lockb", "bunfig.toml"]
+disabled = false
