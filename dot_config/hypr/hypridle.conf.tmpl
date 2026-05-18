@@ -4,6 +4,23 @@ general {
     after_sleep_cmd = hyprctl dispatch dpms on
 }
 
+{{ if .is_desktop -}}
+# Desktop: No battery conservation (dimming) needed.
+# Just lock and turn off screen for privacy/burn-in protection.
+
+# Lock the screen after 10 minutes
+listener {
+    timeout = 600
+    on-timeout = loginctl lock-session
+}
+
+# Turn off monitor after 15 minutes
+listener {
+    timeout = 900
+    on-timeout = hyprctl dispatch dpms off
+    on-resume = hyprctl dispatch dpms on
+}
+{{- else if .is_laptop -}}
 # Dim the screen after 2.5 minutes
 listener {
     timeout = 150
@@ -23,3 +40,4 @@ listener {
     on-timeout = hyprctl dispatch dpms off
     on-resume = hyprctl dispatch dpms on
 }
+{{- end }}

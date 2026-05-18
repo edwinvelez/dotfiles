@@ -1,0 +1,7 @@
+# Ignore internal AI workspace instructions and context
+GEMINI.md
+.gemini/
+
+# Ignore local system package lists and documentation
+pacman-installs.txt
+README.md

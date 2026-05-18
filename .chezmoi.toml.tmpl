@@ -1,0 +1,17 @@
+{{- $hostname := .chezmoi.hostname -}}
+{{- $is_desktop := false -}}
+{{- $is_laptop := false -}}
+
+{{- if eq $hostname "my-desktop" -}}
+{{-   $is_desktop = true -}}
+{{- else if eq $hostname "my-laptop" -}}
+{{-   $is_laptop = true -}}
+{{- end -}}
+
+[data]
+    hostname = {{ $hostname | quote }}
+    is_desktop = {{ $is_desktop }}
+    is_laptop = {{ $is_laptop }}
+
+# Fix the internal path naming issue permanently
+sourceDir = "{{ .chezmoi.homeDir }}/Dropbox/Code/dotfiles"

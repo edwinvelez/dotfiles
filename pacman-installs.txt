@@ -13,6 +13,7 @@ brightnessctl
 btop
 btrfs-assistant
 btrfs-progs
+chezmoi
 cliphist
 cups
 docker
@@ -96,7 +97,6 @@ smartmontools
 snap-pac
 snapper
 starship
-stow
 thunar-archive-plugin
 thunar-dropbox
 thunar-volman

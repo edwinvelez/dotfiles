@@ -1,0 +1,87 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 0,
+    "margin-top": 10,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 4,
+
+{{ if .is_desktop -}}
+    // Desktop: GPU enabled, Battery disabled
+    "modules-left": ["hyprland/workspaces", "hyprland/mode"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "clock", "tray"],
+{{- else if .is_laptop -}}
+    // Laptop: Battery enabled, GPU disabled (save power)
+    "modules-left": ["hyprland/workspaces", "hyprland/mode"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "battery", "clock", "tray"],
+{{- end }}
+
+    // --- Module Configurations ---
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "1": "",
+            "2": "Code",
+            "3": "Term",
+            "urgent": "!",
+            "focused": "Focused",
+            "default": "Default"
+        }
+    },
+
+    "hyprland/window": {
+        "format": " {title} ",
+        "max-length": 50,
+        "separate-outputs": true
+    },
+
+    "cpu": { "format": "CPU: {usage}%", "interval": 2 },
+    "memory": { "format": "RAM: {}%" },
+
+    "clock": {
+        "interval": 60,
+        "format": "{:%H:%M}",
+        "max-length": 25
+    },
+
+    "pulseaudio": {
+        "format": "VOL: {volume}%",
+        "format-muted": "MUTED",
+        "on-click": "pavucontrol"
+    },
+
+    "network": {
+        "format-wifi": "WIFI: {essid}",
+        "format-ethernet": "ETH: {ipaddr}",
+        "format-disconnected": "Disconnected"
+    },
+
+{{ if .is_desktop -}}
+    "custom/gpu": {
+        "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
+        "format": "GPU: {}%",
+        "interval": 5,
+        "tooltip": false
+    },
+{{- else if .is_laptop -}}
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "BAT: {capacity}%",
+        "format-charging": "CHARGING: {capacity}%",
+        "format-plugged": "PLUGGED: {capacity}%"
+    },
+{{- end }}
+
+    "tray": {
+        "icon-size": 18,
+        "spacing": 12
+    }
+}
