@@ -4,7 +4,7 @@ import os
 import re
 
 COLORS = {
-    "blue": "\033[94m", "green": "\033[92m", 
+    "blue": "\033[94m", "green": "\033[92m",
     "red": "\033[91m", "bold": "\033[1m", "reset": "\033[0m"
 }
 
@@ -31,14 +31,21 @@ is_up_to_date = any(x in bun_check.lower() for x in ["already on the latest", "u
 bun_status = f"{COLORS['green']}Up to date{COLORS['reset']}" if is_up_to_date else f"{COLORS['red']}Update Available!{COLORS['reset']}"
 print(f"{COLORS['blue']}󰛦 BUN:     {COLORS['reset']} v{bun_v} ({bun_status})")
 
-# 3. Storage & Physical Health (Combined Section)
-print(f"\n{COLORS['blue']}{COLORS['bold']}--- DISK HEALTH ---{COLORS['reset']}")
-# Btrfs Level
-scrub = run("sudo btrfs scrub status / | grep 'Status:'").replace("Status:", "").strip()
-print(f"{COLORS['blue']}󰋊 Btrfs (/)  :{COLORS['reset']} {scrub}")
+# 3. Dynamic physical storage device discovery
+def discover_physical_disks():
+    disks = []
+    try:
+        devices = os.listdir('/sys/block')
+        for dev in devices:
+            # Match physical NVMe namespaces and SATA drives, exclude loop/virtual devices
+            if re.match(r'^(nvme\d+n\d+|sd[a-z])$', dev):
+                disks.append(f"/dev/{dev}")
+    except Exception:
+        disks = ["/dev/nvme0n1"] # Safe structural fallback
+    return disks
 
-# Physical SMART Level
-for disk in ['/dev/nvme0n1', '/dev/sda']:
+# Physical SMART Level using discovery
+for disk in discover_physical_disks():
     smart = run(f"sudo smartctl -H {disk} | grep 'test result'")
     if "PASSED" in smart:
         print(f"{COLORS['blue']}󰋊 Physical {disk[-3:]}:{COLORS['reset']} {COLORS['green']}PASSED{COLORS['reset']}")
@@ -46,6 +53,7 @@ for disk in ['/dev/nvme0n1', '/dev/sda']:
         print(f"{COLORS['blue']}󰋊 Physical {disk[-3:]}:{COLORS['reset']} {COLORS['red']}SMART WARNING!{COLORS['reset']}")
     else:
         print(f"{COLORS['blue']}󰋊 Physical {disk[-3:]}:{COLORS['reset']} {COLORS['blue']}No SMART Support{COLORS['reset']}")
+
 
 # 4. Critical Logs
 kernel_raw = run("sudo journalctl -p 3 -xb --no-pager")

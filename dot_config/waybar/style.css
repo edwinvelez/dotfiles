@@ -33,7 +33,7 @@ window#waybar {
     color: @red;
 }
 
-#pulseaudio, #network, #cpu, #memory, #tray, #clock {
+#pulseaudio, #network, #cpu, #memory, #battery, #custom-gpu, #tray, #clock {
     padding: 0 14px;
     margin: 0 6px;
 }

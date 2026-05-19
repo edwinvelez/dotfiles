@@ -1,7 +1,7 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 0,
+    "height": 40,
     "margin-top": 10,
     "margin-left": 10,
     "margin-right": 10,
@@ -10,13 +10,13 @@
 {{ if .is_desktop -}}
     // Desktop: GPU enabled, Battery disabled
     "modules-left": ["hyprland/workspaces", "hyprland/mode"],
-    "modules-center": ["hyprland/window"],
-    "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "clock", "tray"],
+    "modules-center": ["clock", "hyprland/window"],
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "tray"],
 {{- else if .is_laptop -}}
     // Laptop: Battery enabled, GPU disabled (save power)
     "modules-left": ["hyprland/workspaces", "hyprland/mode"],
-    "modules-center": ["hyprland/window"],
-    "modules-right": ["pulseaudio", "cpu", "memory", "network", "battery", "clock", "tray"],
+    "modules-center": ["clock", "hyprland/window"],
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "battery", "tray"],
 {{- end }}
 
     // --- Module Configurations ---
@@ -39,31 +39,33 @@
         "separate-outputs": true
     },
 
-    "cpu": { "format": "CPU: {usage}%", "interval": 2 },
-    "memory": { "format": "RAM: {}%" },
+    "cpu": { "format": " {usage}%", "interval": 2 },
+    "memory": { "format": " {}%" },
 
     "clock": {
         "interval": 60,
-        "format": "{:%H:%M}",
+        "format": " {:%H:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
         "max-length": 25
     },
 
     "pulseaudio": {
-        "format": "VOL: {volume}%",
-        "format-muted": "MUTED",
+        "format": " {volume}%",
+        "format-muted": " MUTED",
         "on-click": "pavucontrol"
     },
 
     "network": {
-        "format-wifi": "WIFI: {essid}",
-        "format-ethernet": "ETH: {ipaddr}",
-        "format-disconnected": "Disconnected"
+        "format-wifi": " {essid}",
+        "format-ethernet": " {ipaddr}",
+        "format-disconnected": "⚠ Disconnected",
+        "tooltip-format": "{ifname} via {gwaddr}"
     },
 
 {{ if .is_desktop -}}
     "custom/gpu": {
         "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
-        "format": "GPU: {}%",
+        "format": "󰢮 {}%",
         "interval": 5,
         "tooltip": false
     },
@@ -74,9 +76,10 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "BAT: {capacity}%",
-        "format-charging": "CHARGING: {capacity}%",
-        "format-plugged": "PLUGGED: {capacity}%"
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": ["", "", "", "", ""]
     },
 {{- end }}
 

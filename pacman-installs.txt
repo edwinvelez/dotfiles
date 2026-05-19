@@ -19,7 +19,6 @@ cups
 docker
 docker-compose
 dropbox
-dunst
 efibootmgr
 exfatprogs
 expac
@@ -41,7 +40,6 @@ hplip
 hwloc
 hyprland
 hyprlock
-hyprpaper
 hyprpolkitagent
 hyprshot
 inter-font
@@ -89,6 +87,7 @@ ranger
 reflector
 ripgrep
 rclone
+rofi
 rsync
 sane
 sddm
@@ -97,6 +96,8 @@ smartmontools
 snap-pac
 snapper
 starship
+swaync
+awww
 thunar-archive-plugin
 thunar-dropbox
 thunar-volman
@@ -121,7 +122,7 @@ waybar
 wget
 wireplumber
 wl-clipboard
-wofi
+hyprshutdown
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
 xdg-user-dirs
