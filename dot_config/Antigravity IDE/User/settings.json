@@ -1,0 +1,116 @@
+{
+  // ==========================================
+  // Workspace & Window Management
+  // ==========================================
+
+  // Prevent the IDE from automatically opening the previous project on startup
+  "window.restoreWindows": "none",
+
+  // ==========================================
+  // Secure Agent Guardrails
+  // ==========================================
+
+  // Require explicit manual approval before an agent runs terminal commands or updates files
+  "antigravity.agent.autonomyLevel": "low",
+
+  // Force the agent to write a structured architectural plan before touching code
+  "antigravity.agent.requireImplementationPlan": true,
+
+  // Prevent agents from accessing sensitive framework and environment files
+  "files.exclude": {
+    "**/.env*.local": true,
+    "**/node_modules": true,
+    "**/.next": true,
+  },
+
+  // ==========================================
+  // File System & Explorer Tree UI
+  // ==========================================
+
+  // Speed up file system watching by ignoring heavy build and cache dependencies
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/.next/**": true,
+  },
+
+  // Increase indentation spacing and add clear vertical guide lines (WebStorm style)
+  "workbench.tree.indent": 20,
+  "workbench.tree.renderIndentGuides": "always",
+
+  // Provide smoother rendering and tracking down long folder trees
+  "workbench.list.smoothScrolling": true,
+  "workbench.list.horizontalScrolling": true,
+
+  // Collapse empty single-child nested paths into a compact single line
+  "explorer.compactFolders": true,
+
+  // Keep directories strictly grouped above independent files
+  "explorer.sortOrder": "type",
+
+  // Keep the focus entirely on the core project hierarchy tree
+  "explorer.openEditors.visible": 1,
+  "workbench.activityBar.location": "default",
+  "workbench.sideBar.location": "left",
+
+  // ==========================================
+  // Code Formatting & Next.js Linting
+  // ==========================================
+
+  // Automatically parse official Prettier formatting rules whenever a file is saved
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Trigger strict framework security and style check fixes natively on file save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+  },
+
+  // ==========================================
+  // Language Engines (TypeScript & Tailwind)
+  // ==========================================
+
+  // Force immediate auto-imports for structural application layouts and modules
+  "typescript.suggest.autoImports": true,
+  "javascript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
+  // Enable rigorous, continuous background validation of data models and types
+  "typescript.validate.enable": true,
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Expose Emmet code structures to Tailwind styles across TypeScript React projects
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "typescriptreact": "typescriptreact",
+  },
+
+  // ==========================================
+  // Editor Interface & Navigation Fluidity
+  // ==========================================
+
+  // Prioritize official type definitions and code blocks in auto-complete windows
+  "editor.suggestSelection": "first",
+  "editor.snippetSuggestions": "top",
+  "editor.suggest.preview": true,
+  "editor.inlineSuggest.enabled": true,
+
+  // Fluid cursor styling and transition animations to ease visual tracking
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+
+  // Enable Smooth Pixel-Scrolling
+  "editor.mouseWheelScrollSensitivity": 1,
+  "editor.fastScrollSensitivity": 5,
+
+  // Allow multi-step code selection expansion via key commands (WebStorm style)
+  "editor.smartSelect.selectSubwords": true,
+
+  // Bright bracket pair highlighting to isolate block depth in component views
+  "editor.renderLineHighlight": "all",
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.bracketPairsHorizontal": "active",
+  "editor.bracketPairColorization.enabled": true,
+}
