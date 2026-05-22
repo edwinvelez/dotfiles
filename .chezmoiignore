@@ -7,3 +7,4 @@ pacman-installs.txt
 README.md
 
 .vscode/
+hardware*.md
