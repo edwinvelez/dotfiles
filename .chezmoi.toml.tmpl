@@ -8,10 +8,9 @@
 {{-   $is_laptop = true -}}
 {{- end -}}
 
+sourceDir = "{{ .chezmoi.homeDir }}/Dropbox/dotfiles"
+
 [data]
     hostname = {{ $hostname | quote }}
     is_desktop = {{ $is_desktop }}
     is_laptop = {{ $is_laptop }}
-
-# Fix the internal path naming issue permanently
-sourceDir = "{{ .chezmoi.homeDir }}/Dropbox/Code/dotfiles"
