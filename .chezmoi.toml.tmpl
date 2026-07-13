@@ -1,16 +1,18 @@
 {{- $hostname := .chezmoi.hostname -}}
-{{- $is_desktop := false -}}
-{{- $is_laptop := false -}}
+{{- $is_my_desktop := eq $hostname "my-desktop" -}}
+{{- $is_my_laptop := eq $hostname "my-laptop" -}}
 
-{{- if eq $hostname "my-desktop" -}}
-{{-   $is_desktop = true -}}
-{{- else if eq $hostname "my-laptop" -}}
-{{-   $is_laptop = true -}}
+{{- $chassis := "" -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   $chassis = output "hostnamectl" "chassis" | trim -}}
 {{- end -}}
+
+{{- $is_laptop := or (eq $chassis "laptop") $is_my_laptop -}}
 
 sourceDir = "{{ .chezmoi.homeDir }}/Dropbox/dotfiles"
 
 [data]
     hostname = {{ $hostname | quote }}
-    is_desktop = {{ $is_desktop }}
     is_laptop = {{ $is_laptop }}
+    is_my_desktop = {{ $is_my_desktop }}
+    is_my_laptop = {{ $is_my_laptop }}
