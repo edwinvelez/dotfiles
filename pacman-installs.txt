@@ -12,6 +12,7 @@ bluez-utils
 brightnessctl
 btop
 btrfs-assistant
+btrfsmaintenance
 btrfs-progs
 chezmoi
 cliphist
@@ -44,6 +45,7 @@ hyprpolkitagent
 hyprshot
 inter-font
 jetbrains-toolbox
+imagemagick
 intel-ucode
 inxi
 kitty
