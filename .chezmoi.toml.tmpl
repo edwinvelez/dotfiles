@@ -8,11 +8,13 @@
 {{- end -}}
 
 {{- $is_laptop := or (eq $chassis "laptop") $is_my_laptop -}}
+{{- $is_desktop := not $is_laptop -}}
 
 sourceDir = "{{ .chezmoi.homeDir }}/Dropbox/dotfiles"
 
 [data]
     hostname = {{ $hostname | quote }}
     is_laptop = {{ $is_laptop }}
+    is_desktop = {{ $is_desktop }}
     is_my_desktop = {{ $is_my_desktop }}
     is_my_laptop = {{ $is_my_laptop }}
