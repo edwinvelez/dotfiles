@@ -19,6 +19,7 @@ cliphist
 cups
 docker
 docker-compose
+dmidecode
 dropbox
 efibootmgr
 exfatprogs
@@ -58,6 +59,7 @@ linux-zen-headers
 man-db
 man-pages
 materia-gtk-theme
+mesa-utils
 ncdu
 neovim
 network-manager-applet
