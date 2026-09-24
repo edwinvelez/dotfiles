@@ -1,0 +1,13 @@
+# ==============================================================================
+# DESKTOP SYSTEMD SERVICES & TIMERS (my-desktop)
+# ==============================================================================
+
+# --- Printing Subsystem (CUPS) ---
+cups.service
+cups.socket
+cups.path
+
+# --- NVIDIA Power Management & Sleep Hook ---
+nvidia-suspend.service
+nvidia-hibernate.service
+nvidia-resume.service

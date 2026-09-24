@@ -1,0 +1,25 @@
+{
+  "ide": {
+    "hasSeenNudge": true,
+    "enabled": true
+  },
+  "security": {
+    "auth": {
+      "selectedType": "gateway"
+    }
+  },
+  "context": {
+    "fileFiltering": {
+      "customIgnoreFilePaths": [
+        "global.geminiignore"
+      ]
+    }
+  },
+  "general": {
+    "sessionRetention": {
+      "enabled": true,
+      "maxAge": "30d",
+      "warningAcknowledged": true
+    }
+  }
+}

@@ -1,0 +1,160 @@
+# ==============================================================================
+# ZSH CONFIGURATION - ARCHITECTURAL PROFILE
+# ==============================================================================
+
+# --- Interactive Visuals ---
+if [[ -o interactive && -t 1 ]] && command -v fastfetch &> /dev/null; then
+    fastfetch
+fi
+
+# --- History Configuration ---
+export HISTFILE="$HOME/.histfile"
+export HISTSIZE=10000
+export SAVEHIST=10000
+setopt APPEND_HISTORY SHARE_HISTORY INC_APPEND_HISTORY
+setopt HIST_IGNORE_DUPS HIST_REDUCE_BLANKS HIST_IGNORE_SPACE
+
+# --- Framework & Completion Paths ---
+export ZSH="$HOME/.oh-my-zsh"
+
+# --- FNM Completions (Must be BEFORE Oh My Zsh source) ---
+typeset -U fpath
+fpath=($HOME/.zsh/completions $fpath)
+
+# --- Oh My Zsh Initialization ---
+ZSH_THEME=""
+plugins=(git sudo)
+[ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
+
+# --- Starship Prompt ---
+if command -v starship &> /dev/null; then
+    eval "$(starship init zsh)"
+fi
+
+# --- Vi Mode & Cursor Dynamics ---
+bindkey -v
+zstyle ':completion:*' menu select
+zstyle ':omz:update' mode auto
+zstyle ':omz:update' frequency 7
+
+function zle-line-init zle-keymap-select {
+    if [[ -t 1 ]]; then
+        if [[ ${KEYMAP} == vicmd ]]; then
+            echo -ne '\e[2 q' # Block cursor for command mode
+        else
+            echo -ne '\e[5 q' # Beam cursor for insert mode
+        fi
+    fi
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+# --- Fuzzy Finder (FZF) ---
+if command -v fzf &> /dev/null; then
+    source <(fzf --zsh)
+fi
+
+# --- Core Aliases ---
+alias v="nvim"
+alias ls="eza --icons --group-directories-first"
+alias ll="eza -lh --icons --group-directories-first"
+alias cat="bat"
+alias grep="rg"
+alias du="ncdu"
+alias top="btop"
+alias py-env="python -m venv .venv && source .venv/bin/activate"
+alias dotsync="dotfiles-sync"
+alias sys-failed="systemctl --failed"
+alias sys-errors="journalctl -p 3 -xb"
+
+# --- Firewall Management (UFW) ---
+alias fw-status="sudo ufw status verbose"
+
+fw-clean-backups() {
+    echo "[INFO] Pruning legacy UFW backup files in /etc/ufw..."
+    sudo find /etc/ufw/ -maxdepth 1 -type f -name "*.*_[0-9]*" -delete 2>/dev/null || true
+    sudo find /etc/ufw/ -maxdepth 1 -type f -name "*.rules.*[0-9]" -delete 2>/dev/null || true
+    echo "[SUCCESS] All residual UFW backup files removed."
+}
+
+fw-public() {
+    echo "[INFO] Switching UFW to Public / Lockdown mode..."
+    sudo ufw delete limit from 192.168.0.0/16 to any port 22 proto tcp 2>/dev/null || true
+    sudo ufw delete allow from 192.168.0.0/16 to any port 3000 proto tcp 2>/dev/null || true
+    sudo ufw delete allow from 192.168.0.0/16 app HPLIP 2>/dev/null || true
+    sudo ufw default deny incoming
+    sudo ufw default allow outgoing
+    sudo ufw default deny routed
+    sudo ufw --force enable
+    fw-clean-backups
+    echo "[SUCCESS] UFW set to Public / Lockdown mode (Zero incoming allowed)."
+    sudo ufw status verbose
+}
+
+fw-home() {
+    echo "[INFO] Switching UFW to Trusted Home LAN mode..."
+    sudo ufw default deny incoming
+    sudo ufw default allow outgoing
+    sudo ufw default deny routed
+    sudo ufw limit from 192.168.0.0/16 to any port 22 proto tcp comment 'LAN SSH Rate-Limited'
+    sudo ufw allow from 192.168.0.0/16 to any port 3000 proto tcp comment 'Local Web Dev'
+    sudo ufw allow from 192.168.0.0/16 app HPLIP comment 'HP Network Printing & mDNS'
+    sudo ufw --force enable
+    fw-clean-backups
+    echo "[SUCCESS] UFW set to Trusted Home LAN mode."
+    sudo ufw status verbose
+}
+
+# --- System & Development Maintenance ---
+update-all() {
+    echo "[INFO] Updating System & AUR Packages via paru..."
+    paru -Syu
+
+    if [[ -d "$HOME/.oh-my-zsh" ]]; then
+        echo "[INFO] Updating Oh My Zsh..."
+        "$HOME/.oh-my-zsh/tools/upgrade.sh"
+    fi
+
+    if command -v fnm &> /dev/null; then
+        echo "[INFO] Updating Node.js (LTS via fnm)..."
+        fnm install --lts
+    fi
+
+    if command -v bun &> /dev/null; then
+        echo "[INFO] Updating Bun runtime..."
+        bun upgrade
+    fi
+
+    if command -v rustup &> /dev/null; then
+        echo "[INFO] Updating Rust toolchain..."
+        rustup update
+    fi
+
+    if command -v flatpak &> /dev/null; then
+        echo "[INFO] Updating Flatpaks..."
+        flatpak update -y
+    fi
+
+    echo "[INFO] Synchronizing managed dotfiles..."
+    dotfiles-sync
+
+    echo "[SUCCESS] Complete system maintenance finished."
+}
+
+# --- Bun Runtime Completion ---
+[ -f "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# --- Fast Node Manager (fnm) ---
+if command -v fnm &> /dev/null; then
+    eval "$(fnm env --use-on-cd --shell zsh)"
+
+    # Refresh completions asynchronously if older than 7 days
+    if [[ ! -f ~/.zsh/completions/_fnm ]] || [[ -n $(find ~/.zsh/completions/_fnm -mtime +7 2>/dev/null) ]]; then
+        mkdir -p ~/.zsh/completions
+        fnm completions --shell zsh >| ~/.zsh/completions/_fnm 2>/dev/null &!
+    fi
+fi
+
+# --- Zsh Syntax Highlighting & Autosuggestions (Must remain at bottom) ---
+[ -f "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

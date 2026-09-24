@@ -1,0 +1,8 @@
+--ozone-platform-hint=auto
+--enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer
+--enable-gpu-rasterization
+--enable-zero-copy
+{{- if .is_desktop }}
+--ignore-gpu-blocklist
+--use-gl=desktop
+{{- end }}

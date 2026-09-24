@@ -1,0 +1,39 @@
+# Repository Documentation & Internal Setup
+GEMINI.md
+pacman-installs.txt
+README.md
+hardware*.md
+setup/**
+
+# AI IDE Runtime State & Sensitive Auth Data
+.gemini/antigravity-ide/**
+.gemini/antigravity-browser-profile/**
+.gemini/**/auth*
+.gemini/**/tokens*
+.gemini/**/creds*
+.gemini/**/credentials*
+.gemini/**/*.key
+
+# Transient Desktop State & Handlers
+.config/user-dirs.*
+.config/mimeapps.list
+.config/QtProject.conf
+.config/gtk-3.0/bookmarks
+.config/gtk-4.0/bookmarks
+.config/autostart/**
+.config/Thunar/**
+.config/dconf/**
+.config/zoom.conf
+.config/zoomus.conf
+
+# Application Caches & Databases
+.thunderbird/**
+thunderbird/**
+.zoom/**
+.aws/**
+.gnupg/**
+
+# Volatile Shell State
+.histfile
+.zsh_history
+.zcompdump*

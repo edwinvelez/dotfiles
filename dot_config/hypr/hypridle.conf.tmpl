@@ -1,0 +1,51 @@
+general {
+    lock_cmd = pidof hyprlock || hyprlock
+    before_sleep_cmd = loginctl lock-session
+    after_sleep_cmd = hyprctl dispatch dpms on
+}
+
+{{ if .is_desktop -}}
+# Desktop: No battery conservation (dimming) needed.
+# Just lock and turn off screen for privacy/burn-in protection.
+
+# Lock the screen after 10 minutes
+listener {
+    timeout = 600
+    on-timeout = loginctl lock-session
+}
+
+# Turn off monitor after 15 minutes
+listener {
+    timeout = 900
+    on-timeout = hyprctl dispatch dpms off
+    on-resume = hyprctl dispatch dpms on
+}
+{{- else if .is_laptop -}}
+# Laptop: Power conservation & battery preservation
+
+# 1. Dim the screen after 2.5 minutes preserving user brightness state
+listener {
+    timeout = 150
+    on-timeout = brightnessctl -s set 10%
+    on-resume = brightnessctl -r
+}
+
+# 2. Lock the screen after 5 minutes
+listener {
+    timeout = 300
+    on-timeout = loginctl lock-session
+}
+
+# 3. Turn off screen after 6 minutes
+listener {
+    timeout = 360
+    on-timeout = hyprctl dispatch dpms off
+    on-resume = hyprctl dispatch dpms on
+}
+
+# 4. Suspend system after 20 minutes
+listener {
+    timeout = 1200
+    on-timeout = systemctl suspend
+}
+{{- end }}

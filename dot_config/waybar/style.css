@@ -1,0 +1,101 @@
+@import "colors.css";
+
+/* Reset global bar background to transparent to keep the "Island" look */
+window#waybar {
+    background-color: transparent;
+    color: @text-main;
+    font-family: "JetBrainsMono Nerd Font", "JetBrainsMono NFM", "Inter", sans-serif;
+    font-size: 13px;
+}
+
+/* Base style for Islands using Materia Colors */
+.modules-left, .modules-center, .modules-right {
+    background: @bg-island;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2px 10px;
+    margin-top: 5px;
+}
+
+/* Individual Module Spacing */
+#workspaces button {
+    padding: 0 6px;
+    color: @text-dim;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+}
+
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: @text-main;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    color: @accent;
+    border-bottom: 2px solid @accent;
+}
+
+#workspaces button.urgent {
+    color: @red;
+}
+
+#idle_inhibitor {
+    padding: 0 10px;
+    color: @text-dim;
+    transition: color 0.2s ease-in-out;
+}
+
+#idle_inhibitor.activated {
+    color: @amber;
+}
+
+#pulseaudio, #network, #cpu, #memory, #battery, #backlight, #custom-gpu, #custom-notification, #tray, #clock {
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 6px;
+    transition: background 0.2s ease-in-out;
+}
+
+#pulseaudio:hover, #network:hover, #cpu:hover, #memory:hover, #battery:hover, #backlight:hover, #custom-gpu:hover, #custom-notification:hover, #clock:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+#tray {
+    margin-right: 8px;
+}
+
+/* System Stat Colors */
+#cpu { color: @red; }
+#memory { color: @green; }
+#clock { color: @accent; font-weight: bold; }
+#pulseaudio { color: @amber; }
+#network { color: @accent; }
+#custom-gpu { color: @accent; }
+#custom-notification { color: @accent; }
+#backlight { color: @amber; }
+
+#battery { color: @green; }
+#battery.warning { color: @amber; }
+#battery.critical {
+    color: @red;
+    animation-name: blink;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to {
+        color: #ffffff;
+        background-color: @red;
+    }
+}
+
+/* Specific fix for the Tray icons */
+#tray > .passive,
+#tray > .active,
+#tray > .needs-attention {
+    margin: 0 4px;
+}

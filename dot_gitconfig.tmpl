@@ -1,0 +1,18 @@
+[user]
+    name = Edwin Velez
+    email = 2299753+edwinvelez@users.noreply.github.com
+
+[core]
+    editor = nvim
+    # Helps with cross-platform line ending issues
+    autocrlf = input
+	excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true

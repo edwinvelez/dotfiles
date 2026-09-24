@@ -1,0 +1,8 @@
+@define-color bg-island    rgba(33, 33, 33, 0.95); /* Materia Dark Grey */
+@define-color border-light rgba(255, 255, 255, 0.1); 
+@define-color accent       #5294E2; /* Materia Blue */
+@define-color text-main    #DCDCDC;
+@define-color text-dim     #727272;
+@define-color red          #EC5F67;
+@define-color green        #99C794;
+@define-color amber        #FAC863;

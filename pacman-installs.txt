@@ -1,0 +1,19 @@
+# ==============================================================================
+# ARCH LINUX PACKAGE MANIFEST - MODULAR DIRECTORY POINTER
+# ==============================================================================
+# This monolithic file has been modularized and partitioned into the setup/
+# directory to support clean machine reproduction across heterogeneous hardware.
+#
+# Package Manifests:
+#   - setup/packages-common.txt    (Base, Hyprland desktop, CLI, fonts, apps)
+#   - setup/packages-desktop.txt   (AMD ucode, NVIDIA 580xx drivers)
+#   - setup/packages-laptop.txt    (Intel ucode, Intel media, Prime, brightnessctl)
+#
+# Service Manifests:
+#   - setup/services-common.txt    (NetworkManager, UFW, btrfs timers, smartd, trim)
+#   - setup/services-desktop.txt   (CUPS printing, NVIDIA sleep/resume units)
+#   - setup/services-laptop.txt    (power-profiles-daemon, bolt, NVIDIA sleep/resume)
+#
+# Unified Provisioning Runner:
+#   - setup/install.sh             (Single-command installation & service activator)
+# ==============================================================================

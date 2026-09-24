@@ -1,0 +1,12 @@
+# ==============================================================================
+# DESKTOP PACKAGES (my-desktop)
+# Hardware: AMD Ryzen 7 2700X + NVIDIA GeForce GTX 1060
+# ==============================================================================
+
+# --- Microcode ---
+amd-ucode
+
+# --- NVIDIA Graphics & Hardware Acceleration ---
+nvidia-580xx-dkms
+nvidia-580xx-utils
+libva-nvidia-driver

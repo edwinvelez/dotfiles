@@ -1,0 +1,169 @@
+{
+  // ==========================================
+  // Workspace & Window Management
+  // ==========================================
+
+  // Prevent the IDE from automatically opening the previous project on startup
+  "window.restoreWindows": "none",
+
+  // Prevent agents and global searches from accessing heavy build, environment, or VCS files
+  "files.exclude": {
+    "**/.env*.local": true,
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/.git": true,
+    "**/.turbo": true,
+    "**/.vercel": true,
+  },
+
+  // ==========================================
+  // File System & Explorer Tree UI
+  // ==========================================
+
+  // Speed up file system watching by ignoring heavy build and cache dependencies
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/.next/**": true,
+  },
+
+  // Increase indentation spacing and add clear vertical guide lines
+  "workbench.tree.indent": 20,
+  "workbench.tree.renderIndentGuides": "always",
+
+  // Prevent the explorer tree from auto-expanding and opening directories when tabs change
+  "explorer.autoReveal": false,
+
+  // Force Source Control to respect structural tree states
+  "scm.defaultViewMode": "tree",
+
+  // Stop the Source Control pane from automatically forcing branches open
+  "scm.alwaysShowRepositories": true,
+  "scm.countBadge": "all",
+
+  // Collapse empty single-child nested paths into a compact single line
+  "explorer.compactFolders": true,
+
+  // Keep directories strictly grouped above independent files
+  "explorer.sortOrder": "type",
+
+  // Keep the focus entirely on the core project hierarchy tree
+  "explorer.openEditors.visible": 1,
+  "workbench.activityBar.location": "default",
+  "workbench.sideBar.location": "left",
+
+  // Provide smoother rendering and tracking down long folder trees
+  "workbench.list.smoothScrolling": true,
+  "workbench.list.horizontalScrolling": true,
+
+  // Double-clicking a tab keeps it pinned, single-clicking previews it without making a mess
+  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreviewFromQuickOpen": true,
+
+  // ==========================================
+  // Code Formatting & Linting
+  // ==========================================
+
+  // Automatically parse official Prettier formatting rules whenever a file is saved
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Trigger strict framework security fixes on save (Imports handled separately via perfectionist)
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+  },
+
+  // Prevent long Tailwind class strings from cluttering your view by wrapping them cleanly
+  "editor.wrappingStrategy": "advanced",
+  "editor.wordWrap": "on",
+
+  // Render vertical lines at specific character counts to show line-length boundaries
+  "editor.rulers": [80, 120],
+
+  // Instantly mirror edits between matching opening and closing HTML/JSX tags
+  "editor.linkedEditing": true,
+
+  // ==========================================
+  // Language Engines (TypeScript & Tailwind)
+  // ==========================================
+
+  // Force immediate auto-imports for structural application layouts and modules
+  "typescript.suggest.autoImports": true,
+  "javascript.suggest.autoImports": true,
+
+  // Stop the native engine from rewriting or organizing imports when moving files
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+
+  // Enable rigorous, continuous background validation of data models and types
+  "typescript.validate.enable": true,
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Expose Emmet code structures to Tailwind styles across TypeScript React projects
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "typescriptreact": "typescriptreact",
+  },
+
+  // Ensure Tailwind completions pop up instantly inside custom components or objects (e.g., clsx, cva)
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*)[\"'`]"],
+  ],
+
+  // ==========================================
+  // Editor Interface & Navigation Fluidity
+  // ==========================================
+
+  // Configure high-readability developer typography with icon-font support
+  "editor.fontFamily": "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
+  "editor.fontLigatures": true,
+
+  // Set structural tab indentation rules
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.renderWhitespace": "boundary",
+
+  // Increase vertical breathing room between code lines
+  "editor.lineHeight": 1.6,
+
+  // Set the core typography size for optimal reading comfort
+  "editor.fontSize": 14,
+
+  // Add subtle horizontal tracking between characters
+  "editor.letterSpacing": 0.5,
+
+  // Pin current function, object, or component headers to the top while scrolling
+  "editor.stickyScroll.enabled": true,
+  "editor.stickyScroll.maxLineCount": 5,
+
+  // Disable the mini sidebar preview to maximize horizontal screen space
+  "editor.minimap.enabled": false,
+
+  // Strict IntelliSense filters: prioritize valid object properties and hide noise/snippets
+  "editor.suggestSelection": "first",
+  "editor.suggest.preview": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.wordBasedSuggestions": "off",
+  "editor.snippetSuggestions": "none",
+  "editor.suggest.showDeprecated": false,
+
+  // Fluid cursor styling and transition animations to ease visual tracking
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+
+  // Enable Smooth Pixel-Scrolling
+  "editor.mouseWheelScrollSensitivity": 1,
+  "editor.fastScrollSensitivity": 5,
+
+  // Allow multi-step code selection expansion via key commands
+  "editor.smartSelect.selectSubwords": true,
+
+  // Bright bracket pair highlighting and deep gutter lines to isolate block depth
+  "editor.renderLineHighlight": "all",
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.bracketPairsHorizontal": "active",
+  "editor.bracketPairColorization.enabled": true,
+}

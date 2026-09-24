@@ -1,0 +1,20 @@
+# ==============================================================================
+# LAPTOP PACKAGES (my-laptop)
+# Hardware: Dell XPS 15 9500 (Intel Core i9-10885H + NVIDIA GeForce GTX 1650 Ti)
+# ==============================================================================
+
+# --- Microcode & Hardware Video Acceleration ---
+intel-ucode
+intel-media-driver
+
+# --- NVIDIA Hybrid Graphics & Offloading ---
+nvidia-580xx-dkms
+nvidia-580xx-utils
+nvidia-prime
+
+# --- Display Backlight & Power Controls ---
+brightnessctl
+power-profiles-daemon
+
+# --- Thunderbolt 3 Management ---
+bolt

@@ -1,0 +1,14 @@
+# ==============================================================================
+# LAPTOP SYSTEMD SERVICES & TIMERS (my-laptop / Dell XPS 15 9500)
+# ==============================================================================
+
+# --- Power Management ---
+power-profiles-daemon.service
+
+# --- Thunderbolt 3 Security Daemon ---
+bolt.service
+
+# --- NVIDIA Power Management & Sleep Hook ---
+nvidia-suspend.service
+nvidia-hibernate.service
+nvidia-resume.service

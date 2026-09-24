@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ==============================================================================
+# Cross-Machine Dotfiles Synchronization Utility
+# ==============================================================================
+
+HOSTNAME=$(uname -n)
+echo "[INFO] Synchronizing dotfiles for: ${HOSTNAME}"
+
+# Preview mode
+if [[ "${1:-}" == "--diff" || "${1:-}" == "-d" ]]; then
+    echo ""
+    echo "--- Chezmoi Pending Drift / Diff ---"
+    chezmoi diff
+    exit 0
+fi
+
+# Status check mode
+if [[ "${1:-}" == "--status" || "${1:-}" == "-s" ]]; then
+    echo ""
+    echo "--- Chezmoi Status ---"
+    chezmoi status
+    exit 0
+fi
+
+# Apply managed configurations to target $HOME
+echo "[INFO] Applying chezmoi templates..."
+chezmoi apply
+
+# Live Service Reloading
+if pgrep -x waybar >/dev/null 2>&1; then
+    killall -SIGUSR2 waybar 2>/dev/null || true
+    echo "[OK] Waybar reloaded"
+fi
+
+if pgrep -x Hyprland >/dev/null 2>&1; then
+    hyprctl reload >/dev/null 2>&1 || true
+    echo "[OK] Hyprland reloaded"
+fi
+
+if pgrep -x swaync >/dev/null 2>&1; then
+    swaync-client -R -rs >/dev/null 2>&1 || true
+    echo "[OK] SwayNC reloaded"
+fi
+
+echo "[SUCCESS] Dotfiles successfully synchronized and services reloaded."

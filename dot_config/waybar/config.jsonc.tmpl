@@ -1,0 +1,149 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 40,
+    "margin-top": 10,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 4,
+
+{{ if .is_desktop -}}
+    // Desktop: GPU & Notification enabled, Battery disabled
+    "modules-left": ["hyprland/workspaces", "idle_inhibitor", "hyprland/mode"],
+    "modules-center": ["clock", "hyprland/window"],
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "custom/notification", "tray"],
+{{- else if .is_laptop -}}
+    // Laptop: Battery, Backlight & Notification enabled, GPU disabled (save power)
+    "modules-left": ["hyprland/workspaces", "idle_inhibitor", "hyprland/mode"],
+    "modules-center": ["clock", "hyprland/window"],
+    "modules-right": ["pulseaudio", "backlight", "cpu", "memory", "network", "battery", "custom/notification", "tray"],
+{{- end }}
+
+    // --- Module Configurations ---
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "1": "󰈹",
+            "2": "󰨞",
+            "3": "󰞷",
+            "4": "󰉋",
+            "5": "󰓇",
+            "urgent": "󰀨",
+            "default": "󰍹"
+        }
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰅶",
+            "deactivated": "󰾪"
+        },
+        "tooltip-format-activated": "Idle Inhibitor: Active (Awake)",
+        "tooltip-format-deactivated": "Idle Inhibitor: Inactive (Normal Sleep)"
+    },
+
+    "hyprland/window": {
+        "format": " {title} ",
+        "max-length": 50,
+        "separate-outputs": true
+    },
+
+    "cpu": {
+        "format": "󰍛 {usage}%",
+        "interval": 2,
+        "on-click": "kitty -e btop"
+    },
+
+    "memory": {
+        "format": "󰘚 {}%",
+        "interval": 2,
+        "on-click": "kitty -e btop"
+    },
+
+    "clock": {
+        "interval": 60,
+        "format": "󰥔 {:%H:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "on-click": "swaync-client -t -sw",
+        "max-length": 25
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 Muted",
+        "format-icons": {
+            "headphone": "󰋋",
+            "headset": "󰋎",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 2%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
+    },
+
+    "network": {
+        "format-wifi": "󰤨 {essid}",
+        "format-ethernet": "󰈀 {ipaddr}",
+        "format-disconnected": "󰤭 Disconnected",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "on-click": "nm-connection-editor"
+    },
+
+{{ if .is_desktop -}}
+    "custom/gpu": {
+        "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
+        "format": "󰢮 {}%",
+        "interval": 5,
+        "tooltip": false,
+        "on-click": "kitty -e nvtop"
+    },
+{{- else if .is_laptop -}}
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
+        "on-scroll-up": "brightnessctl set +1%",
+        "on-scroll-down": "brightnessctl set 1%-"
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰂄 {capacity}%",
+        "format-icons": ["󰂃", "󰁻", "󰁽", "󰁿", "󰁹"],
+        "tooltip-format": "{timeTo}, {power}W"
+    },
+{{- end }}
+
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "󰂚<span foreground='red'><sup></sup></span>",
+            "none": "󰂚",
+            "dnd-notification": "󰂛<span foreground='red'><sup></sup></span>",
+            "dnd-none": "󰂛",
+            "inhibited-notification": "󰂚<span foreground='red'><sup></sup></span>",
+            "inhibited-none": "󰂚",
+            "dnd-inhibited-notification": "󰂛<span foreground='red'><sup></sup></span>",
+            "dnd-inhibited-none": "󰂛"
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+
+    "tray": {
+        "icon-size": 18,
+        "spacing": 12
+    }
+}

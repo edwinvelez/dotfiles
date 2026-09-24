@@ -1,0 +1,16 @@
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+.history/
+
+# OS/System
+.DS_Store
+.Trash-*
+.directory
+Thumbs.db
+
+# Build/Tooling
+node_modules/
+bun.lockb
