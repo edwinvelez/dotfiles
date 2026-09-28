@@ -13,7 +13,7 @@
     "**/.next": true,
     "**/.git": true,
     "**/.turbo": true,
-    "**/.vercel": true,
+    "**/.vercel": true
   },
 
   // ==========================================
@@ -25,7 +25,7 @@
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
     "**/node_modules/*/**": true,
-    "**/.next/**": true,
+    "**/.next/**": true
   },
 
   // Increase indentation spacing and add clear vertical guide lines
@@ -68,10 +68,11 @@
   // Automatically parse official Prettier formatting rules whenever a file is saved
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.experimentalTernaries": true,
 
   // Trigger strict framework security fixes on save (Imports handled separately via perfectionist)
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always",
+    "source.fixAll.eslint": "always"
   },
 
   // Prevent long Tailwind class strings from cluttering your view by wrapping them cleanly
@@ -103,13 +104,13 @@
   // Expose Emmet code structures to Tailwind styles across TypeScript React projects
   "tailwindCSS.emmetCompletions": true,
   "tailwindCSS.includeLanguages": {
-    "typescriptreact": "typescriptreact",
+    "typescriptreact": "typescriptreact"
   },
 
   // Ensure Tailwind completions pop up instantly inside custom components or objects (e.g., clsx, cva)
   "tailwindCSS.experimental.classRegex": [
     ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*)[\"'`]"],
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*)[\"'`]"]
   ],
 
   // ==========================================
@@ -165,5 +166,5 @@
   "editor.renderLineHighlight": "all",
   "editor.guides.bracketPairs": "active",
   "editor.guides.bracketPairsHorizontal": "active",
-  "editor.bracketPairColorization.enabled": true,
+  "editor.bracketPairColorization.enabled": true
 }
