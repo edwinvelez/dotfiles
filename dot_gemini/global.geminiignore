@@ -12,10 +12,6 @@
 **/*.swp
 **/*.tmp
 
-# --- Sync Metadata ---
-.dropbox
-.dropbox.cache
-
 # --- Dotfiles Specific Sensitive Data ---
 common/.gemini/google_accounts.json
 common/.gemini/oauth_creds.json

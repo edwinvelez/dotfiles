@@ -135,10 +135,8 @@ jetbrains-toolbox
 antigravity-ide
 google-chrome
 obsidian
-dropbox
 thunar
 thunar-archive-plugin
-thunar-dropbox
 thunar-volman
 tumbler
 file-roller

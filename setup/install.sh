@@ -193,7 +193,6 @@ fi
 # Storage Optimization (Btrfs NOCOW Attributes)
 # ------------------------------------------------------------------------------
 NOCOW_DIRS=(
-    "${HOME}/Dropbox"
     "${HOME}/VirtualBox VMs"
 )
 

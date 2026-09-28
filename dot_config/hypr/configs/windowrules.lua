@@ -99,12 +99,6 @@ hl.window_rule({
 
 -- --- Third-Party Integrations ---
 hl.window_rule({
-    name = "dropbox-menu",
-    match = { class = "^(Dropbox)$" },
-    float = true,
-})
-
-hl.window_rule({
     name = "zoom-floating",
     match = {
         class = "^(zoom)$",
