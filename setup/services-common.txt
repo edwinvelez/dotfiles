@@ -1,0 +1,6 @@
+# ==============================================================================
+# COMMON SYSTEMD SERVICES & TIMERS (Desktop & Laptop)
+# ==============================================================================
+
+# --- Container & Virtualization Subsystems ---
+waydroid-container.service

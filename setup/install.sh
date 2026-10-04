@@ -212,6 +212,27 @@ else
 fi
 
 # ------------------------------------------------------------------------------
+# Waydroid Container Provisioning & Configuration
+# ------------------------------------------------------------------------------
+if command -v waydroid >/dev/null 2>&1; then
+    if [[ ${DRY_RUN} -eq 1 ]]; then
+        log_info "[Dry-Run] Would initialize Waydroid images (if absent) and configure persistent properties (DPI=240, Suspend=false)."
+    else
+        # Idempotent initialization: check for existing Android rootfs image or config
+        if [[ ! -f "/var/lib/waydroid/images/system.img" && ! -f "/var/lib/waydroid/waydroid.cfg" ]]; then
+            log_info "Initializing Waydroid vanilla Android image..."
+            sudo waydroid init
+            log_success "Waydroid initialized."
+        fi
+
+        log_info "Applying Waydroid persistent properties (DPI=240, Suspend=false)..."
+        waydroid prop set persist.waydroid.dpi 240 2>/dev/null || true
+        waydroid prop set persist.waydroid.suspend false 2>/dev/null || true
+        log_success "Waydroid persistent properties applied."
+    fi
+fi
+
+# ------------------------------------------------------------------------------
 # Configuration Synchronization via chezmoi
 # ------------------------------------------------------------------------------
 if command -v chezmoi >/dev/null 2>&1; then

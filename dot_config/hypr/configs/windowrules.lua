@@ -107,6 +107,16 @@ hl.window_rule({
     float = true,
 })
 
+hl.window_rule({
+    name = "waydroid-jwlibrary-floating",
+    match = {
+        class = "^(Waydroid|waydroid\\.org\\.jw\\.jwlibrary\\.mobile|org\\.jw\\.jwlibrary\\.mobile)$",
+    },
+    float = true,
+    size = "1024 1366",
+    center = true,
+})
+
 -- --- Scratchpad Styling ---
 hl.window_rule({
     name = "scratchpad-terminal",

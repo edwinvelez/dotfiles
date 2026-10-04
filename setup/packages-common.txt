@@ -130,6 +130,7 @@ virtualbox-ext-oracle
 virtualbox-guest-iso
 virtualbox-host-dkms
 jetbrains-toolbox
+waydroid
 
 # --- GUI Productivity & Applications ---
 antigravity-ide

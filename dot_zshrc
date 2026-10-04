@@ -85,6 +85,9 @@ fw-public() {
     sudo ufw default deny incoming
     sudo ufw default allow outgoing
     sudo ufw default deny routed
+    sudo ufw route allow in on waydroid0 comment 'Waydroid Container Egress'
+    sudo ufw allow in on waydroid0 to any port 53 comment 'Waydroid DNS Resolution'
+    sudo ufw allow in on waydroid0 to any port 67 proto udp comment 'Waydroid DHCP Request'
     sudo ufw --force enable
     fw-clean-backups
     echo "[SUCCESS] UFW set to Public / Lockdown mode (Zero incoming allowed)."
@@ -99,6 +102,9 @@ fw-home() {
     sudo ufw limit from 192.168.0.0/16 to any port 22 proto tcp comment 'LAN SSH Rate-Limited'
     sudo ufw allow from 192.168.0.0/16 to any port 3000 proto tcp comment 'Local Web Dev'
     sudo ufw allow from 192.168.0.0/16 app HPLIP comment 'HP Network Printing & mDNS'
+    sudo ufw route allow in on waydroid0 comment 'Waydroid Container Egress'
+    sudo ufw allow in on waydroid0 to any port 53 comment 'Waydroid DNS Resolution'
+    sudo ufw allow in on waydroid0 to any port 67 proto udp comment 'Waydroid DHCP Request'
     sudo ufw --force enable
     fw-clean-backups
     echo "[SUCCESS] UFW set to Trusted Home LAN mode."
