@@ -18,3 +18,7 @@ power-profiles-daemon
 
 # --- Thunderbolt 3 Management ---
 bolt
+
+# --- Steam & Gaming ---
+lib32-mesa
+lib32-nvidia-580xx-utils

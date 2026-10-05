@@ -62,6 +62,7 @@ ttf-caladea
 ttf-carlito
 ttf-croscore
 ttf-ms-fonts
+ttf-liberation
 qt5-wayland
 qt6-wayland
 qt6ct
@@ -131,6 +132,15 @@ virtualbox-guest-iso
 virtualbox-host-dkms
 jetbrains-toolbox
 waydroid
+
+# --- Gaming (Steam & GameMode) ---
+steam
+gamemode
+lib32-gamemode
+ntsync-autoload
+
+# --- Windows Application Compatibility (Bottles) ---
+bottles
 
 # --- GUI Productivity & Applications ---
 antigravity-ide

@@ -117,6 +117,65 @@ hl.window_rule({
     center = true,
 })
 
+-- --- Steam & Proton Window Management ---
+hl.window_rule({
+    name = "steam-main-tile",
+    match = {
+        class = "^(steam)$",
+        title = "^(Steam)$",
+    },
+    tile = true,
+})
+
+hl.window_rule({
+    name = "steam-dialogs-float",
+    match = {
+        class = "^(steam)$",
+        title = "^(Friends List|Steam - News|Settings|.*Notification.*)$",
+    },
+    float = true,
+})
+
+hl.window_rule({
+    name = "steam-popups-minsize",
+    match = { class = "^(steam)$" },
+    min_size = "1 1",
+})
+
+hl.window_rule({
+    name = "steam-games-opaque",
+    match = { class = "^(steam_app_.*)$" },
+    no_blur = true,
+    opaque = true,
+    idle_inhibit = "focus",
+})
+
+-- --- Windows Applications & Bottles Compatibility (NWP Desktop) ---
+hl.window_rule({
+    name = "bottles-main-tile",
+    match = { class = "^(com.usebottles.bottles|bottles)$" },
+    tile = true,
+})
+
+hl.window_rule({
+    name = "wine-dialogs-float",
+    match = {
+        class = "^(wine|.*\\.exe)$",
+        title = "^(Open|Save|Browse|Select.*|Error|Warning|Setup.*|Configuration)$",
+    },
+    float = true,
+})
+
+hl.window_rule({
+    name = "nwp-desktop-float-dialogs",
+    match = {
+        class = "^(.*nw.*|.*scheduler.*|.*\\.exe)$",
+        title = "^(Print.*|Export.*|Settings|Options|About.*|Import.*)$",
+    },
+    float = true,
+})
+
+
 -- --- Scratchpad Styling ---
 hl.window_rule({
     name = "scratchpad-terminal",

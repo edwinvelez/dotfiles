@@ -131,19 +131,28 @@ PROFILE_PKGS_FILE="${SCRIPT_DIR}/packages-${PROFILE}.txt"
 mapfile -t COMMON_PACKAGES < <(read_manifest "${COMMON_PKGS_FILE}")
 mapfile -t PROFILE_PACKAGES < <(read_manifest "${PROFILE_PKGS_FILE}")
 
-ALL_PACKAGES=("${COMMON_PACKAGES[@]}" "${PROFILE_PACKAGES[@]}")
-
-log_info "Discovered ${#COMMON_PACKAGES[@]} common packages and ${#PROFILE_PACKAGES[@]} ${PROFILE}-specific packages."
-
 # ------------------------------------------------------------------------------
-# Package Installation
+# Package Installation (Two-Phase Resolution)
 # ------------------------------------------------------------------------------
+# Phase 1: Install hardware-specific profile packages first (drivers/kernel/AUR)
+# to satisfy virtual dependencies (e.g., lib32-vulkan-driver via lib32-nvidia-580xx-utils)
+# before general application dependency trees are resolved.
+# Phase 2: Install common packages.
 if [[ ${DRY_RUN} -eq 1 ]]; then
-    log_info "[Dry-Run] Would install ${#ALL_PACKAGES[@]} packages via paru:"
-    printf "  - %s\n" "${ALL_PACKAGES[@]}"
+    log_info "[Dry-Run] Would install ${#PROFILE_PACKAGES[@]} ${PROFILE} packages:"
+    printf "  - %s\n" "${PROFILE_PACKAGES[@]}"
+    log_info "[Dry-Run] Would install ${#COMMON_PACKAGES[@]} common packages:"
+    printf "  - %s\n" "${COMMON_PACKAGES[@]}"
 else
-    log_info "Invoking paru to install missing packages..."
-    paru -S --needed --noconfirm "${ALL_PACKAGES[@]}"
+    if [[ ${#PROFILE_PACKAGES[@]} -gt 0 ]]; then
+        log_info "Phase 1: Installing ${#PROFILE_PACKAGES[@]} ${PROFILE}-specific packages..."
+        paru -S --needed --noconfirm "${PROFILE_PACKAGES[@]}"
+    fi
+
+    if [[ ${#COMMON_PACKAGES[@]} -gt 0 ]]; then
+        log_info "Phase 2: Installing ${#COMMON_PACKAGES[@]} common packages..."
+        paru -S --needed --noconfirm "${COMMON_PACKAGES[@]}"
+    fi
     log_success "Package installation completed."
 fi
 
@@ -194,6 +203,9 @@ fi
 # ------------------------------------------------------------------------------
 NOCOW_DIRS=(
     "${HOME}/VirtualBox VMs"
+    "${HOME}/.local/share/Steam"
+    "${HOME}/.local/share/bottles"
+    "${HOME}/.wine"
 )
 
 if [[ ${DRY_RUN} -eq 1 ]]; then
