@@ -1,0 +1,33 @@
+[Unit]
+Description=Rclone Google Drive FUSE Mount
+Documentation=man:rclone(1)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+ExecStartPre=-/usr/bin/mkdir -p %h/GoogleDrive
+ExecStart=/usr/bin/rclone mount gDrive: %h/GoogleDrive \
+    --config=%h/.config/rclone/rclone.conf \
+    --vfs-cache-mode full \
+    --vfs-cache-max-size 20G \
+    --vfs-cache-max-age 24h \
+    --vfs-read-chunk-size 32M \
+    --vfs-read-chunk-size-limit 2G \
+    --poll-interval 15s \
+    --buffer-size 32M \
+    --dir-cache-time 72h \
+    --timeout 1h \
+    --umask 022 \
+    --rc \
+    --rc-addr=127.0.0.1:5572 \
+    --rc-no-auth \
+    --log-level NOTICE
+ExecStartPost=-/usr/bin/rclone rc vfs/refresh recursive=true --rc-addr=127.0.0.1:5572 --timeout 30s
+ExecStop=/usr/bin/fusermount3 -u %h/GoogleDrive
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
+

@@ -18,8 +18,6 @@ setup/**
 .config/user-dirs.*
 .config/mimeapps.list
 .config/QtProject.conf
-.config/gtk-3.0/bookmarks
-.config/gtk-4.0/bookmarks
 .config/autostart/**
 .config/Thunar/**
 .config/dconf/**
