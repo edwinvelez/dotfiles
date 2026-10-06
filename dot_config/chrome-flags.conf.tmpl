@@ -1,9 +1,12 @@
 --ozone-platform-hint=auto
---enable-features=VaapiVideoDecodeLinuxGL,VaapiVideoDecoder,WaylandWindowDecorations,WebRTCPipeWireCapturer
+--enable-features=AcceleratedVideoDecodeLinuxGL,AcceleratedVideoDecoder,VaapiVideoDecoder,WebRTCPipeWireCapturer,CanvasOopRasterization
+--disable-features=Vulkan
 --enable-gpu-rasterization
 --enable-zero-copy
 --enable-smooth-scrolling
-{{- if .is_desktop }}
 --ignore-gpu-blocklist
---use-gl=desktop
+{{- if .is_desktop }}
+--use-gl=angle
+--use-angle=gl
 {{- end }}
+
