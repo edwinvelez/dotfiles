@@ -1,8 +1,11 @@
 --ozone-platform-hint=auto
 --enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer
+--disable-features=Vulkan
 --enable-gpu-rasterization
 --enable-zero-copy
-{{- if .is_desktop }}
 --ignore-gpu-blocklist
---use-gl=desktop
+{{- if .is_desktop }}
+--use-gl=angle
+--use-angle=gl
 {{- end }}
+
