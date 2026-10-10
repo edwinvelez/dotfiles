@@ -97,12 +97,59 @@ hl.window_rule({
     float = true,
 })
 
--- --- Third-Party Integrations ---
+-- --- Zoom Workplace Lifecycle & Window Management ---
 hl.window_rule({
-    name = "zoom-floating",
+    name = "zoom-share-toolbar",
     match = {
         class = "^(zoom)$",
-        title = "^(as_toolbar|as_chat|as_sharing_window|Meeting|Chat|Participant.*|Zoom Meeting.*)$",
+        title = "^(as_toolbar)$",
+    },
+    float = true,
+    pin = true,
+    no_initial_focus = true,
+    no_shadow = true,
+    rounding = 0,
+})
+
+hl.window_rule({
+    name = "zoom-share-border",
+    match = {
+        class = "^(zoom)$",
+        title = "^(as_sharing_window)$",
+    },
+    float = true,
+    pin = true,
+    no_focus = true,
+    no_shadow = true,
+    rounding = 0,
+})
+
+hl.window_rule({
+    name = "zoom-floating-video",
+    match = {
+        class = "^(zoom)$",
+        title = "^(zoom_linux_float_video_window)$",
+    },
+    float = true,
+    pin = true,
+    no_initial_focus = true,
+})
+
+hl.window_rule({
+    name = "zoom-dialogs-and-panels",
+    match = {
+        class = "^(zoom)$",
+        title = "^(Chat|Participant.*|Settings|General|Video|Audio|Share Screen|Breakout Rooms|Polls|Join Meeting|Schedule.*|Notification)$",
+    },
+    float = true,
+    center = true,
+})
+
+hl.window_rule({
+    name = "zoom-meeting-window",
+    match = {
+        class = "^(zoom)$",
+        title = "^(Zoom Meeting.*|Meeting)$",
     },
     float = true,
 })
