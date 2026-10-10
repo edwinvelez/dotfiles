@@ -42,6 +42,8 @@ fi
 if pgrep -x swaync >/dev/null 2>&1; then
     swaync-client -R -rs >/dev/null 2>&1 || true
     echo "[OK] SwayNC reloaded"
+fi
+
 # Application State Optimizations
 if command -v zoom-optimize >/dev/null 2>&1; then
     zoom-optimize || true
