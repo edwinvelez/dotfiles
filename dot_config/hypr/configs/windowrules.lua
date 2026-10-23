@@ -154,16 +154,6 @@ hl.window_rule({
     float = true,
 })
 
-hl.window_rule({
-    name = "waydroid-jwlibrary-floating",
-    match = {
-        class = "^(Waydroid|waydroid\\.org\\.jw\\.jwlibrary\\.mobile|org\\.jw\\.jwlibrary\\.mobile)$",
-    },
-    float = true,
-    size = "1024 1366",
-    center = true,
-})
-
 -- --- Steam & Proton Window Management ---
 hl.window_rule({
     name = "steam-main-tile",
@@ -196,32 +186,6 @@ hl.window_rule({
     opaque = true,
     idle_inhibit = "focus",
 })
-
--- --- Windows Applications & Bottles Compatibility (NWP Desktop) ---
-hl.window_rule({
-    name = "bottles-main-tile",
-    match = { class = "^(com.usebottles.bottles|bottles)$" },
-    tile = true,
-})
-
-hl.window_rule({
-    name = "wine-dialogs-float",
-    match = {
-        class = "^(wine|.*\\.exe)$",
-        title = "^(Open|Save|Browse|Select.*|Error|Warning|Setup.*|Configuration)$",
-    },
-    float = true,
-})
-
-hl.window_rule({
-    name = "nwp-desktop-float-dialogs",
-    match = {
-        class = "^(.*nw.*|.*scheduler.*|.*\\.exe)$",
-        title = "^(Print.*|Export.*|Settings|Options|About.*|Import.*)$",
-    },
-    float = true,
-})
-
 
 -- --- Scratchpad Styling ---
 hl.window_rule({

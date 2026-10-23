@@ -131,16 +131,12 @@ virtualbox-ext-oracle
 virtualbox-guest-iso
 virtualbox-host-dkms
 jetbrains-toolbox
-waydroid
 
 # --- Gaming (Steam & GameMode) ---
 steam
 gamemode
 lib32-gamemode
 ntsync-autoload
-
-# --- Windows Application Compatibility (Bottles) ---
-bottles
 
 # --- GUI Productivity & Applications ---
 antigravity-ide
