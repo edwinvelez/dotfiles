@@ -79,9 +79,7 @@ fw-clean-backups() {
 
 fw-public() {
     echo "[INFO] Switching UFW to Public / Lockdown mode..."
-    sudo ufw delete limit from 192.168.0.0/16 to any port 22 proto tcp 2>/dev/null || true
-    sudo ufw delete allow from 192.168.0.0/16 to any port 3000 proto tcp 2>/dev/null || true
-    sudo ufw delete allow from 192.168.0.0/16 app HPLIP 2>/dev/null || true
+    sudo ufw --force reset
     sudo ufw default deny incoming
     sudo ufw default allow outgoing
     sudo ufw default deny routed
@@ -93,6 +91,7 @@ fw-public() {
 
 fw-home() {
     echo "[INFO] Switching UFW to Trusted Home LAN mode..."
+    sudo ufw --force reset
     sudo ufw default deny incoming
     sudo ufw default allow outgoing
     sudo ufw default deny routed
