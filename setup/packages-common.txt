@@ -126,10 +126,7 @@ neovim
 fnm
 docker
 docker-compose
-virtualbox
-virtualbox-ext-oracle
-virtualbox-guest-iso
-virtualbox-host-dkms
+freerdp
 jetbrains-toolbox
 
 # --- Gaming (Steam & GameMode) ---

@@ -3,3 +3,4 @@
 # ==============================================================================
 
 # --- Container & Virtualization Subsystems ---
+docker.socket

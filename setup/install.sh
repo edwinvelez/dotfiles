@@ -157,6 +157,27 @@ else
 fi
 
 # ------------------------------------------------------------------------------
+# Docker Engine Configuration
+# ------------------------------------------------------------------------------
+# The root partition is too small for images and VM disks. Docker's data-root lives
+# on /home in a dedicated subvolume so snapper's /home snapshots exclude it.
+DOCKER_DATA_ROOT="/home/docker"
+DOCKER_DAEMON_JSON="${SCRIPT_DIR}/docker-daemon.json"
+
+if [[ ${DRY_RUN} -eq 1 ]]; then
+    log_info "[Dry-Run] Would create subvolume ${DOCKER_DATA_ROOT}, install /etc/docker/daemon.json, and add ${USER} to the docker group"
+else
+    log_info "Configuring Docker engine..."
+    if [[ ! -d "${DOCKER_DATA_ROOT}" ]]; then
+        sudo btrfs subvolume create "${DOCKER_DATA_ROOT}" >/dev/null
+        sudo chmod 710 "${DOCKER_DATA_ROOT}"
+    fi
+    sudo install -Dm644 "${DOCKER_DAEMON_JSON}" /etc/docker/daemon.json
+    sudo usermod -aG docker "${USER}"
+    log_success "Docker data-root set to ${DOCKER_DATA_ROOT}; ${USER} added to docker group"
+fi
+
+# ------------------------------------------------------------------------------
 # Service Manifest Collection & Activation
 # ------------------------------------------------------------------------------
 COMMON_SVCS_FILE="${SCRIPT_DIR}/services-common.txt"
@@ -199,24 +220,29 @@ else
 fi
 
 # ------------------------------------------------------------------------------
-# Storage Optimization (Btrfs NOCOW Attributes)
+# Storage Optimization (Btrfs NOCOW Subvolumes)
 # ------------------------------------------------------------------------------
+# Each directory is created as its own subvolume so snapper's /home snapshots
+# skip it; a snapshot forces a one-time CoW on every later write to NOCOW files.
 NOCOW_DIRS=(
-    "${HOME}/VirtualBox VMs"
     "${HOME}/.local/share/Steam"
+    "${HOME}/.local/share/docker-volumes"
 )
 
 if [[ ${DRY_RUN} -eq 1 ]]; then
-    log_info "[Dry-Run] Would enforce Btrfs NOCOW (+C) on:"
+    log_info "[Dry-Run] Would create Btrfs subvolumes and enforce NOCOW (+C) on:"
     printf "  - %s\n" "${NOCOW_DIRS[@]}"
 else
-    log_info "Enforcing Btrfs NOCOW (+C) attributes on high-write directories..."
+    log_info "Enforcing Btrfs NOCOW (+C) subvolumes on high-write directories..."
     for dir in "${NOCOW_DIRS[@]}"; do
-        mkdir -p "${dir}"
+        if [[ ! -d "${dir}" ]]; then
+            mkdir -p "$(dirname "${dir}")"
+            btrfs subvolume create "${dir}" >/dev/null
+        fi
         if chattr +C "${dir}" 2>/dev/null; then
-            log_success "Applied NOCOW (+C): ${dir}"
+            log_success "Applied NOCOW (+C) subvolume: ${dir}"
         else
-            log_warn "Failed to apply NOCOW (+C) on ${dir} (non-Btrfs or non-empty)"
+            log_warn "Failed to apply NOCOW (+C) on ${dir} (non-Btrfs)"
         fi
     done
 fi
