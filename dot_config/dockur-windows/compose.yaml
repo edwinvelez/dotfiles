@@ -1,0 +1,35 @@
+# Windows 11 VM (dockur/windows). Launched on demand by ~/.local/bin/launch-windows.sh.
+# Disk lives under ~/.local/share/docker-volumes (Btrfs NOCOW, applied by setup/install.sh).
+services:
+  windows:
+    image: dockurr/windows
+    container_name: windows
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      VERSION: "11"
+      CPU_CORES: "4"
+      RAM_SIZE: "8G"
+      DISK_SIZE: "120G"
+      AUDIO: "Y"
+      AUTO_LOGIN: "Y"
+      LANGUAGE: "English"
+      KEYBOARD: "en-US"
+      REGION: "en-US"
+      USERNAME: "edwinvelez"
+      PASSWORD: "edwinvelez"
+      # Enable RemoteApp execution for unlisted programs
+      COMMAND: 'reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v fAllowUnlistedRemotePrograms /t REG_DWORD /d 1 /f'
+    # Loopback only: Docker-published ports bypass UFW, so binding 0.0.0.0 would expose RDP on any network
+    ports:
+      - 127.0.0.1:3389:3389/tcp
+      - 127.0.0.1:3389:3389/udp
+      - 127.0.0.1:8006:8006/tcp
+    volumes:
+      - ~/.local/share/docker-volumes/dockur-windows:/storage
+      - ~/Downloads:/shared
+    stop_grace_period: 2m
+    restart: "no"

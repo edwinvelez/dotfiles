@@ -21,6 +21,7 @@ Declarative, templated configuration management and system provisioning architec
 ├── .chezmoiignore             # Transient cache and local state exclusion rules
 ├── dot_config/                # Managed XDG_CONFIG_HOME projections
 │   ├── btop/                 # System resource monitoring
+│   ├── dockur-windows/       # On-demand Windows 11 VM (Docker Compose)
 │   ├── gtk-3.0/, gtk-4.0/    # GTK styling declarations
 │   ├── hypr/                 # Modular Lua Hyprland suite, hyprlock, hypridle
 │   ├── kitty/                # Terminal emulator styling and keybinds
@@ -28,9 +29,11 @@ Declarative, templated configuration management and system provisioning architec
 │   ├── swaync/               # Notification center and control panel
 │   └── waybar/               # Dynamic status bar templates
 ├── dot_local/bin/             # User space operational utilities
-│   └── executable_dotfiles-sync # Service reload and sync orchestrator
+│   ├── executable_dotfiles-sync # Service reload and sync orchestrator
+│   └── executable_launch-windows.sh # Boots the Windows VM and attaches FreeRDP
 ├── setup/                     # Bare-metal system provisioning framework
 │   ├── install.sh            # Paru, systemd, and Btrfs provisioning script
+│   ├── docker-daemon.json    # Docker engine config (data-root, logging)
 │   ├── packages-*.txt        # Common and profile-specific package manifests
 │   └── services-*.txt        # Common and profile-specific systemd units
 ├── dot_zshrc, dot_zprofile    # Zsh interactive shell and environment configuration
