@@ -1,7 +1,6 @@
 hl.on("hyprland.start", function ()
     -- --- Core System Services (High Priority) ---
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-    hl.exec_cmd("ssh-agent -a $XDG_RUNTIME_DIR/ssh-agent.socket")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("gnome-keyring-daemon --start --components=secrets,ssh --foreground")
     hl.exec_cmd("xsettingsd")

@@ -1,0 +1,7 @@
+# ==============================================================================
+# COMMON SYSTEMD USER SERVICES & SOCKETS (Desktop & Laptop)
+# ==============================================================================
+# Enabled with `systemctl --user` (per-user scope, not root).
+
+# --- Authentication ---
+ssh-agent.socket

@@ -35,7 +35,8 @@ Declarative, templated configuration management and system provisioning architec
 │   ├── install.sh            # Paru, systemd, and Btrfs provisioning script
 │   ├── docker-daemon.json    # Docker engine config (data-root, logging)
 │   ├── packages-*.txt        # Common and profile-specific package manifests
-│   └── services-*.txt        # Common and profile-specific systemd units
+│   ├── services-*.txt        # Common and profile-specific systemd units
+│   └── user-services-*.txt   # systemd --user units (e.g. ssh-agent.socket)
 ├── dot_zshrc, dot_zprofile    # Zsh interactive shell and environment configuration
 └── dot_gitconfig.tmpl         # Global Git configuration template
 ```
@@ -87,6 +88,7 @@ Package and service manifests reside in `setup/` and follow strict categorizatio
 - `packages-desktop.txt`: AMD microcode, NVIDIA drivers, and CUDA/VAAPI support libraries.
 - `packages-laptop.txt`: Intel microcode, power management utilities, and Wi-Fi stack.
 - `services-*.txt`: Associated `systemd` units enabled and started automatically.
+- `user-services-*.txt`: `systemd --user` units enabled for the invoking user.
 
 ---
 

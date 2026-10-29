@@ -220,6 +220,31 @@ else
 fi
 
 # ------------------------------------------------------------------------------
+# User Service Manifest Activation (systemctl --user)
+# ------------------------------------------------------------------------------
+USER_SVCS_FILE="${SCRIPT_DIR}/user-services-common.txt"
+
+mapfile -t USER_SERVICES < <(read_manifest "${USER_SVCS_FILE}")
+
+log_info "Discovered ${#USER_SERVICES[@]} user services."
+
+if [[ ${DRY_RUN} -eq 1 ]]; then
+    log_info "[Dry-Run] Would enable ${#USER_SERVICES[@]} systemd user units:"
+    for service in "${USER_SERVICES[@]}"; do
+        printf "  - %s (systemctl --user enable)\n" "${service}"
+    done
+else
+    log_info "Enabling systemd user units (active from next login)..."
+    for service in "${USER_SERVICES[@]}"; do
+        if systemctl --user enable "${service}" 2>/dev/null; then
+            log_success "Enabled (user): ${service}"
+        else
+            log_warn "Failed to enable user unit: ${service} (verify unit availability)"
+        fi
+    done
+fi
+
+# ------------------------------------------------------------------------------
 # Storage Optimization (Btrfs NOCOW Subvolumes)
 # ------------------------------------------------------------------------------
 # Each directory is created as its own subvolume so snapper's /home snapshots
