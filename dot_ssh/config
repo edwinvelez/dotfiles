@@ -1,0 +1,9 @@
+# Each machine has its own ~/.ssh/id_ed25519 (keys are never shared or managed here)
+Host *
+    AddKeysToAgent yes
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
