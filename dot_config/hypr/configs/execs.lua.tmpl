@@ -1,10 +1,11 @@
 hl.on("hyprland.start", function ()
     -- --- Core System Services (High Priority) ---
-    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+    -- Handled elsewhere, intentionally not launched here:
+    --   session env -> Hyprland exports it to systemd/D-Bus itself
+    --   keyring     -> gnome-keyring-daemon.socket + pam_gnome_keyring (SDDM)
+    --   user dirs   -> xdg-user-dirs.service
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
-    hl.exec_cmd("gnome-keyring-daemon --start --components=secrets,ssh --foreground")
     hl.exec_cmd("xsettingsd")
-    hl.exec_cmd("xdg-user-dirs-update")
 
     -- --- GTK & Theming Synchronization ---
     hl.exec_cmd("gsettings set org.gnome.desktop.interface gtk-theme 'Materia-dark-compact'")
