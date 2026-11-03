@@ -110,6 +110,8 @@ fastfetch
 tree
 tldr
 less
+# jq: JSON previews in ranger (scope.sh); was only pulled in by hyprshot
+jq
 atool
 zip
 unzip
