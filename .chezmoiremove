@@ -1,0 +1,2 @@
+# Targets chezmoi deletes from $HOME on apply (files whose source was removed from this repo).
+.local/bin/zoom-optimize

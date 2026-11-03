@@ -22,7 +22,6 @@ setup/**
 .config/Thunar/**
 .config/dconf/**
 .config/zoom.conf
-.config/zoomus.conf
 .config/xfce4/xfconf/xfce-perchannel-xml/thunar*.xml
 .config/pavucontrol.ini
 .config/inkscape/**
