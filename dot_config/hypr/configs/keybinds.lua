@@ -63,8 +63,8 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- --- Quake-style Dropdown Terminal (Scratchpad) ---
 -- Toggle the scratchpad visibility
-hl.bind("ALT + Grave", hl.dsp.exec_cmd("hyprctl dispatch togglespecialworkspace scratchpad"))
+hl.bind("ALT + Grave", hl.dsp.workspace.toggle_special("scratchpad"))
 -- Move active window to scratchpad
-hl.bind("ALT + SHIFT + Grave", hl.dsp.exec_cmd("hyprctl dispatch movetoworkspace special:scratchpad"))
+hl.bind("ALT + SHIFT + Grave", hl.dsp.window.move({ workspace = "special:scratchpad" }))
 -- Launch a new terminal directly into the scratchpad
-hl.bind("SUPER + ALT + Grave", hl.dsp.exec_cmd("hyprctl dispatch exec \"[workspace special:scratchpad] kitty\""))
+hl.bind("SUPER + ALT + Grave", hl.dsp.exec_cmd("kitty", { workspace = "special:scratchpad" }))
