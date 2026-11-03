@@ -2,8 +2,10 @@
 export EDITOR="nvim"
 
 # --- Path Configuration ---
+# -U keeps entries unique when nested login shells re-source this file.
+typeset -U path
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$HOME/.local/bin:$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
+path=("$BUN_INSTALL/bin" "$HOME/.local/bin" "$HOME/.local/share/JetBrains/Toolbox/scripts" $path)
 
 # --- SSH Agent ---
 # Socket provided by the systemd user unit ssh-agent.socket (setup/user-services-common.txt).
@@ -11,9 +13,12 @@ export PATH="$BUN_INSTALL/bin:$HOME/.local/bin:$HOME/.local/share/JetBrains/Tool
 export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
 
 # --- XDG Data Directories ---
-# Initialize with system defaults if unset, then export.
-# This ensures Flatpaks and system apps are discoverable without overwriting existing paths.
+# Initialize with system defaults if unset, then append Flatpak exports when present.
+# Tied to a unique array (-UT) so re-sourcing never duplicates entries.
+typeset -UT XDG_DATA_DIRS xdg_data_dirs
 : ${XDG_DATA_DIRS:=/usr/local/share:/usr/share}
-[[ -d "/var/lib/flatpak/exports/share" ]] && XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share"
-[[ -d "$HOME/.local/share/flatpak/exports/share" ]] && XDG_DATA_DIRS="$XDG_DATA_DIRS:$HOME/.local/share/flatpak/exports/share"
+for dir in /var/lib/flatpak/exports/share "$HOME/.local/share/flatpak/exports/share"; do
+    [[ -d "$dir" ]] && xdg_data_dirs+=("$dir")
+done
+unset dir
 export XDG_DATA_DIRS
