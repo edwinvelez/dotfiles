@@ -4,7 +4,7 @@ hl.on("hyprland.start", function ()
     --   session env -> Hyprland exports it to systemd/D-Bus itself
     --   keyring     -> gnome-keyring-daemon.socket + pam_gnome_keyring (SDDM)
     --   user dirs   -> xdg-user-dirs.service
-    hl.exec_cmd("systemctl --user start hyprpolkitagent")
+    --   polkit      -> hyprpolkitagent.service (setup/user-services-common.txt)
     hl.exec_cmd("xsettingsd")
 
     -- --- GTK & Theming Synchronization ---
