@@ -3,5 +3,5 @@ gtk-theme-name=Materia-dark-compact
 gtk-icon-theme-name=Papirus-Dark
 gtk-font-name=Inter 11
 gtk-cursor-theme-name=Bibata-Modern-Classic
-gtk-cursor-theme-size=24
+gtk-cursor-theme-size={{ if .is_laptop }}32{{ else }}24{{ end }}
 gtk-application-prefer-dark-theme=1
