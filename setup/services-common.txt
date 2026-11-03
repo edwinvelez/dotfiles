@@ -2,5 +2,29 @@
 # COMMON SYSTEMD SERVICES & TIMERS (Desktop & Laptop)
 # ==============================================================================
 
+# --- Session & Login ---
+sddm.service
+
+# --- Networking & Connectivity ---
+# NetworkManager-dispatcher and -wait-online are pulled in via its Also= directive.
+NetworkManager.service
+bluetooth.service
+systemd-timesyncd.service
+
+# --- Security ---
+ufw.service
+
+# --- Package Mirrors ---
+# Timer only: enabling reflector.service as well would rewrite the mirrorlist on every boot.
+reflector.timer
+
+# --- Storage Health & Snapshots (Btrfs) ---
+fstrim.timer
+smartd.service
+btrfs-scrub.timer
+btrfs-balance.timer
+snapper-timeline.timer
+snapper-cleanup.timer
+
 # --- Container & Virtualization Subsystems ---
 docker.socket
