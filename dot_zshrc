@@ -22,6 +22,8 @@ typeset -U fpath
 fpath=($HOME/.zsh/completions $fpath)
 
 # --- Oh My Zsh Initialization ---
+# Updates run only via update-all; must be set before sourcing, which is when OMZ checks.
+zstyle ':omz:update' mode disabled
 ZSH_THEME=""
 plugins=(git sudo)
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
@@ -34,8 +36,6 @@ fi
 # --- Vi Mode & Cursor Dynamics ---
 bindkey -v
 zstyle ':completion:*' menu select
-zstyle ':omz:update' mode auto
-zstyle ':omz:update' frequency 7
 
 function zle-line-init zle-keymap-select {
     if [[ -t 1 ]]; then
