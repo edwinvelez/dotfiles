@@ -32,4 +32,10 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("udiskie --appindicator -t")
+
+    -- --- Background Apps ---
+    -- Hyprland does not process XDG autostart (~/.config/autostart), so apps that
+    -- rely on it must be launched here. The delay lets Waybar's tray come up first,
+    -- since Toolbox starts minimized to the tray.
+    hl.exec_cmd("sleep 10 && /opt/jetbrains-toolbox/jetbrains-toolbox --minimize")
 end)
