@@ -5,3 +5,7 @@
 
 # --- Authentication ---
 ssh-agent.socket
+
+# --- Cloud Storage ---
+# Unit shipped by chezmoi; requires ~/.config/rclone/rclone.conf (not tracked: holds OAuth token).
+rclone-drive.service
