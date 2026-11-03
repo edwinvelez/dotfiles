@@ -9,28 +9,27 @@
 
 {{ if .is_desktop -}}
     // Desktop: GPU & Notification enabled, Battery disabled
-    "modules-left": ["hyprland/workspaces", "idle_inhibitor", "hyprland/mode"],
+    "modules-left": ["ext/workspaces", "idle_inhibitor"],
     "modules-center": ["clock", "hyprland/window"],
     "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "custom/notification", "tray"],
 {{- else if .is_laptop -}}
     // Laptop: Battery, Backlight & Notification enabled, GPU disabled (save power)
-    "modules-left": ["hyprland/workspaces", "idle_inhibitor", "hyprland/mode"],
+    "modules-left": ["ext/workspaces", "idle_inhibitor"],
     "modules-center": ["clock", "hyprland/window"],
     "modules-right": ["pulseaudio", "backlight", "cpu", "memory", "network", "battery", "custom/notification", "tray"],
 {{- end }}
 
     // --- Module Configurations ---
-    "hyprland/workspaces": {
+    // ext/workspaces (standard protocol) instead of hyprland/workspaces: Waybar 0.15's
+    // Hyprland module sends legacy dispatch strings, which the Lua config rejects.
+    // Generic state dots: filled = focused, hollow = in use. Hidden/special workspaces stay hidden.
+    "ext/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
+        "sort-by-id": true,
         "format-icons": {
-            "1": "󰈹",
-            "2": "󰨞",
-            "3": "󰞷",
-            "4": "󰉋",
-            "5": "󰓇",
-            "urgent": "󰀨",
-            "default": "󰍹"
+            "active": "●",
+            "default": "○"
         }
     },
 
