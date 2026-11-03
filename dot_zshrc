@@ -63,7 +63,6 @@ alias grep="rg"
 alias du="ncdu"
 alias top="btop"
 alias py-env="python -m venv .venv && source .venv/bin/activate"
-alias dotsync="dotfiles-sync"
 alias sys-failed="systemctl --failed"
 alias sys-errors="journalctl -p 3 -xb"
 
@@ -105,6 +104,29 @@ fw-home() {
 }
 
 # --- System & Development Maintenance ---
+# Pull the dotfiles repo, apply it, and hot-reload running desktop components.
+# Use `chezmoi diff` / `chezmoi status` to preview before syncing.
+dotfiles-sync() {
+    echo "[INFO] Pulling and applying dotfiles (chezmoi update)..."
+    if ! chezmoi update; then
+        echo "[ERROR] chezmoi update failed; nothing was reloaded." >&2
+        return 1
+    fi
+
+    if pgrep -x Hyprland >/dev/null; then
+        hyprctl reload >/dev/null && echo "[OK] Hyprland reloaded"
+        # hypridle does not watch its config file, so restart it to pick up changes
+        if pgrep -x hypridle >/dev/null; then
+            pkill -x hypridle
+            hyprctl dispatch 'hl.dsp.exec_cmd("hypridle")' >/dev/null && echo "[OK] hypridle restarted"
+        fi
+    fi
+    pgrep -x waybar >/dev/null && pkill -USR2 -x waybar && echo "[OK] Waybar reloaded"
+    pgrep -x swaync >/dev/null && swaync-client -R -rs >/dev/null && echo "[OK] SwayNC reloaded"
+
+    echo "[SUCCESS] Dotfiles synchronized."
+}
+
 update-all() {
     echo "[INFO] Updating System & AUR Packages via paru..."
     paru -Syu

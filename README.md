@@ -29,7 +29,6 @@ Declarative, templated configuration management and system provisioning architec
 │   ├── swaync/               # Notification center and control panel
 │   └── waybar/               # Dynamic status bar templates
 ├── dot_local/bin/             # User space operational utilities
-│   ├── executable_dotfiles-sync # Service reload and sync orchestrator
 │   └── executable_launch-windows.sh # Boots the Windows VM and attaches FreeRDP
 ├── setup/                     # Bare-metal system provisioning framework
 │   ├── install.sh            # Paru, systemd, and Btrfs provisioning script
@@ -96,18 +95,18 @@ Package and service manifests reside in `setup/` and follow strict categorizatio
 
 ### Configuration Synchronization
 
-Apply configurations and trigger hot-reloads on active window managers and panels:
+Shell functions defined in `dot_zshrc`:
 
 ```bash
-# Review pending diff against target filesystem
-dotfiles-sync --diff
-
-# Inspect drift status across managed templates
-dotfiles-sync --status
-
-# Apply configurations and trigger hot-reloads (Hyprland, Waybar, SwayNC)
+# Pull the repo, apply it, and hot-reload Hyprland, hypridle, Waybar and SwayNC
 dotfiles-sync
+
+# Full maintenance: packages (paru), runtimes (omz, fnm, bun, rustup, flatpak), then dotfiles-sync
+update-all
 ```
+
+Neither applies `setup/` manifests. After pulling changes to packages or services, re-run
+`setup/install.sh` (idempotent; use `--dry-run` first). Removals are never automatic.
 
 ### Standard Chezmoi Operations
 
