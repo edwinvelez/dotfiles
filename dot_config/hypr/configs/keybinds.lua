@@ -32,17 +32,18 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
 
 -- --- Screenshots (Native Wayland: grim, slurp, swappy) ---
 -- Interactive region capture with annotation editor (Swappy)
-hl.bind("PRINT", hl.dsp.exec_cmd("sh -c 'grim -g \"$(slurp)\" - | swappy -f -'"))
+-- exec_cmd already runs through a shell, so pipes and $(...) work without an sh -c wrapper.
+hl.bind("PRINT", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | swappy -f -"))
 
 -- Fullscreen capture with annotation editor
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("sh -c 'grim - | swappy -f -'"))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grim - | swappy -f -"))
 
 -- Direct save to ~/Pictures/Screenshots without prompt
-hl.bind("ALT + PRINT", hl.dsp.exec_cmd("sh -c 'mkdir -p ~/Pictures/Screenshots && grim ~/Pictures/Screenshots/Shot_$(date +%Y-%m-%d_%H%M%S).png && notify-send \"Screenshot\" \"Full display saved to ~/Pictures/Screenshots\"'"))
+hl.bind("ALT + PRINT", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim ~/Pictures/Screenshots/Shot_$(date +%Y-%m-%d_%H%M%S).png && notify-send \"Screenshot\" \"Full display saved to ~/Pictures/Screenshots\""))
 
 -- Clipboard-only captures (Instant, no file stored)
-hl.bind("CONTROL + PRINT", hl.dsp.exec_cmd("sh -c 'grim -g \"$(slurp)\" - | wl-copy && notify-send \"Screenshot\" \"Area copied to clipboard\"'"))
-hl.bind("CONTROL + SHIFT + PRINT", hl.dsp.exec_cmd("sh -c 'grim - | wl-copy && notify-send \"Screenshot\" \"Screen copied to clipboard\"'"))
+hl.bind("CONTROL + PRINT", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy && notify-send \"Screenshot\" \"Area copied to clipboard\""))
+hl.bind("CONTROL + SHIFT + PRINT", hl.dsp.exec_cmd("grim - | wl-copy && notify-send \"Screenshot\" \"Screen copied to clipboard\""))
 
 -- --- Focus and Navigation ---
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
