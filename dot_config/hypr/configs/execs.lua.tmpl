@@ -5,14 +5,8 @@ hl.on("hyprland.start", function ()
     --   keyring     -> gnome-keyring-daemon.socket + pam_gnome_keyring (SDDM)
     --   user dirs   -> xdg-user-dirs.service
     --   polkit      -> hyprpolkitagent.service (setup/user-services-common.txt)
+    --   gsettings   -> .chezmoiscripts/run_onchange_after_gsettings.sh (once per change)
     hl.exec_cmd("xsettingsd")
-
-    -- --- GTK & Theming Synchronization ---
-    hl.exec_cmd("gsettings set org.gnome.desktop.interface gtk-theme 'Materia-dark-compact'")
-    hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'")
-    hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'")
-    hl.exec_cmd("gsettings set org.gnome.desktop.interface font-name 'Inter 11'")
-    hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
 
     -- --- UI & Desktop Environment ---
     hl.exec_cmd("waybar")

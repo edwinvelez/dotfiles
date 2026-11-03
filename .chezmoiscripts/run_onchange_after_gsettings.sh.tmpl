@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Applies GNOME/GTK interface settings once per change instead of every login.
+# Values persist in dconf; chezmoi re-runs this only when this rendered file changes.
+# Keep in sync with gtk-3.0/gtk-4.0 settings.ini, xsettingsd.conf and hypr/configs/env.lua.
+set -euo pipefail
+
+{{- $cursorSize := 24 }}
+{{- if .is_laptop }}{{ $cursorSize = 32 }}{{ end }}
+
+apply() {
+    local schema=org.gnome.desktop.interface
+    gsettings set "$schema" gtk-theme    'Materia-dark-compact'
+    gsettings set "$schema" icon-theme   'Papirus-Dark'
+    gsettings set "$schema" cursor-theme 'Bibata-Modern-Classic'
+    gsettings set "$schema" cursor-size  {{ $cursorSize }}
+    gsettings set "$schema" font-name    'Inter 11'
+    gsettings set "$schema" color-scheme 'prefer-dark'
+}
+
+if ! command -v gsettings >/dev/null 2>&1; then
+    echo "gsettings not found; skipping interface settings" >&2
+    exit 0
+fi
+
+# Provisioning from a TTY may lack a session bus; dconf needs one to persist writes.
+if [[ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ]]; then
+    export -f apply
+    exec dbus-run-session -- bash -c apply
+fi
+
+apply
