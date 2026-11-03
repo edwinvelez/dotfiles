@@ -4,13 +4,6 @@
 
 require("configs.monitors")
 
-------------------
----- PATHWAYS ----
-------------------
-
--- Ensure module resolution is directed to the local config space
-package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/hypr/?.lua"
-
 -----------------
 ---- MODULES ----
 -----------------
