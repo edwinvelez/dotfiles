@@ -2,6 +2,33 @@
   "attribution": {
     "commit": "",
     "pr": ""
+  },
+  "permissions": {
+    "defaultMode": "auto",
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git reset --hard *)",
+      "Bash(git clean *)",
+      "Bash(sudo *)",
+      "Bash(yay *)",
+      "Bash(paru *)",
+      "Bash(rm -rf *)",
+      "Bash(chezmoi apply *)",
+      "Bash(chezmoi update *)",
+      "Bash(vercel --prod *)",
+      "Bash(vercel deploy *)"
+    ],
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Read(**/.env.*.local)",
+      "Read(**/.env.production)",
+      "Read(**/.env.development)",
+      "Read(~/.ssh/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.aws/**)",
+      "Edit(~/.ssh/**)",
+      "Edit(~/.gnupg/**)"
+    ]
   }
 }
-
