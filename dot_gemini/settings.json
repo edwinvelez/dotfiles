@@ -13,7 +13,11 @@
       "customIgnoreFilePaths": [
         "global.geminiignore"
       ]
-    }
+    },
+    "fileName": [
+      "AGENTS.md",
+      "GEMINI.md"
+    ]
   },
   "general": {
     "sessionRetention": {
