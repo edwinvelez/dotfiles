@@ -10,6 +10,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 DRY_RUN=0
+PACKAGES_ONLY=0
 PROFILE=""
 
 # ------------------------------------------------------------------------------
@@ -45,6 +46,9 @@ Options:
     -l, --laptop      Force Laptop profile (my-laptop / Dell XPS 15)
     -a, --auto        Auto-detect profile via hardware chassis/hostname (default)
     -n, --dry-run     Print actions without executing package installation or service changes
+    -p, --packages-only
+                      Install only manifest packages that are missing, then exit
+                      (no Docker, services, NOCOW or chezmoi steps; used by update-all)
     -h, --help        Show this help message
 
 EOF
@@ -82,6 +86,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -n|--dry-run)
             DRY_RUN=1
+            shift
+            ;;
+        -p|--packages-only)
+            PACKAGES_ONLY=1
             shift
             ;;
         -h|--help)
@@ -131,6 +139,21 @@ PROFILE_PKGS_FILE="${SCRIPT_DIR}/packages-${PROFILE}.txt"
 mapfile -t COMMON_PACKAGES < <(read_manifest "${COMMON_PKGS_FILE}")
 mapfile -t PROFILE_PACKAGES < <(read_manifest "${PROFILE_PKGS_FILE}")
 
+# Keep only packages not yet installed. pacman -T prints the names it cannot
+# satisfy locally (provides-aware, covers AUR packages too) and exits 127 when
+# any are missing, so a re-run on an up-to-date machine installs nothing.
+missing_only() {
+    [[ $# -eq 0 ]] && return 0
+    pacman -T "$@" || true
+}
+
+mapfile -t COMMON_PACKAGES < <(missing_only "${COMMON_PACKAGES[@]}")
+mapfile -t PROFILE_PACKAGES < <(missing_only "${PROFILE_PACKAGES[@]}")
+
+if [[ ${#COMMON_PACKAGES[@]} -eq 0 ]] && [[ ${#PROFILE_PACKAGES[@]} -eq 0 ]]; then
+    log_info "All manifest packages are already installed."
+fi
+
 # ------------------------------------------------------------------------------
 # Package Installation (Two-Phase Resolution)
 # ------------------------------------------------------------------------------
@@ -140,9 +163,9 @@ mapfile -t PROFILE_PACKAGES < <(read_manifest "${PROFILE_PKGS_FILE}")
 # Phase 2: Install common packages.
 if [[ ${DRY_RUN} -eq 1 ]]; then
     log_info "[Dry-Run] Would install ${#PROFILE_PACKAGES[@]} ${PROFILE} packages:"
-    printf "  - %s\n" "${PROFILE_PACKAGES[@]}"
+    [[ ${#PROFILE_PACKAGES[@]} -gt 0 ]] && printf "  - %s\n" "${PROFILE_PACKAGES[@]}"
     log_info "[Dry-Run] Would install ${#COMMON_PACKAGES[@]} common packages:"
-    printf "  - %s\n" "${COMMON_PACKAGES[@]}"
+    [[ ${#COMMON_PACKAGES[@]} -gt 0 ]] && printf "  - %s\n" "${COMMON_PACKAGES[@]}"
 else
     if [[ ${#PROFILE_PACKAGES[@]} -gt 0 ]]; then
         log_info "Phase 1: Installing ${#PROFILE_PACKAGES[@]} ${PROFILE}-specific packages..."
@@ -154,6 +177,11 @@ else
         paru -S --needed --noconfirm "${COMMON_PACKAGES[@]}"
     fi
     log_success "Package installation completed."
+fi
+
+if [[ ${PACKAGES_ONLY} -eq 1 ]]; then
+    log_success "Package sync for [${PROFILE}] completed."
+    exit 0
 fi
 
 # ------------------------------------------------------------------------------

@@ -159,6 +159,14 @@ update-all() {
     echo "[INFO] Synchronizing managed dotfiles..."
     dotfiles-sync
 
+    # After the pull, so packages just added to setup/ manifests on the other
+    # machine are installed here in the same run.
+    local installer="$HOME/.local/share/chezmoi/setup/install.sh"
+    if [[ -x "$installer" ]]; then
+        echo "[INFO] Installing packages newly added to the setup/ manifests..."
+        "$installer" --packages-only
+    fi
+
     echo "[SUCCESS] Complete system maintenance finished."
 }
 

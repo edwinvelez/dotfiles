@@ -101,12 +101,15 @@ Shell functions defined in `dot_zshrc`:
 # Pull the repo, apply it, and hot-reload Hyprland, hypridle, Waybar and SwayNC
 dotfiles-sync
 
-# Full maintenance: packages (paru), runtimes (omz, fnm, bun, rustup, flatpak), then dotfiles-sync
+# Full maintenance: packages (paru), runtimes (omz, fnm, bun, rustup, flatpak), dotfiles-sync,
+# then install any packages newly added to the setup/ manifests
 update-all
 ```
 
-Neither applies `setup/` manifests. After pulling changes to packages or services, re-run
-`setup/install.sh` (idempotent; use `--dry-run` first). Removals are never automatic.
+`update-all` installs packages added to `setup/packages-*.txt` (via `setup/install.sh
+--packages-only`), so adding a package on one machine and running `update-all` on the other
+installs it there. Service changes still need a full `setup/install.sh` run (idempotent; use
+`--dry-run` first). Removals are never automatic.
 
 ### Standard Chezmoi Operations
 
