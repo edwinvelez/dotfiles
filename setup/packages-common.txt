@@ -93,6 +93,8 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 starship
 git
+# github-cli (gh): PRs, issues and CI status from the terminal; used by Claude Code
+github-cli
 wget
 ranger
 man-db
