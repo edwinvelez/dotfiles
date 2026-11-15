@@ -21,8 +21,8 @@ services:
       REGION: "en-US"
       USERNAME: "edwinvelez"
       PASSWORD: "edwinvelez"
-      # Enable RemoteApp execution for unlisted programs
-      COMMAND: 'reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v fAllowUnlistedRemotePrograms /t REG_DWORD /d 1 /f'
+      # dockur already boots Windows with -rtc base=localtime; TZ makes that local time Eastern
+      TZ: "America/New_York"
     # Loopback only: Docker-published ports bypass UFW, so binding 0.0.0.0 would expose RDP on any network
     ports:
       - 127.0.0.1:3389:3389/tcp
@@ -31,5 +31,7 @@ services:
     volumes:
       - ~/.local/share/docker-volumes/dockur-windows:/storage
       - ~/Downloads:/shared
+      # Copied to C:\OEM; install.bat runs once at first logon after a fresh install
+      - ./oem:/oem:ro
     stop_grace_period: 2m
     restart: "no"
