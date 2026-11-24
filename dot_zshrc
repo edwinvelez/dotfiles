@@ -139,6 +139,24 @@ update-all() {
     if command -v fnm &> /dev/null; then
         echo "[INFO] Updating Node.js (LTS via fnm)..."
         fnm install --lts
+
+        # Keep only the latest LTS: point default at it, then remove every other
+        # installed version. Skip pruning if the LTS can't be resolved, so a
+        # failed install never leaves the machine with no Node at all.
+        local lts
+        lts=$(fnm list | awk '/lts-latest/ {print $2}')
+        if [[ "$lts" == v* ]]; then
+            fnm default "$lts"
+            local v
+            for v in $(fnm list | awk '$2 ~ /^v/ {print $2}'); do
+                if [[ "$v" != "$lts" ]]; then
+                    echo "[INFO] Removing Node.js $v..."
+                    fnm uninstall "$v"
+                fi
+            done
+        else
+            echo "[WARN] Could not resolve latest LTS; skipping old Node.js cleanup."
+        fi
     fi
 
     if command -v bun &> /dev/null; then
