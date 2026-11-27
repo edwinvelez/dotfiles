@@ -24,3 +24,26 @@
 
 # Old flags file name; the antigravity-ide launcher reads antigravity-ide-flags.conf.
 .config/antigravity-flags.conf
+
+# Leftovers from uninstalled IDE plugins: GitHub Copilot, AWS Toolkit, Gemini Code Assist (Cloud Code).
+.config/github-copilot
+.cache/copilot
+.cache/aws
+.local/state/aws-cloudformation-languageserver
+.cache/cloud-code
+.cache/google-vscode-extension
+
+# Download caches from one-off tools: playwright-go browser driver, Edge DevTools id, vscode-ripgrep.
+.cache/ms-playwright-go
+.cache/Microsoft
+.cache/vscode-ripgrep
+
+# Go and Rust are orphaned build deps (pacman -Qdt); their per-user caches regenerate if a build needs them.
+.config/go
+.cache/go-build
+.cargo
+
+# Apps no longer installed: wofi (-> rofi), flatpak. Stray empty dir next to the real Thunderbird profile.
+.cache/wofi-drun
+.local/share/flatpak
+.config/.thunderbird
