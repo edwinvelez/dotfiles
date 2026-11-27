@@ -2,3 +2,4 @@
 .local/bin/zoom-optimize
 .local/bin/dotfiles-sync
 .gtkrc-2.0
+.config/systemd/user/rclone-drive.service

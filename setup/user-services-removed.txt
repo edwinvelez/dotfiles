@@ -1,0 +1,9 @@
+# ==============================================================================
+# USER SERVICES REMOVED FROM THE MANIFESTS (Desktop & Laptop)
+# ==============================================================================
+# install.sh runs `systemctl --user disable --now` on any of these still enabled,
+# before uninstalling packages-removed.txt. If chezmoi shipped the unit file, also
+# list it in .chezmoiremove so the file itself is deleted. Prune entries whenever.
+
+# --- rclone Google Drive mount (04cdcea) ---
+rclone-drive.service

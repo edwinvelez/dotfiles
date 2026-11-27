@@ -47,8 +47,9 @@ Options:
     -a, --auto        Auto-detect profile via hardware chassis/hostname (default)
     -n, --dry-run     Print actions without executing package installation or service changes
     -p, --packages-only
-                      Install only manifest packages that are missing, then exit
-                      (no Docker, services, NOCOW or chezmoi steps; used by update-all)
+                      Sync packages only: disable units in *-removed.txt, uninstall
+                      packages-removed.txt, install missing manifest packages, then exit
+                      (no Docker, NOCOW, chezmoi or service-enable steps; used by update-all)
     -h, --help        Show this help message
 
 EOF
@@ -138,6 +139,92 @@ PROFILE_PKGS_FILE="${SCRIPT_DIR}/packages-${PROFILE}.txt"
 
 mapfile -t COMMON_PACKAGES < <(read_manifest "${COMMON_PKGS_FILE}")
 mapfile -t PROFILE_PACKAGES < <(read_manifest "${PROFILE_PKGS_FILE}")
+
+# ------------------------------------------------------------------------------
+# Removals (packages / services dropped from the manifests)
+# ------------------------------------------------------------------------------
+# A removal made on one machine reaches the other here: units in the *-removed.txt
+# lists are disabled first (a unit must stop before its package goes), then any
+# still-installed packages from packages-removed.txt are uninstalled. Runs in
+# --packages-only mode too, so update-all syncs removals as well as installs.
+REMOVED_PKGS_FILE="${SCRIPT_DIR}/packages-removed.txt"
+mapfile -t REMOVED_PACKAGES < <(read_manifest "${REMOVED_PKGS_FILE}")
+mapfile -t REMOVED_SERVICES < <(read_manifest "${SCRIPT_DIR}/services-removed.txt")
+mapfile -t REMOVED_USER_SERVICES < <(read_manifest "${SCRIPT_DIR}/user-services-removed.txt")
+
+# A name in both an install and a removed list would be installed and uninstalled
+# on alternate runs; stop instead. Checks every profile, not just this machine's.
+conflicts="$(comm -12 \
+    <(printf '%s\n' "${REMOVED_PACKAGES[@]}" | sort -u) \
+    <(for f in "${SCRIPT_DIR}"/packages-*.txt; do
+          [[ "${f}" == "${REMOVED_PKGS_FILE}" ]] || read_manifest "${f}"
+      done | sort -u))"
+if [[ -n "${conflicts}" ]]; then
+    log_error "In packages-removed.txt and an install manifest; drop one: ${conflicts//$'\n'/ }"
+    exit 1
+fi
+
+# True when a unit still has something to undo: running, enabled, or a leftover
+# .wants/ symlink (systemd reports "not-found" once the unit file itself is gone,
+# yet `disable` still removes the symlink). Checked without sudo, so a clean
+# machine never prompts for a password.
+unit_present() {
+    local scope="$1" unit="$2" dir state
+    if [[ "${scope}" == user ]]; then
+        dir="${XDG_CONFIG_HOME:-${HOME}/.config}/systemd/user"
+        state="$(systemctl --user is-enabled "${unit}" 2>/dev/null || true)"
+        systemctl --user is-active --quiet "${unit}" && return 0
+    else
+        dir="/etc/systemd/system"
+        state="$(systemctl is-enabled "${unit}" 2>/dev/null || true)"
+        systemctl is-active --quiet "${unit}" && return 0
+    fi
+    [[ "${state}" == enabled* ]] && return 0
+    compgen -G "${dir}/*/${unit}" >/dev/null
+}
+
+for service in "${REMOVED_USER_SERVICES[@]}"; do
+    unit_present user "${service}" || continue
+    if [[ ${DRY_RUN} -eq 1 ]]; then
+        log_info "[Dry-Run] Would disable removed user unit: ${service}"
+    elif systemctl --user disable --now "${service}" >/dev/null 2>&1; then
+        log_success "Disabled removed user unit: ${service}"
+    else
+        log_warn "Failed to disable removed user unit: ${service}"
+    fi
+done
+
+for service in "${REMOVED_SERVICES[@]}"; do
+    unit_present system "${service}" || continue
+    if [[ ${DRY_RUN} -eq 1 ]]; then
+        log_info "[Dry-Run] Would disable removed system unit: ${service}"
+    elif sudo systemctl disable --now "${service}" >/dev/null 2>&1; then
+        log_success "Disabled removed system unit: ${service}"
+    else
+        log_warn "Failed to disable removed system unit: ${service}"
+    fi
+done
+
+# pacman -Qq prints only the names that are installed (exact match, no provides)
+INSTALLED_REMOVED=()
+if [[ ${#REMOVED_PACKAGES[@]} -gt 0 ]]; then
+    mapfile -t INSTALLED_REMOVED < <(pacman -Qq "${REMOVED_PACKAGES[@]}" 2>/dev/null || true)
+fi
+if [[ ${#INSTALLED_REMOVED[@]} -gt 0 ]]; then
+    if [[ ${DRY_RUN} -eq 1 ]]; then
+        log_info "[Dry-Run] Would uninstall ${#INSTALLED_REMOVED[@]} removed packages:"
+        printf "  - %s\n" "${INSTALLED_REMOVED[@]}"
+    else
+        # No --noconfirm: -Rns also drops their now-unneeded dependencies, so show
+        # the full list and ask. Declining or a dependency conflict only warns.
+        log_info "Uninstalling ${#INSTALLED_REMOVED[@]} packages listed in packages-removed.txt..."
+        if sudo pacman -Rns "${INSTALLED_REMOVED[@]}"; then
+            log_success "Removed: ${INSTALLED_REMOVED[*]}"
+        else
+            log_warn "Removal skipped or failed (another package may need one); kept: ${INSTALLED_REMOVED[*]}"
+        fi
+    fi
+fi
 
 # Keep only packages not yet installed. pacman -T prints the names it cannot
 # satisfy locally (provides-aware, covers AUR packages too) and exits 127 when

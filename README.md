@@ -47,6 +47,7 @@ Declarative, templated configuration management and system provisioning architec
 │   └── executable_launch-windows.sh # Boots the Windows VM and attaches FreeRDP
 ├── setup/                     # Bare-metal system provisioning framework
 │   ├── install.sh            # Paru, systemd, and Btrfs provisioning script
+│   ├── *-removed.txt         # Packages / units install.sh removes on every machine
 │   ├── docker-daemon.json    # Docker engine config (data-root, logging)
 │   ├── packages-*.txt        # Common and profile-specific package manifests
 │   ├── services-*.txt        # Common and profile-specific systemd units
@@ -123,10 +124,16 @@ dotfiles-sync
 update-all
 ```
 
-`update-all` installs packages added to `setup/packages-*.txt` (via `setup/install.sh
---packages-only`), so adding a package on one machine and running `update-all` on the other
-installs it there. Service changes still need a full `setup/install.sh` run (idempotent; use
-`--dry-run` first). Removals are never automatic.
+`update-all` syncs packages with `setup/install.sh --packages-only`, so a change made on one
+machine reaches the other on its next `update-all`:
+
+- **Added** to `setup/packages-*.txt`: installed.
+- **Removed**: list it in `setup/packages-removed.txt` (and its units in `services-removed.txt` /
+  `user-services-removed.txt`). Those units are disabled, then the packages are uninstalled with
+  `pacman -Rns`, which asks first. A unit file chezmoi shipped also goes in `.chezmoiremove`.
+
+Enabling newly added services still needs a full `setup/install.sh` run (idempotent; use
+`--dry-run` first).
 
 ### Standard Chezmoi Operations
 

@@ -1,0 +1,31 @@
+# ==============================================================================
+# PACKAGES REMOVED FROM THE MANIFESTS (Desktop & Laptop)
+# ==============================================================================
+# install.sh uninstalls any of these still present (pacman -Rns, asks first), so a
+# removal made on one machine reaches the other on its next update-all / install.sh.
+# When dropping a package from packages-*.txt, add it here. Entries are harmless
+# once gone everywhere (only installed ones are touched); prune them whenever.
+# A name listed here and in packages-*.txt stops install.sh with an error.
+#
+# Not listed: fuse3 (dropped with rclone) is still required by freerdp, gvfs and
+# xdg-desktop-portal, so pacman keeps it as their dependency.
+
+# --- Dropbox (3d25154) ---
+dropbox
+thunar-dropbox
+
+# --- Waydroid & Bottles (b5dc090) ---
+waydroid
+bottles
+
+# --- VirtualBox, replaced by Docker (2f7ad79) ---
+virtualbox
+virtualbox-ext-oracle
+virtualbox-guest-iso
+virtualbox-host-dkms
+
+# --- rclone Google Drive mount (04cdcea) ---
+rclone
+
+# --- Materia GTK theme, replaced by adw-gtk3 (7cd9641) ---
+materia-gtk-theme

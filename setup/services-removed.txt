@@ -1,0 +1,8 @@
+# ==============================================================================
+# SYSTEM SERVICES REMOVED FROM THE MANIFESTS (Desktop & Laptop)
+# ==============================================================================
+# install.sh runs `sudo systemctl disable --now` on any of these still enabled,
+# before uninstalling packages-removed.txt. Prune entries whenever.
+
+# --- Waydroid (b5dc090) ---
+waydroid-container.service
