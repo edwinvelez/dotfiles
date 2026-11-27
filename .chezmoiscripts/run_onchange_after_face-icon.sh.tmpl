@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Generates ~/.face.icon (the hyprlock avatar) as an initials monogram in the theme palette.
+# Generated rather than committed so no photo or name lands in the public repo:
+# initials come from `git config user.name`, falling back to the login name.
+# Re-runs whenever this rendered file changes (i.e. when the palette changes).
+# hyprlock crops it to a circle and draws the accent ring itself.
+set -euo pipefail
+
+command -v magick >/dev/null || { echo "face-icon: imagemagick missing, skipping" >&2; exit 0; }
+
+name=$(git config --global user.name 2>/dev/null || true)
+initials=$(awk '{ for (i = 1; i <= NF && i <= 2; i++) printf toupper(substr($i, 1, 1)) }' <<<"${name:-$USER}")
+
+magick -size 256x256 "xc:#{{ .theme.overlay }}" \
+  -font Inter-Bold -pointsize 104 -fill "#{{ .theme.accent }}" \
+  -gravity center -annotate +0+0 "$initials" \
+  "png:$HOME/.face.icon"   # png: prefix, or .icon makes it a Windows ICO
