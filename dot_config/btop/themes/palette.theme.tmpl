@@ -1,0 +1,59 @@
+{{- $t := .theme -}}
+{{- $a := $t.ansi -}}
+# btop palette generated from .chezmoidata/theme.toml ({{ $t.name }}).
+# Selected by color_theme = "palette" in btop.conf. Gradients run calm -> busy:
+# load meters go accent -> warn -> alert, so red always means "near the limit".
+
+# Chrome: same split as gtk/qt, content on base, selection in accent with dark text
+theme[main_bg]="#{{ $t.base }}"
+theme[main_fg]="#{{ $t.text }}"
+theme[title]="#{{ $t.text }}"
+theme[hi_fg]="#{{ $t.accent }}"
+theme[selected_bg]="#{{ $t.accent }}"
+theme[selected_fg]="#{{ $t.base }}"
+theme[inactive_fg]="#{{ $t.muted }}"
+theme[graph_text]="#{{ $t.muted }}"
+theme[meter_bg]="#{{ $t.overlay }}"
+theme[proc_misc]="#{{ $t.accent }}"
+theme[followed_bg]="#{{ $t.overlay }}"
+theme[followed_fg]="#{{ $t.accent }}"
+
+# Box outlines stay quiet; the data carries the colour
+theme[cpu_box]="#{{ $t.overlay }}"
+theme[mem_box]="#{{ $t.overlay }}"
+theme[net_box]="#{{ $t.overlay }}"
+theme[proc_box]="#{{ $t.overlay }}"
+theme[div_line]="#{{ $t.overlay }}"
+
+# Load: accent -> warn -> alert
+theme[cpu_start]="#{{ $t.accent }}"
+theme[cpu_mid]="#{{ $t.warn }}"
+theme[cpu_end]="#{{ $t.alert }}"
+theme[temp_start]="#{{ $t.ok }}"
+theme[temp_mid]="#{{ $t.warn }}"
+theme[temp_end]="#{{ $t.alert }}"
+theme[used_start]="#{{ $t.accent }}"
+theme[used_mid]="#{{ $t.warn }}"
+theme[used_end]="#{{ $t.alert }}"
+theme[process_start]="#{{ $t.accent }}"
+theme[process_mid]="#{{ $t.warn }}"
+theme[process_end]="#{{ $t.alert }}"
+
+# Capacity: more is good, so these fade from muted up to their own hue
+theme[free_start]="#{{ $t.muted }}"
+theme[free_mid]="#{{ $a.green }}"
+theme[free_end]="#{{ $t.ansi_bright.green }}"
+theme[cached_start]="#{{ $t.muted }}"
+theme[cached_mid]="#{{ $a.blue }}"
+theme[cached_end]="#{{ $t.ansi_bright.blue }}"
+theme[available_start]="#{{ $t.muted }}"
+theme[available_mid]="#{{ $a.cyan }}"
+theme[available_end]="#{{ $t.ansi_bright.cyan }}"
+
+# Network: one hue per direction
+theme[download_start]="#{{ $t.overlay }}"
+theme[download_mid]="#{{ $a.magenta }}"
+theme[download_end]="#{{ $t.ansi_bright.magenta }}"
+theme[upload_start]="#{{ $t.overlay }}"
+theme[upload_mid]="#{{ $a.cyan }}"
+theme[upload_end]="#{{ $t.ansi_bright.cyan }}"
