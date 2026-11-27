@@ -69,6 +69,12 @@ hl.config({
         disable_hyprland_logo   = true,
         -- 0.57 plays a sound for the xdg-system-bell protocol by default (e.g. terminal bells)
         bell_sound              = "none",
+        -- A GUI app started from kitty (mpv, imv, zathura…) takes the terminal's
+        -- place instead of splitting the screen; the terminal returns when it closes.
+        -- Matched against kitty's title: wev must stay visible beside its terminal.
+        enable_swallow          = true,
+        swallow_regex           = "^(kitty)$",
+        swallow_exception_regex = "^(wev).*",
     },
 
     input = {
