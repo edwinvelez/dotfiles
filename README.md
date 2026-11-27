@@ -28,7 +28,7 @@ Declarative, templated configuration management and system provisioning architec
 │   ├── fontconfig/           # Font rendering (antialias, hinting, subpixel)
 │   ├── dockur-windows/       # On-demand Windows 11 VM (Docker Compose)
 │   ├── gtk-3.0/, gtk-4.0/    # GTK styling declarations
-│   ├── hypr/                 # Modular Lua Hyprland suite, hyprlock, hypridle
+│   ├── hypr/                 # Modular Lua Hyprland suite, hyprlock, hypridle, hyprsunset
 │   ├── kitty/                # Terminal emulator styling and keybinds
 │   ├── qt6ct/                # Qt6 configuration and engine styling
 │   ├── rofi/                 # Launcher, clipboard and cheatsheet menus

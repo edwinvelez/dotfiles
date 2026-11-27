@@ -41,6 +41,7 @@ waybar
 swaync
 rofi
 awww
+hyprsunset
 cliphist
 wl-clipboard
 xsettingsd

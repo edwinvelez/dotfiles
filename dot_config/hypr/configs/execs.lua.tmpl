@@ -7,6 +7,7 @@ hl.on("hyprland.start", function ()
     --   polkit      -> hyprpolkitagent.service (setup/user-services-common.txt)
     --   bar, notifs -> waybar.service, swaync.service (same file; restart on crash,
     --                  logs in `journalctl --user -u waybar`)
+    --   night light -> hyprsunset.service (same file; schedule in hypr/hyprsunset.conf)
     --   gsettings   -> .chezmoiscripts/run_onchange_after_gsettings.sh (once per change)
     hl.exec_cmd("xsettingsd")
 
