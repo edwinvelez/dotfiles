@@ -11,12 +11,12 @@
     // Desktop: GPU & Notification enabled, Battery disabled
     "modules-left": ["ext/workspaces", "idle_inhibitor", "custom/recording"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["mpris", "pulseaudio", "cpu", "memory", "network", "custom/gpu", "tray", "custom/notification", "clock"],
+    "modules-right": ["mpris", "pulseaudio", "cpu", "memory", "network", "custom/gpu", "custom/updates", "tray", "custom/notification", "clock"],
 {{- else if .is_laptop -}}
     // Laptop: Battery, Backlight & Notification enabled, GPU disabled (save power)
     "modules-left": ["ext/workspaces", "idle_inhibitor", "custom/recording"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["mpris", "pulseaudio", "backlight", "cpu", "memory", "network", "power-profiles-daemon", "battery", "tray", "custom/notification", "clock"],
+    "modules-right": ["mpris", "pulseaudio", "backlight", "cpu", "memory", "network", "power-profiles-daemon", "battery", "custom/updates", "tray", "custom/notification", "clock"],
 {{- end }}
 
     // --- Module Configurations ---
@@ -171,6 +171,14 @@
         "interval": "once",
         "signal": 8,
         "on-click": "record"
+    },
+    "custom/updates": {
+        // ~/.local/bin/updates: hidden when up to date; signal 9 re-checks after an upgrade
+        "exec": "updates status",
+        "return-type": "json",
+        "interval": 3600,
+        "signal": 9,
+        "on-click": "updates"
     },
 
     "custom/notification": {

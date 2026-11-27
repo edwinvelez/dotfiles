@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Pending package updates for the Waybar custom/updates module.
+#   updates          upgrade with paru in a terminal, then refresh the badge
+#   updates status   JSON for Waybar: count + package list; empty (hidden) when up to date
+# checkupdates syncs a private copy of the package databases, so it never
+# leaves the system in a partial-upgrade state like `pacman -Sy` would.
+# Waybar listens on SIGRTMIN+9 to re-run the check right after an upgrade.
+set -uo pipefail
+
+if [[ "${1:-}" == status ]]; then
+  repo=$(checkupdates 2>/dev/null)   # exit 2 = no updates, 1 = error (e.g. offline)
+  aur=$(paru -Qua 2>/dev/null)
+  list=$(printf '%s\n%s\n' "$repo" "$aur" | sed '/^$/d')
+  count=$(grep -c . <<<"$list")
+  if (( count == 0 )); then
+    printf '{"text":""}\n'
+    exit 0
+  fi
+  # Long lists would make a huge tooltip; show the first 25
+  tooltip=$(head -25 <<<"$list")
+  (( count > 25 )) && tooltip+=$'\n'"… and $((count - 25)) more"
+  tooltip+=$'\n\n'"Click to upgrade"
+  jq -cn --arg text "󰚰 $count" --arg tooltip "$tooltip" \
+    '{text: $text, tooltip: $tooltip, class: "pending"}'
+  exit 0
+fi
+
+kitty --class updates -e sh -c 'paru; printf "\nPress Enter to close"; read -r _'
+pkill -RTMIN+9 waybar || true
