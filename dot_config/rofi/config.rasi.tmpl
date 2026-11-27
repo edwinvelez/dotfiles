@@ -10,6 +10,9 @@ configuration {
     show-icons: true;
     terminal: "kitty";
     drun-display-format: "{name}";
+    /* Wayland has no workspace info, so drop the default {w} column. Title first:
+       Inter is proportional, so padding (rofi pads by default; -1 = unpadded) would not line up. */
+    window-format: "{t:-1}  ·  {c:-1}";
     location: 0;
     disable-history: false;
     hide-scrollbar: true;
