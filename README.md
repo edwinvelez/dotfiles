@@ -141,5 +141,5 @@ chezmoi re-add
 ## Development Conventions
 
 - **Template Naming:** Any file requiring dynamic variable evaluation must use the `.tmpl` suffix.
-- **Lua Environment Scoping:** Hyprland ships Lua stubs at `/usr/share/hypr/stubs/hl.meta.lua`; point your language server's library path at them for `hl.*` completion.
+- **Lua Environment Scoping:** Hyprland ships Lua stubs at `/usr/share/hypr/stubs/hl.meta.lua`; the repo-root `.luarc.json` points LuaLS-compatible editors at them for `hl.*` completion (plain `.lua` files only; `.lua.tmpl` templates are not valid Lua until rendered).
 - **Secret Management:** Secrets must not be committed in plaintext; use `chezmoi age` or external secret managers for sensitive credentials.
