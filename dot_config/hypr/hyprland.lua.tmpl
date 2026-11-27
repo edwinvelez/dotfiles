@@ -83,6 +83,12 @@ hl.config({
             clickfinger_behavior = true,
         },
     },
+
+    -- Get the pointer out of the way: hide it while typing or after 3s idle.
+    cursor = {
+        inactive_timeout  = 3,
+        hide_on_key_press = true,
+    },
 })
 
 --------------------

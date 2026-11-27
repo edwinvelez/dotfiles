@@ -8,6 +8,13 @@ general {
 # Desktop: No battery conservation (dimming) needed.
 # Just lock and turn off screen for privacy/burn-in protection.
 
+# Screen off 30s after a manual lock (SUPER + L); does nothing while unlocked
+listener {
+    timeout = 30
+    on-timeout = pidof hyprlock && hyprctl dispatch 'hl.dsp.dpms({ action = "off" })'
+    on-resume = hyprctl dispatch 'hl.dsp.dpms({ action = "on" })'
+}
+
 # Lock the screen after 10 minutes
 listener {
     timeout = 600
@@ -23,11 +30,19 @@ listener {
 {{- else if .is_laptop -}}
 # Laptop: Power conservation & battery preservation
 
-# 1. Dim the screen after 2.5 minutes preserving user brightness state
+# 1. Dim the screen and turn off the keyboard backlight after 2.5 minutes.
+#    -s/-r save and restore each device's own level.
 listener {
     timeout = 150
-    on-timeout = brightnessctl -s set 10%
-    on-resume = brightnessctl -r
+    on-timeout = brightnessctl -s set 10% && brightnessctl -sd dell::kbd_backlight set 0
+    on-resume = brightnessctl -r && brightnessctl -rd dell::kbd_backlight
+}
+
+# Screen off 30s after a manual lock (SUPER + L); does nothing while unlocked
+listener {
+    timeout = 30
+    on-timeout = pidof hyprlock && hyprctl dispatch 'hl.dsp.dpms({ action = "off" })'
+    on-resume = hyprctl dispatch 'hl.dsp.dpms({ action = "on" })'
 }
 
 # 2. Lock the screen after 5 minutes
