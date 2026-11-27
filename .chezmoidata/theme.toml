@@ -1,0 +1,45 @@
+# Shared desktop palette ("Slate"): calm neutral dark greys, one steel-blue accent.
+# Read by kitty, waybar, rofi, swaync, swappy, hyprland and hyprlock templates as .theme.*
+# UI keys are named by role (accent, alert, ...) so swapping colours never touches templates.
+# Hex without '#' so each template can use whatever syntax its app needs
+# (#rrggbb, rgba(rrggbbaa), alpha(#rrggbb, 0.8), ...).
+# After editing: chezmoi apply && hyprctl reload && pkill -SIGUSR2 waybar && swaync-client -rs
+
+[theme]
+name    = "slate"
+
+# Neutrals
+base    = "1a1b1e" # terminal / window background
+surface = "24262b" # bar islands, panels, cards
+overlay = "2f3238" # hover, selection, inactive borders
+muted   = "6b6f78" # secondary text, hollow workspaces
+text    = "d4d6dc" # primary text
+
+# Roles
+accent  = "7aa2f7" # the one UI colour: focus border, active workspace, selection, progress
+alert   = "e27878" # errors, critical battery, notification badge, wrong password
+warn    = "e5c07b" # caps lock, low battery, idle inhibitor on
+ok      = "98c379" # healthy battery
+
+radius  = 12
+
+# Terminal ANSI colours (kitty): muted so shell output stays readable, not loud
+[theme.ansi]
+black   = "2f3238"
+red     = "e27878"
+green   = "98c379"
+yellow  = "e5c07b"
+blue    = "7aa2f7"
+magenta = "b4a0e5"
+cyan    = "79c0c0"
+white   = "d4d6dc"
+
+[theme.ansi_bright]
+black   = "6b6f78"
+red     = "ec9a9a"
+green   = "b5d69e"
+yellow  = "edd49e"
+blue    = "a3bdfa"
+magenta = "cbbdef"
+cyan    = "9dd4d4"
+white   = "f0f1f4"

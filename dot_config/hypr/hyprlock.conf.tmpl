@@ -7,7 +7,7 @@ general {
 background {
     monitor =
     path = screenshot
-    color = rgba(25, 20, 20, 1.0)
+    color = rgba({{ .theme.base }}ff)
     blur_passes = 2
     blur_size = 7
     noise = 0.0117
@@ -21,13 +21,13 @@ background {
 label {
     monitor =
     text = $TIME
-    color = rgba(220, 220, 220, 1.0)
+    color = rgba({{ .theme.text }}ff)
     font_size = 80
     font_family = Inter ExtraBold
 
     shadow_passes = 2
     shadow_size = 3
-    shadow_color = rgb(0,0,0)
+    shadow_color = rgba(00000099)
 
     position = 0, 100
     halign = center
@@ -38,7 +38,7 @@ label {
 label {
     monitor =
     text = cmd[update:1000] echo "$(date +"%A, %B %d")"
-    color = rgba(200, 200, 200, 1.0)
+    color = rgba({{ .theme.muted }}ff)
     font_size = 22
     font_family = Inter Medium
     position = 0, 30
@@ -55,12 +55,14 @@ input-field {
     dots_spacing = 0.2
     dots_center = true
 
-    outer_color = rgba(5294e2ee)
-    inner_color = rgba(33, 33, 33, 0.9)
-    font_color = rgb(220, 220, 220)
+    rounding = {{ .theme.radius }}
+    outer_color = rgba({{ .theme.overlay }}ff)
+    inner_color = rgba({{ .theme.surface }}e6)
+    font_color = rgba({{ .theme.text }}ff)
+    check_color = rgba({{ .theme.accent }}ff)
 
-    capslock_color = rgba(255, 165, 0, 1.0) # Orange when Caps Lock is on
-    fail_color = rgba(255, 0, 0, 1.0) # Red on failure
+    capslock_color = rgba({{ .theme.warn }}ff) # Caps Lock on
+    fail_color = rgba({{ .theme.alert }}ff) # Wrong password
     fail_text = <i>$FAIL <b>($ATTEMPTS)</b></i>
 
     fade_on_empty = true
@@ -78,7 +80,7 @@ image {
     size = 120
     rounding = -1
     border_size = 3
-    border_color = rgba(5294e2ee)
+    border_color = rgba({{ .theme.accent }}ff)
     position = 0, 180
     halign = center
     valign = center

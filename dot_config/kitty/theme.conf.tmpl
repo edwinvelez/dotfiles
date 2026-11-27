@@ -1,0 +1,42 @@
+{{- $t := .theme -}}
+{{- $n := .theme.ansi -}}
+{{- $b := .theme.ansi_bright -}}
+# Generated from .chezmoidata/theme.toml ({{ $t.name }})
+
+foreground              #{{ $t.text }}
+background              #{{ $t.base }}
+selection_foreground    none
+selection_background    #{{ $t.overlay }}
+url_color               #{{ $t.accent }}
+
+cursor                  #{{ $t.accent }}
+cursor_text_color       background
+
+# Window borders (only visible with kitty splits)
+active_border_color     #{{ $t.accent }}
+inactive_border_color   #{{ $t.overlay }}
+bell_border_color       #{{ $t.warn }}
+
+# Tab bar
+active_tab_foreground   #{{ $t.base }}
+active_tab_background   #{{ $t.accent }}
+inactive_tab_foreground #{{ $t.muted }}
+inactive_tab_background #{{ $t.surface }}
+tab_bar_background      #{{ $t.base }}
+
+color0  #{{ $n.black }}
+color8  #{{ $b.black }}
+color1  #{{ $n.red }}
+color9  #{{ $b.red }}
+color2  #{{ $n.green }}
+color10 #{{ $b.green }}
+color3  #{{ $n.yellow }}
+color11 #{{ $b.yellow }}
+color4  #{{ $n.blue }}
+color12 #{{ $b.blue }}
+color5  #{{ $n.magenta }}
+color13 #{{ $b.magenta }}
+color6  #{{ $n.cyan }}
+color14 #{{ $b.cyan }}
+color7  #{{ $n.white }}
+color15 #{{ $b.white }}

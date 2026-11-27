@@ -1,84 +1,97 @@
 @import "colors.css";
 
-/* Reset global bar background to transparent to keep the "Island" look */
+/* Transparent bar; each module group is a floating "island".
+   Calm palette: modules use the text colour, the accent marks what's active,
+   and warn/alert colours appear only when a state needs attention. */
 window#waybar {
     background-color: transparent;
-    color: @text-main;
+    color: @text;
     font-family: "JetBrainsMono Nerd Font", "JetBrainsMono NFM", "Inter", sans-serif;
     font-size: 13px;
 }
 
-/* Base style for Islands using Materia Colors */
-.modules-left, .modules-center, .modules-right {
-    background: @bg-island;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 2px 10px;
-    margin-top: 5px;
+tooltip {
+    background: alpha(@base, 0.97);
+    border: 1px solid @overlay;
+    border-radius: 10px;
 }
 
-/* Individual Module Spacing */
+tooltip label {
+    color: @text;
+}
+
+.modules-left, .modules-center, .modules-right {
+    background: alpha(@surface, 0.92);
+    border: 1px solid alpha(@text, 0.06);
+    border-radius: 12px;
+    padding: 2px 8px;
+}
+
+/* --- Workspaces: hollow dots, active one widens into an accent pill --- */
 #workspaces button {
     padding: 0 6px;
-    color: @text-dim;
-    border-radius: 6px;
-    transition: all 0.2s ease-in-out;
+    margin: 6px 2px;
+    min-width: 14px;
+    color: @muted;
+    border-radius: 999px;
+    transition: all 0.25s cubic-bezier(0.05, 0.9, 0.1, 1.05);
 }
 
 #workspaces button:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: @text-main;
+    background: @overlay;
+    color: @text;
 }
 
-#workspaces button.active,
-#workspaces button.focused {
+#workspaces button.active {
+    min-width: 28px;
     color: @accent;
-    border-bottom: 2px solid @accent;
+    background: alpha(@accent, 0.16);
 }
 
 #workspaces button.urgent {
-    color: @red;
+    color: @alert;
+    background: alpha(@alert, 0.16);
 }
 
 #idle_inhibitor {
     padding: 0 10px;
-    color: @text-dim;
+    color: @muted;
     transition: color 0.2s ease-in-out;
 }
 
 #idle_inhibitor.activated {
-    color: @amber;
+    color: @warn;
+}
+
+#window {
+    color: @muted;
 }
 
 #pulseaudio, #network, #cpu, #memory, #battery, #backlight, #custom-gpu, #custom-notification, #tray, #clock {
-    padding: 0 12px;
-    margin: 0 4px;
-    border-radius: 6px;
+    padding: 0 10px;
+    margin: 4px 2px;
+    border-radius: 8px;
+    color: @text;
     transition: background 0.2s ease-in-out;
 }
 
 #pulseaudio:hover, #network:hover, #cpu:hover, #memory:hover, #battery:hover, #backlight:hover, #custom-gpu:hover, #custom-notification:hover, #clock:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: @overlay;
 }
 
 #tray {
-    margin-right: 8px;
+    margin-right: 4px;
 }
 
-/* System Stat Colors */
-#cpu { color: @red; }
-#memory { color: @green; }
-#clock { color: @accent; font-weight: bold; }
-#pulseaudio { color: @amber; }
-#network { color: @accent; }
-#custom-gpu { color: @accent; }
-#custom-notification { color: @accent; }
-#backlight { color: @amber; }
+/* --- States: colour only when something needs attention --- */
+#clock                { color: @accent; font-weight: bold; }
+#pulseaudio.muted     { color: @muted; }
+#network.disconnected { color: @alert; }
 
-#battery { color: @green; }
-#battery.warning { color: @amber; }
-#battery.critical {
-    color: @red;
+#battery.charging { color: @ok; }
+#battery.warning:not(.charging) { color: @warn; }
+#battery.critical:not(.charging) {
+    color: @alert;
     animation-name: blink;
     animation-duration: 1s;
     animation-timing-function: linear;
@@ -88,14 +101,18 @@ window#waybar {
 
 @keyframes blink {
     to {
-        color: #ffffff;
-        background-color: @red;
+        color: @base;
+        background-color: @alert;
     }
 }
 
-/* Specific fix for the Tray icons */
 #tray > .passive,
 #tray > .active,
 #tray > .needs-attention {
     margin: 0 4px;
+}
+
+#tray > .needs-attention {
+    background: alpha(@alert, 0.2);
+    border-radius: 6px;
 }

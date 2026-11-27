@@ -1,0 +1,127 @@
+{{- $t := .theme -}}
+/**
+ * Rofi Wayland Configuration
+ * Theme: generated from .chezmoidata/theme.toml ({{ $t.name }})
+ */
+
+configuration {
+    modi: "drun,run,window";
+    icon-theme: "Papirus-Dark";
+    show-icons: true;
+    terminal: "kitty";
+    drun-display-format: "{name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "  Apps";
+    display-run: "  Run";
+    display-window: "  Window";
+}
+
+@theme "/dev/null"
+
+* {
+    base:      #{{ $t.base }}b3;   /* translucent so Hyprland's blur shows through */
+    surface:   #{{ $t.surface }}e6;
+    overlay:   #{{ $t.overlay }};
+    text:      #{{ $t.text }};
+    muted:     #{{ $t.muted }};
+    accent:    #{{ $t.accent }};
+    solid:     #{{ $t.base }};
+
+    font: "Inter 12";
+    background-color: transparent;
+    text-color: @text;
+}
+
+window {
+    width: 640px;
+    border: 2px;
+    border-color: @overlay;
+    border-radius: {{ $t.radius }}px;
+    background-color: @base;
+    padding: 20px;
+}
+
+mainbox {
+    spacing: 14px;
+    children: [inputbar, listview, mode-switcher];
+}
+
+inputbar {
+    spacing: 10px;
+    children: [prompt, entry];
+}
+
+prompt {
+    padding: 8px 14px;
+    border-radius: 8px;
+    background-color: @accent;
+    text-color: @solid;
+    font: "Inter Bold 12";
+}
+
+entry {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: @surface;
+    placeholder: "Search…";
+    placeholder-color: @muted;
+    cursor: text;
+}
+
+listview {
+    columns: 2;
+    lines: 7;
+    spacing: 6px;
+    fixed-height: true;
+}
+
+element {
+    padding: 8px 10px;
+    spacing: 12px;
+    border-radius: 8px;
+}
+
+element-icon {
+    size: 26px;
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color: inherit;
+}
+
+element selected {
+    background-color: #{{ $t.accent }}26;
+    border: 0px 0px 0px 3px;
+    border-color: @accent;
+    text-color: @text;
+}
+
+mode-switcher {
+    spacing: 8px;
+}
+
+button {
+    padding: 8px;
+    border-radius: 8px;
+    background-color: @surface;
+    text-color: @muted;
+    horizontal-align: 0.5;
+}
+
+button selected {
+    background-color: @overlay;
+    text-color: @accent;
+}
+
+message {
+    padding: 8px;
+    border-radius: 8px;
+    background-color: @surface;
+}
+
+textbox {
+    text-color: @accent;
+}
