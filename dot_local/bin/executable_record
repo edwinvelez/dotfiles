@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Screen recording toggle (wf-recorder).
+#   record          pick an area with slurp, or stop the running recording
+#   record screen   record the focused monitor, or stop the running recording
+#   record status   JSON for the Waybar custom/recording module
+# Waybar listens on SIGRTMIN+8, so the indicator appears and disappears instantly.
+set -euo pipefail
+
+dir="$HOME/Videos/Recordings"
+signal_bar() { pkill -RTMIN+8 waybar || true; }
+
+if [[ "${1:-}" == status ]]; then
+  if pgrep -x wf-recorder >/dev/null; then
+    printf '{"text":"󰑊 REC","tooltip":"Recording — click to stop","class":"recording"}\n'
+  else
+    printf '{"text":""}\n'
+  fi
+  exit 0
+fi
+
+# Second press stops. SIGINT lets wf-recorder finalize the file properly.
+if pkill -INT -x wf-recorder; then
+  while pgrep -x wf-recorder >/dev/null; do sleep 0.1; done
+  signal_bar
+  file=$(find "$dir" -name "*.mp4" -printf "%T@ %p\n" | sort -n | tail -1 | cut -d" " -f2-)
+  notify-send --app-name=record "Recording saved" "${file/#$HOME/\~}"
+  exit 0
+fi
+
+mkdir -p "$dir"
+file="$dir/Rec_$(date +%Y-%m-%d_%H%M%S).mp4"
+
+if [[ "${1:-}" == screen ]]; then
+  output=$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')
+  args=(-o "$output")
+else
+  geometry=$(slurp) || exit 0   # Esc in slurp cancels
+  args=(-g "$geometry")
+fi
+
+# No "started" popup: it would end up in the recording. The Waybar REC badge is the cue.
+wf-recorder "${args[@]}" -f "$file" >/dev/null 2>&1 &
+sleep 0.3
+signal_bar

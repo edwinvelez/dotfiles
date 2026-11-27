@@ -15,7 +15,7 @@ binds=$(hyprctl binds -j | jq -r '
               (if has(1)  then "SHIFT" else empty end) ];
   def pretty: {
       "RETURN": "Enter", "SPACE": "Space", "TAB": "Tab", "Escape": "Esc",
-      "Grave": "`", "slash": "/", "PRINT": "Print",
+      "Grave": "`", "slash": "/", "period": ".", "PRINT": "Print",
       "left": "←", "right": "→", "up": "↑", "down": "↓",
       "mouse:272": "Left drag", "mouse:273": "Right drag",
       "mouse_down": "Scroll ↓", "mouse_up": "Scroll ↑",

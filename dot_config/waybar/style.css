@@ -63,6 +63,18 @@ tooltip label {
     color: @warn;
 }
 
+#custom-recording {
+    padding: 0 10px;
+    margin: 4px 2px;
+    border-radius: 8px;
+    color: @alert;
+    font-weight: bold;
+}
+
+#custom-recording.recording {
+    background: alpha(@alert, 0.16);
+}
+
 #window {
     color: @muted;
 }

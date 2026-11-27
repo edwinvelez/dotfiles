@@ -18,6 +18,9 @@ hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("google-chrome-stable"), opts("Browse
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("thunar"), opts("File manager (Thunar)"))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("rofi -show drun"), opts("App launcher"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -display-columns 2 | cliphist decode | wl-copy"), opts("Clipboard history"))
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -display-columns 2 -p '󰆴  Delete' | cliphist delete"), opts("Delete clipboard entry"))
+hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("rofimoji --action type --skin-tone neutral"), opts("Emoji picker (types it)"))
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("c=$(hyprpicker -a -f hex) && notify-send --app-name=hyprpicker 'Color copied' \"$c\""), opts("Color picker → clipboard"))
 
 -- --- Window & Session State Management ---
 hl.bind(mainMod .. " + W", hl.dsp.window.close(), opts("Close window"))
@@ -53,6 +56,11 @@ hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grim - | swappy -f -"), opts("Screensh
 hl.bind("ALT + PRINT", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim ~/Pictures/Screenshots/Shot_$(date +%Y-%m-%d_%H%M%S).png && notify-send \"Screenshot\" \"Full display saved to ~/Pictures/Screenshots\""), opts("Screenshot screen → file"))
 hl.bind("CONTROL + PRINT", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy && notify-send \"Screenshot\" \"Area copied to clipboard\""), opts("Screenshot area → clipboard"))
 hl.bind("CONTROL + SHIFT + PRINT", hl.dsp.exec_cmd("grim - | wl-copy && notify-send \"Screenshot\" \"Screen copied to clipboard\""), opts("Screenshot screen → clipboard"))
+
+-- --- Screen Recording (~/.local/bin/record, wf-recorder) ---
+-- Same keys start and stop; a red REC badge shows in Waybar while recording.
+hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("record"), opts("Record area (again to stop)"))
+hl.bind(mainMod .. " + CTRL + R", hl.dsp.exec_cmd("record screen"), opts("Record screen (again to stop)"))
 
 -- --- Focus and Navigation ---
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }), opts("Focus left"))

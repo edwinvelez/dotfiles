@@ -9,12 +9,12 @@
 
 {{ if .is_desktop -}}
     // Desktop: GPU & Notification enabled, Battery disabled
-    "modules-left": ["ext/workspaces", "idle_inhibitor"],
+    "modules-left": ["ext/workspaces", "idle_inhibitor", "custom/recording"],
     "modules-center": ["hyprland/window"],
     "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "tray", "custom/notification", "clock"],
 {{- else if .is_laptop -}}
     // Laptop: Battery, Backlight & Notification enabled, GPU disabled (save power)
-    "modules-left": ["ext/workspaces", "idle_inhibitor"],
+    "modules-left": ["ext/workspaces", "idle_inhibitor", "custom/recording"],
     "modules-center": ["hyprland/window"],
     "modules-right": ["pulseaudio", "backlight", "cpu", "memory", "network", "battery", "tray", "custom/notification", "clock"],
 {{- end }}
@@ -139,6 +139,15 @@
         "tooltip-format": "{timeTo}, {power}W"
     },
 {{- end }}
+
+    // Shown only while ~/.local/bin/record is running; the script sends SIGRTMIN+8 on start/stop.
+    "custom/recording": {
+        "exec": "record status",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "on-click": "record"
+    },
 
     "custom/notification": {
         "tooltip": false,

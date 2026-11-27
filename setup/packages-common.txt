@@ -49,6 +49,11 @@ slurp
 swappy
 # libnotify (notify-send): ~/.local/bin/osd and screenshot notifications
 libnotify
+# Desktop utilities bound in hypr/configs/keybinds.lua
+hyprpicker
+rofimoji
+wtype
+wf-recorder
 
 # --- Theming, Typography & Styling ---
 materia-gtk-theme
