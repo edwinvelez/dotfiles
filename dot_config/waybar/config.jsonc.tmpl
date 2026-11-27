@@ -16,7 +16,7 @@
     // Laptop: Battery, Backlight & Notification enabled, GPU disabled (save power)
     "modules-left": ["ext/workspaces", "idle_inhibitor", "custom/recording"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["pulseaudio", "backlight", "cpu", "memory", "network", "battery", "tray", "custom/notification", "clock"],
+    "modules-right": ["pulseaudio", "backlight", "cpu", "memory", "network", "power-profiles-daemon", "battery", "tray", "custom/notification", "clock"],
 {{- end }}
 
     // --- Module Configurations ---
@@ -125,6 +125,17 @@
         "format-icons": ["󰃞", "󰃟", "󰃠"],
         "on-scroll-up": "brightnessctl set +1%",
         "on-scroll-down": "brightnessctl set 1%-"
+    },
+    // Click cycles profiles, right-click goes back. Colour only when not on balanced.
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nClick to cycle",
+        "format-icons": {
+            "default": "󰾅",
+            "performance": "󰓅",
+            "balanced": "󰾅",
+            "power-saver": "󰾆"
+        }
     },
     "battery": {
         "states": {

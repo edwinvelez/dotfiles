@@ -79,7 +79,7 @@ tooltip label {
     color: @muted;
 }
 
-#pulseaudio, #network, #cpu, #memory, #battery, #backlight, #custom-gpu, #custom-notification, #tray, #clock {
+#pulseaudio, #network, #cpu, #memory, #battery, #backlight, #power-profiles-daemon, #custom-gpu, #custom-notification, #tray, #clock {
     padding: 0 10px;
     margin: 4px 2px;
     border-radius: 8px;
@@ -87,7 +87,7 @@ tooltip label {
     transition: background 0.2s ease-in-out;
 }
 
-#pulseaudio:hover, #network:hover, #cpu:hover, #memory:hover, #battery:hover, #backlight:hover, #custom-gpu:hover, #custom-notification:hover, #clock:hover {
+#pulseaudio:hover, #network:hover, #cpu:hover, #memory:hover, #battery:hover, #backlight:hover, #power-profiles-daemon:hover, #custom-gpu:hover, #custom-notification:hover, #clock:hover {
     background: @overlay;
 }
 
@@ -99,6 +99,9 @@ tooltip label {
 #clock                { color: @accent; font-weight: bold; }
 #pulseaudio.muted     { color: @muted; }
 #network.disconnected { color: @alert; }
+
+#power-profiles-daemon.performance { color: @warn; }
+#power-profiles-daemon.power-saver { color: @ok; }
 
 #battery.charging { color: @ok; }
 #battery.warning:not(.charging) { color: @warn; }
