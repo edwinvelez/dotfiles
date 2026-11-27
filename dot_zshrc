@@ -169,6 +169,18 @@ update-all() {
         rustup update
     fi
 
+    # Both AI CLIs are self-installed into ~/.local/bin (not pacman/AUR), so
+    # paru never sees them; each ships its own updater.
+    if command -v claude &> /dev/null; then
+        echo "[INFO] Updating Claude Code CLI..."
+        claude update
+    fi
+
+    if command -v agy &> /dev/null; then
+        echo "[INFO] Updating Antigravity CLI..."
+        agy update
+    fi
+
     if command -v flatpak &> /dev/null; then
         echo "[INFO] Updating Flatpaks..."
         flatpak update -y
