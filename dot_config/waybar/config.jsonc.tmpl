@@ -10,13 +10,13 @@
 {{ if .is_desktop -}}
     // Desktop: GPU & Notification enabled, Battery disabled
     "modules-left": ["ext/workspaces", "idle_inhibitor"],
-    "modules-center": ["clock", "hyprland/window"],
-    "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "custom/notification", "tray"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "tray", "custom/notification", "clock"],
 {{- else if .is_laptop -}}
     // Laptop: Battery, Backlight & Notification enabled, GPU disabled (save power)
     "modules-left": ["ext/workspaces", "idle_inhibitor"],
-    "modules-center": ["clock", "hyprland/window"],
-    "modules-right": ["pulseaudio", "backlight", "cpu", "memory", "network", "battery", "custom/notification", "tray"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["pulseaudio", "backlight", "cpu", "memory", "network", "battery", "tray", "custom/notification", "clock"],
 {{- end }}
 
     // --- Module Configurations ---
@@ -61,12 +61,32 @@
         "on-click": "kitty -e btop"
     },
 
+    // Far right: date + time. Hover for a calendar; scroll to change month,
+    // middle-click to return to today, right-click for the year view.
     "clock": {
         "interval": 60,
-        "format": "󰥔 {:%H:%M}",
+        "format": "{:%a %b %d  %H:%M}",
         "tooltip-format": "<tt><small>{calendar}</small></tt>",
-        "on-click": "swaync-client -t -sw",
-        "max-length": 25
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "left",
+            "on-scroll": 1,
+            "format": {
+                "months":   "<span color='#{{ .theme.text }}'><b>{}</b></span>",
+                "weekdays": "<span color='#{{ .theme.accent }}'><b>{}</b></span>",
+                "days":     "<span color='#{{ .theme.text }}'>{}</span>",
+                "weeks":    "<span color='#{{ .theme.muted }}'>W{}</span>",
+                "today":    "<span color='#{{ .theme.accent }}'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-middle": "shift_reset",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        },
+        "on-click": "swaync-client -t -sw"
     },
 
     "pulseaudio": {
