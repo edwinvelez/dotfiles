@@ -3,3 +3,24 @@
 .local/bin/dotfiles-sync
 .gtkrc-2.0
 .config/systemd/user/rclone-drive.service
+
+# Pre-Lua Hyprland config; hyprland.lua + configs/*.lua replaced it (hyprqt6engine not installed).
+.config/hypr/hyprland.conf
+.config/hypr/hyprqt6engine.conf
+.config/hypr/configs/*.conf
+.config/hypr/configs/env_common.lua
+
+# Configs for apps no longer installed: dunst (-> swaync), wofi (-> rofi), hyprshot, VirtualBox.
+.config/dunst
+.config/wofi
+.local/bin/screenshot.sh
+.config/VirtualBox
+
+# Untracked health scripts made obsolete: check-nocow audited Dropbox, VirtualBox VMs and
+# /var/lib/docker (all gone; install.sh now sets NOCOW itself). check-health.py duplicated
+# smartd.service, sys-failed / sys-errors and update-all, plus a dead Dropbox check.
+.local/bin/check-nocow
+.local/bin/check-health.py
+
+# Old flags file name; the antigravity-ide launcher reads antigravity-ide-flags.conf.
+.config/antigravity-flags.conf
