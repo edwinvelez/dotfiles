@@ -26,5 +26,14 @@ btrfs-balance.timer
 snapper-timeline.timer
 snapper-cleanup.timer
 
+# --- Printing (CUPS, on demand) ---
+# Socket-activated: cupsd starts on the first print or dialog request and, run as
+# `cupsd -l`, exits again when idle. cups.path starts it at boot only if jobs are queued.
+# Don't enable cups.service: its Install section starts cupsd at every boot. Don't list
+# it in services-removed.txt either: disabling it also disables cups.socket and cups.path
+# (Also=), and it shows as active whenever the socket starts it.
+cups.socket
+cups.path
+
 # --- Container & Virtualization Subsystems ---
 docker.socket
