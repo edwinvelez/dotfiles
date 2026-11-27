@@ -39,6 +39,7 @@ Declarative, templated configuration management and system provisioning architec
 │   ├── executable_keybinds   # SUPER + / cheatsheet, read live from Hyprland
 │   ├── executable_osd        # Volume / mic / brightness popups via SwayNC
 │   ├── executable_record     # Screen recording toggle (wf-recorder)
+│   ├── executable_nightlight # SUPER + N night light override (hyprsunset)
 │   └── executable_launch-windows.sh # Boots the Windows VM and attaches FreeRDP
 ├── setup/                     # Bare-metal system provisioning framework
 │   ├── install.sh            # Paru, systemd, and Btrfs provisioning script

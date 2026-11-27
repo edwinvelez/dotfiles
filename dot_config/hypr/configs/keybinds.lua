@@ -20,7 +20,8 @@ hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("rofi -show drun"), opts("App launche
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -display-columns 2 | cliphist decode | wl-copy"), opts("Clipboard history"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -display-columns 2 -p '󰆴  Delete' | cliphist delete"), opts("Delete clipboard entry"))
 hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("rofimoji --action type --skin-tone neutral"), opts("Emoji picker (types it)"))
-hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("c=$(hyprpicker -a -f hex) && notify-send --app-name=hyprpicker 'Color copied' \"$c\""), opts("Color picker → clipboard"))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("nightlight"), opts("Toggle night light"))
+hl.bind(mainMod .. " + SHIFT + C",hl.dsp.exec_cmd("c=$(hyprpicker -a -f hex) && notify-send --app-name=hyprpicker 'Color copied' \"$c\""), opts("Color picker → clipboard"))
 
 -- --- Window & Session State Management ---
 hl.bind(mainMod .. " + W", hl.dsp.window.close(), opts("Close window"))

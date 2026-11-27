@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Night light toggle (SUPER + N): a manual override of the hyprsunset schedule.
+# The next profile in hypr/hyprsunset.conf takes over again at its boundary.
+# hyprsunset reports its last temperature even in identity mode, so the
+# current state is derived from the schedule plus a runtime override file.
+set -euo pipefail
+
+# Keep in sync with hypr/hyprsunset.conf
+warm=4500 on_at=20 off_at=7
+
+override="${XDG_RUNTIME_DIR:-/tmp}/nightlight-override"
+h=$((10#$(date +%H)))
+
+# What the schedule says right now, and when it last switched
+if (( h >= on_at || h < off_at )); then
+  state=on
+  (( h >= on_at )) && since=$(date -d "today $on_at:00" +%s) || since=$(date -d "yesterday $on_at:00" +%s)
+else
+  state=off
+  since=$(date -d "today $off_at:00" +%s)
+fi
+
+# A manual override only counts until the next schedule change
+if [[ -f "$override" ]] && (( $(stat -c %Y "$override") >= since )); then
+  state=$(<"$override")
+fi
+
+if [[ "$state" == on ]]; then
+  hyprctl -q hyprsunset identity
+  echo off >"$override"
+  notify-send --app-name=nightlight -i weather-clear "Night light off" "Until the next schedule change"
+else
+  hyprctl -q hyprsunset temperature "$warm"
+  echo on >"$override"
+  notify-send --app-name=nightlight -i weather-clear-night "Night light on" "${warm}K until the next schedule change"
+fi
