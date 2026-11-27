@@ -9,18 +9,43 @@ hl.monitor({
     position = "0x0",
     scale    = 1.5,
 })
-{{- else if .is_my_laptop }}
-hl.monitor({
+{{- else if .is_laptop }}
+-- Laptop screen settings, reused when the lid opens again
+local internal = {
     output   = "eDP-1",
+    disabled = false,   -- explicit, or re-applying this after a disable keeps it off
+{{- if .is_my_laptop }}
     mode     = "3840x2400@60.00Hz",
     position = "0x0",
     scale    = 1.67,
-})
-{{- else if .is_laptop }}
-hl.monitor({
-    output   = "eDP-1",
+{{- else }}
     mode     = "preferred",
     position = "auto",
     scale    = 1.5,
-})
+{{- end }}
+}
+hl.monitor(internal)
+
+-- Clamshell: closing the lid with an external monitor plugged in turns the laptop
+-- screen off and moves its workspaces over. logind ignores the lid while an external
+-- display is connected (HandleLidSwitchDocked=ignore), so it doesn't suspend.
+-- Without an external monitor, logind suspends as usual and this does nothing.
+local function has_external()
+    for _, m in ipairs(hl.get_monitors()) do
+        if m.name ~= internal.output then return true end
+    end
+    return false
+end
+
+hl.bind("switch:on:Lid Switch", function()
+    if has_external() then
+        hl.monitor({ output = internal.output, disabled = true })
+    end
+end, { locked = true })
+hl.bind("switch:off:Lid Switch", function() hl.monitor(internal) end, { locked = true })
+
+-- Unplugging the external monitor while the lid is closed would leave no screen on
+hl.on("monitor.removed", function()
+    if #hl.get_monitors() == 0 then hl.monitor(internal) end
+end)
 {{- end }}
