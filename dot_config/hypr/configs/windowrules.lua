@@ -187,6 +187,45 @@ hl.window_rule({
     idle_inhibit = "focus",
 })
 
+-- --- Picture-in-Picture (Chrome / Firefox video pop-out) ---
+-- Floats in the bottom-right corner on every workspace, keeps the video's shape,
+-- and never steals focus from what you were doing.
+hl.window_rule({
+    name = "pip",
+    match = { title = "^(Picture[- ]in[- ][Pp]icture)$" },
+    float = true,
+    pin = true,
+    keep_aspect_ratio = true,
+    no_initial_focus = true,
+    size = "(monitor_w*0.25) (monitor_h*0.25)",
+    move = "(monitor_w-window_w-24) (monitor_h-window_h-24)",
+})
+
+-- --- File Pickers and Modal Dialogs ---
+-- GTK portal (Chrome, Electron, Flatpak) and app-native Open/Save dialogs
+-- float centered at a comfortable size instead of tiling half the screen.
+hl.window_rule({
+    name = "file-dialogs",
+    match = { title = "^(Open File.*|Open Folder.*|Save File.*|Save As.*|Select.*|Choose.*|Upload.*|All Files.*)$" },
+    float = true,
+    center = true,
+    size = "(monitor_w*0.5) (monitor_h*0.6)",
+})
+
+hl.window_rule({
+    name = "portal-dialogs",
+    match = { class = "^(xdg-desktop-portal-gtk|org.freedesktop.impl.portal.desktop.gtk|zenity)$" },
+    float = true,
+    center = true,
+})
+
+hl.window_rule({
+    name = "modal-dialogs",
+    match = { modal = true },
+    float = true,
+    center = true,
+})
+
 -- --- Scratchpad Styling ---
 hl.window_rule({
     name = "scratchpad-terminal",
