@@ -23,7 +23,11 @@ if pkill -INT -x wf-recorder; then
   while pgrep -x wf-recorder >/dev/null; do sleep 0.1; done
   signal_bar
   file=$(find "$dir" -name "*.mp4" -printf "%T@ %p\n" | sort -n | tail -1 | cut -d" " -f2-)
-  notify-send --app-name=record "Recording saved" "${file/#$HOME/\~}"
+  # -A waits for a click, so run the popup in the background and let the bind return
+  {
+    [[ $(notify-send --app-name=record -i video-x-generic -A open=Open \
+          "Recording saved" "${file/#$HOME/\~}") == open ]] && xdg-open "$file"
+  } >/dev/null 2>&1 &
   exit 0
 fi
 

@@ -55,6 +55,7 @@ hyprpicker
 rofimoji
 wtype
 wf-recorder
+mpv
 
 # --- Theming, Typography & Styling ---
 # adw-gtk3: libadwaita look for GTK3; colours from gtk-{3,4}.0/gtk.css
