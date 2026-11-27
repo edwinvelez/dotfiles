@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Keybind cheatsheet: lists every Hyprland bind that has a description
+# (set via `description` in hypr/configs/keybinds.lua) in a searchable rofi menu.
+# Reads the live compositor state, so it can never drift from the config.
+set -euo pipefail
+
+# Toggle: a second SUPER + / closes the menu
+if pkill -x rofi; then exit 0; fi
+
+binds=$(hyprctl binds -j | jq -r '
+  def has($bit): ((.modmask / $bit | floor) % 2) == 1;
+  def mods: [ (if has(64) then "SUPER" else empty end),
+              (if has(4)  then "CTRL"  else empty end),
+              (if has(8)  then "ALT"   else empty end),
+              (if has(1)  then "SHIFT" else empty end) ];
+  def pretty: {
+      "RETURN": "Enter", "SPACE": "Space", "TAB": "Tab", "Escape": "Esc",
+      "Grave": "`", "slash": "/", "PRINT": "Print",
+      "left": "←", "right": "→", "up": "↑", "down": "↓",
+      "mouse:272": "Left drag", "mouse:273": "Right drag",
+      "XF86AudioRaiseVolume": "Volume +", "XF86AudioLowerVolume": "Volume −",
+      "XF86AudioMute": "Mute", "XF86AudioMicMute": "Mic mute",
+      "XF86MonBrightnessUp": "Brightness +", "XF86MonBrightnessDown": "Brightness −",
+      "XF86AudioPlay": "Play", "XF86AudioNext": "Next", "XF86AudioPrev": "Prev"
+    }[.] // .;
+  .[]
+  | select(.has_description and .description != "")
+  | (if (.description | test("1…5")) then "1…5" else (.key | pretty) end) as $key
+  | ((mods + [$key]) | join(" + ")) + "\t" + .description
+')
+
+# Touchpad gestures are not binds; keep in sync with hl.gesture() in hyprland.lua.tmpl
+gestures=$'3-finger swipe ← →\tSwitch workspace
+ALT + 3-finger swipe ↓\tClose window
+SUPER + 3-finger swipe ↑\tToggle fullscreen'
+
+printf '%s\n%s\n' "$binds" "$gestures" \
+  | column -t -s $'\t' \
+  | rofi -dmenu -i -no-custom -p "  Keys" \
+      -mesg "Type to filter  ·  Esc to close" \
+      -theme-str 'window { width: 760px; } listview { columns: 1; lines: 14; } element-text { font: "JetBrainsMono Nerd Font 11"; }' \
+      >/dev/null || true
