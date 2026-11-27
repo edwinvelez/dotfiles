@@ -11,3 +11,7 @@ hyprpolkitagent.service
 waybar.service
 swaync.service
 hyprsunset.service
+hypridle.service
+# cliphist: one wl-paste watcher stores both text and images
+cliphist.service
+# xsettingsd: static unit, started by a chezmoi-managed .wants symlink (dot_config/systemd/user)
