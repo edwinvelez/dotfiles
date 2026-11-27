@@ -1,0 +1,9 @@
+{{- $t := .theme -}}
+# fzf defaults generated from .chezmoidata/theme.toml ({{ $t.name }}).
+# Loaded through FZF_DEFAULT_OPTS_FILE (set in .zshrc); covers Ctrl-T, Ctrl-R and Alt-C.
+# bg:-1 keeps the terminal's own background (kitty already paints base).
+--color=fg:#{{ $t.text }},bg:-1,hl:#{{ $t.accent }}
+--color=fg+:#{{ $t.ansi_bright.white }},bg+:#{{ $t.overlay }},hl+:#{{ $t.ansi_bright.blue }},gutter:-1
+--color=query:#{{ $t.text }},prompt:#{{ $t.accent }},pointer:#{{ $t.accent }},marker:#{{ $t.ok }}
+--color=info:#{{ $t.muted }},spinner:#{{ $t.accent }},header:#{{ $t.muted }}
+--color=border:#{{ $t.overlay }},label:#{{ $t.muted }}

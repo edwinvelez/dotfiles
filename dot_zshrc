@@ -51,6 +51,7 @@ zle -N zle-keymap-select
 
 # --- Fuzzy Finder (FZF) ---
 if command -v fzf &> /dev/null; then
+    export FZF_DEFAULT_OPTS_FILE="$HOME/.config/fzf/fzfrc"  # palette from theme.toml
     source <(fzf --zsh)
 fi
 
