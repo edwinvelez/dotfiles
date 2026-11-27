@@ -118,9 +118,6 @@ atool
 zip
 unzip
 rsync
-rclone
-# fuse3: required by rclone mount (rclone-drive.service); only an optional dep of rclone
-fuse3
 chezmoi
 paru
 expac
