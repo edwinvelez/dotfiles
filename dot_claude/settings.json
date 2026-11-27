@@ -59,5 +59,8 @@
       }
     ]
   },
-  "showClearContextOnPlanAccept": true
+  "showClearContextOnPlanAccept": true,
+  "enabledPlugins": {
+    "vercel@claude-plugins-official": true
+  }
 }
