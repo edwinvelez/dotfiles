@@ -119,8 +119,8 @@ Shell functions defined in `dot_zshrc`:
 # Pull the repo, apply it, and hot-reload Hyprland, hypridle, Waybar and SwayNC
 dotfiles-sync
 
-# Full maintenance: packages (paru), runtimes (omz, fnm, bun, rustup), the claude and agy CLIs,
-# flatpak, dotfiles-sync,
+# Full maintenance: packages (paru), runtimes (omz, fnm, bun), the claude and agy CLIs,
+# dotfiles-sync,
 # then install any packages newly added to the setup/ manifests
 update-all
 ```

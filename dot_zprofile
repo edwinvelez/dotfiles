@@ -11,14 +11,3 @@ path=("$BUN_INSTALL/bin" "$HOME/.local/bin" "$HOME/.local/share/JetBrains/Toolbo
 # Socket provided by the systemd user unit ssh-agent.socket (setup/user-services-common.txt).
 # Keys are loaded on first use via `AddKeysToAgent yes` in ~/.ssh/config.
 export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
-
-# --- XDG Data Directories ---
-# Initialize with system defaults if unset, then append Flatpak exports when present.
-# Tied to a unique array (-UT) so re-sourcing never duplicates entries.
-typeset -UT XDG_DATA_DIRS xdg_data_dirs
-: ${XDG_DATA_DIRS:=/usr/local/share:/usr/share}
-for dir in /var/lib/flatpak/exports/share "$HOME/.local/share/flatpak/exports/share"; do
-    [[ -d "$dir" ]] && xdg_data_dirs+=("$dir")
-done
-unset dir
-export XDG_DATA_DIRS
