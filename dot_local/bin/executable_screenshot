@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Screenshots (grim + slurp), bound to the Print keys in hypr/configs/keybinds.lua.
+#   screenshot area|screen edit   open in swappy
+#   screenshot area|screen copy   copy to the clipboard
+#   screenshot area|screen save   save to ~/Pictures/Screenshots (Open action in the popup)
+# "screen" is the focused monitor, like `record screen`. Esc in slurp cancels cleanly:
+# nothing is copied or saved and no popup appears.
+set -euo pipefail
+
+target=${1:-area} action=${2:-edit}
+dir="$HOME/Pictures/Screenshots"   # same as save_dir in swappy/config
+tmp="${XDG_RUNTIME_DIR:-/tmp}/screenshot.png"
+
+if [[ "$target" == screen ]]; then
+  args=(-o "$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')")
+else
+  geometry=$(slurp) || exit 0
+  args=(-g "$geometry")
+fi
+
+# Capture to a file first, so a failed grim stops here instead of feeding an empty pipe
+grim "${args[@]}" "$tmp"
+
+case "$action" in
+  edit)
+    swappy -f "$tmp"
+    ;;
+  copy)
+    wl-copy --type image/png <"$tmp"
+    notify-send --app-name=screenshot -i "$tmp" "Screenshot copied" "Paste it anywhere"
+    ;;
+  save)
+    mkdir -p "$dir"
+    file="$dir/Shot_$(date +%Y-%m-%d_%H%M%S).png"
+    mv "$tmp" "$file"
+    # -A waits for a click, so run the popup in the background and let the bind return
+    {
+      [[ $(notify-send --app-name=screenshot -i "$file" -A open=Open \
+            "Screenshot saved" "${file/#$HOME/\~}") == open ]] && xdg-open "$file"
+    } >/dev/null 2>&1 &
+    ;;
+esac

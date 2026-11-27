@@ -50,13 +50,13 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), locked)
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), opts("Next track", locked))
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), opts("Previous track", locked))
 
--- --- Screenshots (Native Wayland: grim, slurp, swappy) ---
--- exec_cmd already runs through a shell, so pipes and $(...) work without an sh -c wrapper.
-hl.bind("PRINT", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | swappy -f -"), opts("Screenshot area → editor"))
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grim - | swappy -f -"), opts("Screenshot screen → editor"))
-hl.bind("ALT + PRINT", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim ~/Pictures/Screenshots/Shot_$(date +%Y-%m-%d_%H%M%S).png && notify-send \"Screenshot\" \"Full display saved to ~/Pictures/Screenshots\""), opts("Screenshot screen → file"))
-hl.bind("CONTROL + PRINT", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy && notify-send \"Screenshot\" \"Area copied to clipboard\""), opts("Screenshot area → clipboard"))
-hl.bind("CONTROL + SHIFT + PRINT", hl.dsp.exec_cmd("grim - | wl-copy && notify-send \"Screenshot\" \"Screen copied to clipboard\""), opts("Screenshot screen → clipboard"))
+-- --- Screenshots (~/.local/bin/screenshot: grim, slurp, swappy) ---
+-- "screen" is the focused monitor; Esc while picking an area cancels.
+hl.bind("PRINT", hl.dsp.exec_cmd("screenshot area edit"), opts("Screenshot area → editor"))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("screenshot screen edit"), opts("Screenshot screen → editor"))
+hl.bind("ALT + PRINT", hl.dsp.exec_cmd("screenshot screen save"), opts("Screenshot screen → file"))
+hl.bind("CONTROL + PRINT", hl.dsp.exec_cmd("screenshot area copy"), opts("Screenshot area → clipboard"))
+hl.bind("CONTROL + SHIFT + PRINT", hl.dsp.exec_cmd("screenshot screen copy"), opts("Screenshot screen → clipboard"))
 
 -- --- Screen Recording (~/.local/bin/record, wf-recorder) ---
 -- Same keys start and stop; a red REC badge shows in Waybar while recording.
