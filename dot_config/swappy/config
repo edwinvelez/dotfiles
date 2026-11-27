@@ -1,0 +1,17 @@
+[Default]
+# Same folder and naming as the ALT+Print binding in hypr/configs/keybinds.lua
+save_dir=$HOME/Pictures/Screenshots
+save_filename_format=Shot_%Y-%m-%d_%H%M%S.png
+show_panel=false
+line_size=4
+text_size=18
+text_font=Inter
+paint_mode=brush
+# Close the editor after Save or Copy
+early_exit=true
+fill_shape=false
+auto_save=false
+# Accent blue from the shared palette
+custom_color=rgba(82,148,226,1)
+transparent=false
+transparency=50
