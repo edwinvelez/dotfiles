@@ -5,12 +5,12 @@ hl.on("hyprland.start", function ()
     --   keyring     -> gnome-keyring-daemon.socket + pam_gnome_keyring (SDDM)
     --   user dirs   -> xdg-user-dirs.service
     --   polkit      -> hyprpolkitagent.service (setup/user-services-common.txt)
+    --   bar, notifs -> waybar.service, swaync.service (same file; restart on crash,
+    --                  logs in `journalctl --user -u waybar`)
     --   gsettings   -> .chezmoiscripts/run_onchange_after_gsettings.sh (once per change)
     hl.exec_cmd("xsettingsd")
 
     -- --- UI & Desktop Environment ---
-    hl.exec_cmd("waybar")
-    hl.exec_cmd("swaync")
     hl.exec_cmd("hypridle")
     hl.exec_cmd("awww-daemon")
     {{ if .is_laptop -}}

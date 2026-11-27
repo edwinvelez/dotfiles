@@ -6,3 +6,7 @@
 # --- Authentication ---
 ssh-agent.socket
 hyprpolkitagent.service
+
+# --- Desktop shell (started with Hyprland via graphical-session.target) ---
+waybar.service
+swaync.service
