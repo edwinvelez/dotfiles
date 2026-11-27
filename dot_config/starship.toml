@@ -7,6 +7,6 @@ disabled = false
 
 [bun]
 symbol = "🥟 "
-style = "bold unicode"
+style = "bold yellow"
 detect_files = ["bun.lock", "bun.lockb", "bunfig.toml"]
 disabled = false
