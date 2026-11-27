@@ -1,3 +1,10 @@
+# Colours are ANSI names on purpose: kitty maps them to theme.ansi in
+# .chezmoidata/theme.toml, so the prompt follows the palette without a
+# starship palette block. blue = accent, bright-black = muted.
+
+[directory]
+style = "bold blue"
+
 [nodejs]
 symbol = " "
 style = "bold green"
