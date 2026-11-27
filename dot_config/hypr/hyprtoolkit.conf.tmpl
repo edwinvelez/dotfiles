@@ -1,0 +1,20 @@
+{{- $t := .theme -}}
+# Generated from .chezmoidata/theme.toml ({{ $t.name }})
+# hyprtoolkit draws the native Hypr* dialogs: hyprpolkitagent's password prompt,
+# hyprshutdown. Read at app start: systemctl --user restart hyprpolkitagent
+
+background       = rgba({{ $t.base }}ff)
+base             = rgba({{ $t.surface }}ff)
+alternate_base   = rgba({{ $t.overlay }}ff)
+text             = rgba({{ $t.text }}ff)
+bright_text      = rgba({{ $t.ansi_bright.white }}ff)
+link_text        = rgba({{ $t.accent }}ff)
+accent           = rgba({{ $t.accent }}ff)
+accent_secondary = rgba({{ $t.ansi_bright.blue }}ff)
+
+rounding_large = {{ $t.radius }}
+rounding_small = {{ div $t.radius 2 }}
+
+font_family           = Inter
+font_family_monospace = JetBrainsMono Nerd Font
+icon_theme            = Papirus-Dark

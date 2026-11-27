@@ -1,0 +1,50 @@
+{{- $t := .theme -}}
+{{- /*
+  qt6ct colour scheme generated from .chezmoidata/theme.toml.
+  Each line lists the 21 QPalette roles in enum order, as #AARRGGBB:
+   0 WindowText   1 Button     2 Light       3 Midlight      4 Dark
+   5 Mid          6 Text       7 BrightText  8 ButtonText    9 Base
+  10 Window      11 Shadow    12 Highlight  13 HighlightedText
+  14 Link        15 LinkVisited 16 AlternateBase 17 NoRole
+  18 ToolTipBase 19 ToolTipText 20 PlaceholderText
+  Accent (Qt >= 6.6) is left out, so Qt derives it from Highlight.
+  Same role split as gtk-colors.css: chrome on surface, content on base,
+  dark text on the accent.
+*/ -}}
+{{- $fg := printf "#ff%s" $t.text -}}
+{{- $muted := printf "#ff%s" $t.muted -}}
+{{- $roles := list
+    $fg
+    (printf "#ff%s" $t.overlay)
+    $muted
+    (printf "#ff%s" $t.overlay)
+    (printf "#ff%s" $t.base)
+    (printf "#ff%s" $t.surface)
+    $fg
+    (printf "#ff%s" $t.ansi_bright.white)
+    $fg
+    (printf "#ff%s" $t.base)
+    (printf "#ff%s" $t.surface)
+    "#ff000000"
+    (printf "#ff%s" $t.accent)
+    (printf "#ff%s" $t.base)
+    (printf "#ff%s" $t.accent)
+    (printf "#ff%s" $t.ansi.magenta)
+    (printf "#ff%s" $t.surface)
+    (printf "#ff%s" $t.base)
+    (printf "#ff%s" $t.surface)
+    $fg
+    $muted
+-}}
+{{- /* Disabled: text roles fade to muted, selection loses the accent */ -}}
+{{- $disabled := list
+    $muted (index $roles 1) (index $roles 2) (index $roles 3) (index $roles 4)
+    (index $roles 5) $muted $muted $muted (index $roles 9)
+    (index $roles 10) (index $roles 11) (printf "#ff%s" $t.overlay) $muted
+    $muted $muted (index $roles 16) (index $roles 17) (index $roles 18)
+    $muted $muted
+-}}
+[ColorScheme]
+active_colors={{ join ", " $roles }}
+disabled_colors={{ join ", " $disabled }}
+inactive_colors={{ join ", " $roles }}
