@@ -85,3 +85,30 @@ image {
     halign = center
     valign = center
 }
+
+# Now playing (media keys work while locked). Empty, so hidden, when no player runs.
+# sed escapes & and < because the label text is Pango markup.
+label {
+    monitor =
+    text = cmd[update:2000] t=$(playerctl metadata title 2>/dev/null) && a=$(playerctl metadata artist 2>/dev/null); [ -n "$t" ] && echo "󰎆  $t${a:+ — $a}" | cut -c1-80 | sed 's/&/\&amp;/g; s/</\&lt;/g'
+    color = rgba({{ .theme.muted }}ff)
+    font_size = 14
+    font_family = Inter Medium
+    position = 0, 40
+    halign = center
+    valign = bottom
+}
+{{- if .is_laptop }}
+
+# Battery (laptop)
+label {
+    monitor =
+    text = cmd[update:30000] b=$(ls -d /sys/class/power_supply/BAT* | head -1); c=$(cat $b/capacity); [ "$(cat $b/status)" = Discharging ] && i=󰁹 || i=󰂄; echo "$i  $c%"
+    color = rgba({{ .theme.muted }}ff)
+    font_size = 14
+    font_family = Inter Medium
+    position = -30, 30
+    halign = right
+    valign = bottom
+}
+{{- end }}
