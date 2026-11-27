@@ -55,6 +55,7 @@ libnotify
 # Desktop utilities bound in hypr/configs/keybinds.lua
 hyprpicker
 rofimoji
+rofi-calc
 wtype
 wf-recorder
 mpv

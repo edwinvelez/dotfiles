@@ -20,6 +20,13 @@ hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("rofi -show drun"), opts("App launche
 hl.bind("ALT + TAB", hl.dsp.exec_cmd("pkill -x rofi || rofi -show window"), opts("Window switcher"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("pkill -x rofi || clipboard"), opts("Clipboard history"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("pkill -x rofi || clipboard delete"), opts("Delete clipboard entry"))
+-- Calculator (rofi-calc): live result while typing, Enter copies it.
+-- -no-history: otherwise Enter only saves to history. The theme hides rofi's
+-- message box, where the result shows, so swap the (empty) list for it.
+-- sed drops qalc's "approx. " prefix from inexact results.
+hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("pkill -x rofi || rofi -show calc -modi calc -no-show-match -no-sort -no-history"
+    .. " -theme-str 'mainbox { children: [inputbar, message]; }'"
+    .. " -calc-command \"echo -n '{result}' | sed 's/^approx\\. //' | wl-copy\""), opts("Calculator (Enter copies)"))
 hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("rofimoji --action type --skin-tone neutral"), opts("Emoji picker (types it)"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("nightlight"), opts("Toggle night light"))
 hl.bind(mainMod .. " + SHIFT + C",hl.dsp.exec_cmd("c=$(hyprpicker -a -f hex) && notify-send --app-name=hyprpicker 'Color copied' \"$c\""), opts("Color picker → clipboard"))
