@@ -58,9 +58,11 @@ listener {
     on-resume = hyprctl dispatch 'hl.dsp.dpms({ action = "on" })'
 }
 
-# 4. Suspend system after 20 minutes
+# 4. Suspend after 20 minutes, but only on battery. On AC (charging, full or
+#    "not charging") it just stays locked with the screen off, so downloads,
+#    builds and SSH sessions survive. BAT* skips the mouse's hidpp battery.
 listener {
     timeout = 1200
-    on-timeout = systemctl suspend
+    on-timeout = grep -qx Discharging /sys/class/power_supply/BAT*/status && systemctl suspend
 }
 {{- end }}
