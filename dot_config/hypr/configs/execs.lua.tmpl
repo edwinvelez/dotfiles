@@ -31,6 +31,9 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("udiskie --appindicator -t")
+    {{- if .is_laptop }}
+    hl.exec_cmd("battery-notify")   -- low-battery popups at 20% / 10%
+    {{- end }}
 
     -- --- Background Apps ---
     -- Hyprland does not process XDG autostart (~/.config/autostart), so apps that

@@ -42,6 +42,7 @@ Declarative, templated configuration management and system provisioning architec
 │   ├── executable_screenshot # Print-key screenshots: edit / copy / save
 │   ├── executable_nightlight # SUPER + N night light override (hyprsunset)
 │   ├── executable_clipboard  # SUPER + V history with image thumbnails (cliphist)
+│   ├── executable_battery-notify # Laptop low-battery popups (20% / 10%)
 │   └── executable_launch-windows.sh # Boots the Windows VM and attaches FreeRDP
 ├── setup/                     # Bare-metal system provisioning framework
 │   ├── install.sh            # Paru, systemd, and Btrfs provisioning script

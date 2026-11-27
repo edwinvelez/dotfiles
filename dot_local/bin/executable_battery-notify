@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Low-battery popups (laptop only, started from hypr/configs/execs.lua).
+# Warns once at 20%, then again at 10% as a critical popup that stays until
+# dismissed. Plugging in resets it and replaces a warning with "Charging".
+# All popups share one sync tag, so each replaces the previous instead of stacking.
+set -uo pipefail
+
+warn=${BATTERY_WARN:-20} crit=${BATTERY_CRIT:-10} interval=${BATTERY_INTERVAL:-60}
+# BAT* skips peripheral batteries (e.g. the mouse's hidpp_battery). No battery: nothing to do.
+bat=${BATTERY_PATH:-$(compgen -G '/sys/class/power_supply/BAT*' | head -1)} || exit 0
+[[ -r "$bat/capacity" ]] || exit 0
+
+notify() {
+  notify-send --app-name=battery --hint=string:x-canonical-private-synchronous:battery "$@"
+}
+
+warned=0   # lowest threshold announced during this discharge (0 = none)
+while :; do
+  level=$(<"$bat/capacity") status=$(<"$bat/status")
+  if [[ "$status" == Discharging ]]; then
+    if (( level <= crit && warned != crit )); then
+      notify -u critical -i battery-caution "Battery critical: ${level}%" "Plug in now"
+      warned=$crit
+    elif (( level <= warn && level > crit && warned == 0 )); then
+      notify -u normal -i battery-low "Battery low: ${level}%" "Plug in soon"
+      warned=$warn
+    fi
+  elif (( warned )); then
+    notify -u low --transient -i battery-good-charging "Charging" "${level}%"
+    warned=0
+  fi
+  sleep "$interval"
+done
