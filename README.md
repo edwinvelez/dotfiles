@@ -18,17 +18,27 @@ Declarative, templated configuration management and system provisioning architec
 ```text
 .
 ├── .chezmoi.toml.tmpl         # Master configuration template & chassis detection
+├── .chezmoidata/theme.toml    # Shared colour palette, read by every themed template
+├── .chezmoitemplates/         # Shared template fragments (e.g. GTK colours)
+├── .chezmoiscripts/           # run_onchange scripts (gsettings, lock-screen avatar)
 ├── .chezmoiignore             # Transient cache and local state exclusion rules
+├── .chezmoiremove             # Targets deleted from $HOME after their source is removed
 ├── dot_config/                # Managed XDG_CONFIG_HOME projections
 │   ├── btop/                 # System resource monitoring
+│   ├── fontconfig/           # Font rendering (antialias, hinting, subpixel)
 │   ├── dockur-windows/       # On-demand Windows 11 VM (Docker Compose)
 │   ├── gtk-3.0/, gtk-4.0/    # GTK styling declarations
 │   ├── hypr/                 # Modular Lua Hyprland suite, hyprlock, hypridle
 │   ├── kitty/                # Terminal emulator styling and keybinds
 │   ├── qt6ct/                # Qt6 configuration and engine styling
+│   ├── rofi/                 # Launcher, clipboard and cheatsheet menus
 │   ├── swaync/               # Notification center and control panel
-│   └── waybar/               # Dynamic status bar templates
+│   ├── waybar/               # Dynamic status bar templates
+│   └── xsettingsd/           # Theme, cursor and font settings for XWayland apps
 ├── dot_local/bin/             # User space operational utilities
+│   ├── executable_keybinds   # SUPER + / cheatsheet, read live from Hyprland
+│   ├── executable_osd        # Volume / mic / brightness popups via SwayNC
+│   ├── executable_record     # Screen recording toggle (wf-recorder)
 │   └── executable_launch-windows.sh # Boots the Windows VM and attaches FreeRDP
 ├── setup/                     # Bare-metal system provisioning framework
 │   ├── install.sh            # Paru, systemd, and Btrfs provisioning script
@@ -50,15 +60,17 @@ Chassis and hardware detection evaluates dynamically via `hostnamectl chassis` a
 
 - **Compute:** AMD Ryzen 7 2700X
 - **Graphics:** NVIDIA GeForce GTX 1060 (DKMS driver, hardware video acceleration via `libva-nvidia-driver`)
-- **Display:** High-refresh primary display (144Hz) with custom monitor arrangements
-- **Power:** Continuous performance state; sleep inhibition for services
+- **Display:** 4K at 60Hz over HDMI, 1.5x scaling
+- **Power:** Never suspends on idle; locks after 10 minutes, screen off after 15
 
 ### Laptop Profile (`my-laptop`)
 
-- **Compute:** Intel Core i7-8750H
-- **Display:** Fractional display scaling (1.25x / 1.5x)
-- **Power:** Battery conservation via `tlp` and `thermald`
-- **Peripherals:** Touchpad gestures and natural scroll mapping
+- **Model:** Dell XPS 15 9500
+- **Compute:** Intel Core i9-10885H
+- **Graphics:** Intel UHD + NVIDIA GeForce GTX 1650 Ti (hybrid, `nvidia-prime`)
+- **Display:** 3840x2400 panel at 1.67x scaling
+- **Power:** `power-profiles-daemon`; dims at 2.5 min, locks at 5, suspends at 20 on battery only
+- **Peripherals:** Touchpad tap-to-click and 3-finger gestures (traditional scroll direction)
 
 ---
 
@@ -85,7 +97,7 @@ Package and service manifests reside in `setup/` and follow strict categorizatio
 
 - `packages-common.txt`: Shared core utilities, base system libraries, and desktop components.
 - `packages-desktop.txt`: AMD microcode, NVIDIA drivers, and CUDA/VAAPI support libraries.
-- `packages-laptop.txt`: Intel microcode, power management utilities, and Wi-Fi stack.
+- `packages-laptop.txt`: Intel microcode and VAAPI driver, hybrid NVIDIA drivers, and power management.
 - `services-*.txt`: Associated `systemd` units enabled and started automatically.
 - `user-services-*.txt`: `systemd --user` units enabled for the invoking user.
 
@@ -129,5 +141,5 @@ chezmoi re-add
 ## Development Conventions
 
 - **Template Naming:** Any file requiring dynamic variable evaluation must use the `.tmpl` suffix.
-- **Lua Environment Scoping:** Hyprland Lua stubs located at `/usr/share/hypr/stubs/hl.meta.lua` provide type signatures for language servers via `.luarc.json`.
+- **Lua Environment Scoping:** Hyprland ships Lua stubs at `/usr/share/hypr/stubs/hl.meta.lua`; point your language server's library path at them for `hl.*` completion.
 - **Secret Management:** Secrets must not be committed in plaintext; use `chezmoi age` or external secret managers for sensitive credentials.
