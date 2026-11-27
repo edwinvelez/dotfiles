@@ -20,15 +20,19 @@ hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("swaync-client -t -sw"))
 hl.bind(mainMod .. " + Grave", hl.dsp.exec_cmd("swaync-client -t -sw"))
 
 -- --- Hardware Controls (Audio, Brightness & Media) ---
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"))
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"))
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +5%"))
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"))
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
+-- ~/.local/bin/osd changes the value and shows a progress popup via swaync.
+-- locked: works on the lock screen; repeating: holding the key keeps stepping.
+local held = { locked = true, repeating = true }
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("osd volume up"), held)
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("osd volume down"), held)
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("osd volume mute"), { locked = true })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("osd mic mute"), { locked = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("osd brightness up"), held)
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("osd brightness down"), held)
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- --- Screenshots (Native Wayland: grim, slurp, swappy) ---
 -- Interactive region capture with annotation editor (Swappy)

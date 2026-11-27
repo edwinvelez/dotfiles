@@ -47,6 +47,8 @@ xsettingsd
 grim
 slurp
 swappy
+# libnotify (notify-send): ~/.local/bin/osd and screenshot notifications
+libnotify
 
 # --- Theming, Typography & Styling ---
 materia-gtk-theme

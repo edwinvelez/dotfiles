@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+# On-screen display for volume, mic and brightness keys, rendered by swaync.
+#
+#   osd volume up|down|mute
+#   osd mic mute
+#   osd brightness up|down
+#
+# Each call replaces the previous OSD popup (synchronous hint) and is transient,
+# so it never piles up in the notification centre.
+set -euo pipefail
+
+readonly STEP=5          # percent per key press
+readonly MAX_VOLUME=1.5  # allow boosting up to 150%
+readonly SINK=@DEFAULT_AUDIO_SINK@
+readonly SOURCE=@DEFAULT_AUDIO_SOURCE@
+
+# show <summary> [progress 0-100]
+show() {
+    local args=(
+        --transient --urgency=low --expire-time=1200 --app-name=osd
+        --hint=string:x-canonical-private-synchronous:osd
+    )
+    if [[ -n ${2:-} ]]; then
+        local value=$(( $2 > 100 ? 100 : $2 ))
+        args+=(--hint="int:value:$value")
+    fi
+    notify-send "${args[@]}" "$1"
+}
+
+# Prints volume as an integer percent, or "muted"
+read_volume() {
+    local out
+    out=$(wpctl get-volume "$1")          # e.g. "Volume: 0.45 [MUTED]"
+    if [[ $out == *MUTED* ]]; then
+        echo muted
+    else
+        awk '{ printf "%d", $2 * 100 + 0.5 }' <<<"$out"
+    fi
+}
+
+volume() {
+    case ${1:-} in
+        up)
+            wpctl set-mute "$SINK" 0      # raising volume should also unmute
+            wpctl set-volume -l "$MAX_VOLUME" "$SINK" "${STEP}%+" ;;
+        down) wpctl set-volume "$SINK" "${STEP}%-" ;;
+        mute) wpctl set-mute "$SINK" toggle ;;
+        *) usage ;;
+    esac
+
+    local vol icon
+    vol=$(read_volume "$SINK")
+    if [[ $vol == muted ]]; then
+        show "󰝟  Muted" 0
+        return
+    fi
+    if   (( vol == 0 ));  then icon=󰕿
+    elif (( vol < 50 ));  then icon=󰖀
+    elif (( vol <= 100 )); then icon=󰕾
+    else icon=󱄡                            # boosted past 100%
+    fi
+    show "$icon  Volume  ${vol}%" "$vol"
+}
+
+mic() {
+    [[ ${1:-} == mute ]] || usage
+    wpctl set-mute "$SOURCE" toggle
+    if [[ $(read_volume "$SOURCE") == muted ]]; then
+        show "󰍭  Microphone off"
+    else
+        show "󰍬  Microphone on"
+    fi
+}
+
+brightness() {
+    # No backlight device (e.g. the desktop's external monitor): do nothing quietly
+    brightnessctl --class=backlight info >/dev/null 2>&1 || exit 0
+
+    # -e4: exponential steps so low brightness changes finely; -n2: never fully black
+    case ${1:-} in
+        up)   brightnessctl --class=backlight -q -e4 -n2 set "${STEP}%+" ;;
+        down) brightnessctl --class=backlight -q -e4 -n2 set "${STEP}%-" ;;
+        *) usage ;;
+    esac
+
+    local pct
+    pct=$(brightnessctl --class=backlight -m | cut -d, -f4 | tr -d %)
+    show "󰃠  Brightness  ${pct}%" "$pct"
+}
+
+usage() {
+    echo "usage: osd volume up|down|mute | mic mute | brightness up|down" >&2
+    exit 2
+}
+
+case ${1:-} in
+    volume)     volume "${2:-}" ;;
+    mic)        mic "${2:-}" ;;
+    brightness) brightness "${2:-}" ;;
+    *) usage ;;
+esac
