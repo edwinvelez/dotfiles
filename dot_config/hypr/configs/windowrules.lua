@@ -236,6 +236,16 @@ hl.window_rule({
     animation = "slide",
 })
 
+-- --- Package Upgrade Terminal (Waybar updates badge, ~/.local/bin/updates) ---
+-- Pops up over the current workspace instead of splitting it.
+hl.window_rule({
+    name = "updates-terminal",
+    match = { class = "^(updates)$" },
+    float = true,
+    center = true,
+    size = "(monitor_w*0.6) (monitor_h*0.6)",
+})
+
 -- --- Layer Rules (Blur for UI Overlays) ---
 hl.layer_rule({
     match = { namespace = "rofi" },
