@@ -155,23 +155,129 @@
   color: #{{ $t.base }};
 }
 
-.widget-dnd {
-  margin: 10px;
+/* ---------- Quick settings ---------- */
+
+/* Menubar: "Settings" and "Power" dropdowns */
+.widget-menubar {
+  margin: 6px 10px 2px;
 }
 
-.widget-dnd > switch {
+.widget-menubar > .menu-button-bar > .widget-menubar-container button {
   background: #{{ $t.overlay }};
+  color: #{{ $t.text }};
+  border: none;
+  border-radius: 10px;
+  padding: 6px 14px;
+  margin: 0;
+  box-shadow: none;
+}
+
+.widget-menubar > .menu-button-bar > .widget-menubar-container button:hover {
+  background: alpha(#{{ $t.text }}, 0.12);
+}
+
+.widget-menubar > revealer * button {
+  background: alpha(#{{ $t.surface }}, 0.95);
+  color: #{{ $t.text }};
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 3px 0;
+  box-shadow: none;
+}
+
+.widget-menubar > revealer * button:hover {
+  background: #{{ $t.overlay }};
+}
+
+/* Toggle / action tiles */
+.widget-buttons-grid {
+  margin: 4px 7px;
+  padding: 0;
+}
+
+.widget-buttons-grid flowboxchild > button {
+  background: #{{ $t.overlay }};
+  color: #{{ $t.text }};
+  border: none;
+  border-radius: 10px;
+  padding: 12px 4px;
+  margin: 3px;
+  box-shadow: none;
+  transition: background 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.widget-buttons-grid flowboxchild > button:hover {
+  background: alpha(#{{ $t.text }}, 0.12);
+}
+
+.widget-buttons-grid flowboxchild > button.toggle:checked,
+.widget-buttons-grid flowboxchild > button.active {
+  background: alpha(#{{ $t.accent }}, 0.2);
+  color: #{{ $t.accent }};
+}
+
+/* ---------- Sliders: volume, brightness ---------- */
+.widget-volume,
+.widget-backlight {
+  background: alpha(#{{ $t.surface }}, 0.9);
+  border-radius: 10px;
+  margin: 4px 10px;
+  padding: 6px 12px;
+}
+
+.widget-volume > box > label,
+.widget-backlight > label,
+.widget-volume label,
+.widget-backlight label {
+  color: #{{ $t.accent }};
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 16px;
+}
+
+.widget-volume scale trough,
+.widget-backlight scale trough {
+  min-height: 6px;
   border-radius: 999px;
+  background: #{{ $t.overlay }};
 }
 
-.widget-dnd > switch:checked {
-  background-image: none;
-  background-color: #{{ $t.accent }};
+.widget-volume scale highlight,
+.widget-backlight scale highlight {
+  border-radius: 999px;
+  background: #{{ $t.accent }};
 }
 
-.widget-dnd > switch slider {
+.widget-volume scale slider,
+.widget-backlight scale slider {
+  min-width: 14px;
+  min-height: 14px;
+  border-radius: 999px;
+  border: none;
+  box-shadow: none;
   background: #{{ $t.text }};
-  border-radius: 999px;
+}
+
+.widget-volume button {
+  background: transparent;
+  color: #{{ $t.muted }};
+  border: none;
+  box-shadow: none;
+}
+
+.widget-volume button:hover {
+  color: #{{ $t.text }};
+}
+
+.per-app-volume {
+  background: alpha(#{{ $t.base }}, 0.6);
+  border-radius: 8px;
+  margin-top: 6px;
+  padding: 4px;
+}
+
+.widget-volume row image {
+  -gtk-icon-size: 20px;
 }
 
 .widget-mpris {
