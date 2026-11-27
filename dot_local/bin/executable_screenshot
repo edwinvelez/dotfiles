@@ -3,6 +3,7 @@
 #   screenshot area|screen edit   open in swappy
 #   screenshot area|screen copy   copy to the clipboard
 #   screenshot area|screen save   save to ~/Pictures/Screenshots (Open action in the popup)
+#   screenshot area text          copy the text in the area (OCR, tesseract)
 # "screen" is the focused monitor, like `record screen`. Esc in slurp cancels cleanly:
 # nothing is copied or saved and no popup appears.
 set -euo pipefail
@@ -28,6 +29,16 @@ case "$action" in
   copy)
     wl-copy --type image/png <"$tmp"
     notify-send --app-name=screenshot -i "$tmp" "Screenshot copied" "Paste it anywhere"
+    ;;
+  text)
+    # Upscale first: tesseract reads small UI text far better at 2x
+    text=$(magick "$tmp" -resize 200% png:- | tesseract - - 2>/dev/null | sed -e 's/[[:space:]]*$//' -e '/./,$!d')
+    if [[ -z "${text//[[:space:]]/}" ]]; then
+      notify-send --app-name=screenshot -i dialog-warning "No text found" "Try a larger area"
+      exit 0
+    fi
+    wl-copy <<<"$text"
+    notify-send --app-name=screenshot -i edit-paste "Text copied" "$(head -c 200 <<<"$text")"
     ;;
   save)
     mkdir -p "$dir"

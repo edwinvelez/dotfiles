@@ -48,6 +48,8 @@ xsettingsd
 grim
 slurp
 swappy
+tesseract
+tesseract-data-eng
 # libnotify (notify-send): ~/.local/bin/osd and screenshot notifications
 libnotify
 # Desktop utilities bound in hypr/configs/keybinds.lua

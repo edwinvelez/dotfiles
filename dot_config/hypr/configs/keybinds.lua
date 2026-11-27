@@ -61,6 +61,7 @@ hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("screenshot screen edit"), opts("Screen
 hl.bind("ALT + PRINT", hl.dsp.exec_cmd("screenshot screen save"), opts("Screenshot screen → file"))
 hl.bind("CONTROL + PRINT", hl.dsp.exec_cmd("screenshot area copy"), opts("Screenshot area → clipboard"))
 hl.bind("CONTROL + SHIFT + PRINT", hl.dsp.exec_cmd("screenshot screen copy"), opts("Screenshot screen → clipboard"))
+hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("screenshot area text"), opts("Copy text from screen area (OCR)"))
 
 -- --- Screen Recording (~/.local/bin/record, wf-recorder) ---
 -- Same keys start and stop; a red REC badge shows in Waybar while recording.
