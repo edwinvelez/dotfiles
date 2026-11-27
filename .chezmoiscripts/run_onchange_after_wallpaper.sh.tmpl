@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Generates the wallpaper from the theme palette: a soft radial gradient on base
+# with a faint accent glow toward the bottom-right, plus light noise against banding.
+# Generated rather than committed: no binary in the repo, and it follows palette changes
+# (this rendered file changes, so chezmoi re-runs it). Hyprland sets it at login
+# (hypr/configs/execs.lua); this script also swaps it live if awww is running.
+# 3840x2400 covers both machines; awww crops it to each output.
+set -euo pipefail
+
+command -v magick >/dev/null || { echo "wallpaper: imagemagick missing, skipping" >&2; exit 0; }
+
+out="$HOME/.local/share/wallpapers/{{ .theme.name }}.png"
+mkdir -p "${out%/*}"
+
+magick -size 3840x2400 "radial-gradient:#{{ .theme.surface }}-#{{ .theme.base }}" \
+  \( -size 7680x4800 "radial-gradient:#{{ .theme.accent }}-black" \
+     -crop 3840x2400+960+600 +repage -evaluate multiply 0.14 \) \
+  -compose screen -composite \
+  -attenuate 0.5 +noise gaussian -depth 8 \
+  "png:$out"
+
+if awww query >/dev/null 2>&1; then awww img "$out"; fi

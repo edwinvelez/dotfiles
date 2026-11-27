@@ -20,7 +20,7 @@ Declarative, templated configuration management and system provisioning architec
 ├── .chezmoi.toml.tmpl         # Master configuration template & chassis detection
 ├── .chezmoidata/theme.toml    # Shared colour palette, read by every themed template
 ├── .chezmoitemplates/         # Shared template fragments (e.g. GTK colours)
-├── .chezmoiscripts/           # run_onchange scripts (gsettings, lock-screen avatar)
+├── .chezmoiscripts/           # run_onchange scripts (gsettings, lock-screen avatar, wallpaper)
 ├── .chezmoiignore             # Transient cache and local state exclusion rules
 ├── .chezmoiremove             # Targets deleted from $HOME after their source is removed
 ├── dot_config/                # Managed XDG_CONFIG_HOME projections
