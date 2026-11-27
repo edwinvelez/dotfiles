@@ -60,14 +60,33 @@ hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), opts("Focu
 hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }), opts("Focus up"))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }), opts("Focus down"))
 hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "previous" }), opts("Previous workspace"))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), opts("Next workspace"))
+hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }), opts("Previous workspace (scroll)"))
+
+-- --- Move and Resize (keyboard) ---
+-- Move: tiled windows swap places in the layout, floating windows slide over.
+-- Resize: hold to keep growing/shrinking (40px per step).
+local step = 40
+for _, d in ipairs({
+    { key = "left",  x = -step, y = 0 },
+    { key = "right", x = step,  y = 0 },
+    { key = "up",    x = 0,     y = -step },
+    { key = "down",  x = 0,     y = step },
+}) do
+    hl.bind(mainMod .. " + SHIFT + " .. d.key, hl.dsp.window.move({ direction = d.key }), opts("Move window " .. d.key))
+    hl.bind(mainMod .. " + CTRL + " .. d.key, hl.dsp.window.resize({ x = d.x, y = d.y, relative = true }),
+        opts("Resize window " .. d.key, { repeating = true }))
+end
 
 -- --- Workspace Navigation and Window Relocation (DRY Loop) ---
--- Only workspace 1 carries a description; the cheatsheet shows it as "1…5".
-for i = 1, 5 do
-    hl.bind(mainMod .. " + " .. i, hl.dsp.focus({ workspace = i }),
-        i == 1 and opts("Switch to workspace 1…5") or nil)
-    hl.bind(mainMod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }),
-        i == 1 and opts("Move window to workspace 1…5") or nil)
+-- Keys 1…9 and 0 map to workspaces 1…10. Only workspace 1 carries a description;
+-- the cheatsheet shows it as "1…0".
+for i = 1, 10 do
+    local key = tostring(i % 10)
+    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }),
+        i == 1 and opts("Switch to workspace 1…10") or nil)
+    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }),
+        i == 1 and opts("Move window to workspace 1…10") or nil)
 end
 
 -- --- Interactive Mouse Controls ---
