@@ -1,6 +1,4 @@
 # Repository Documentation & Internal Setup
-GEMINI.md
-pacman-installs.txt
 README.md
 hardware*.md
 setup/**
@@ -21,16 +19,12 @@ setup/**
 .config/autostart/**
 .config/Thunar/**
 .config/dconf/**
-.config/zoom.conf
 .config/xfce4/xfconf/xfce-perchannel-xml/thunar*.xml
 .config/pavucontrol.ini
 .config/inkscape/**
 
 # Application Caches & Databases
 .thunderbird/**
-thunderbird/**
-.zoom/**
-.aws/**
 .gnupg/**
 
 # Volatile Shell State

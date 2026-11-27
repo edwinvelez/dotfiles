@@ -102,7 +102,7 @@ git clone git@github.com:edwinvelez/dotfiles.git ~/.local/share/chezmoi
 Package and service manifests reside in `setup/` and follow strict categorization:
 
 - `packages-common.txt`: Shared core utilities, base system libraries, and desktop components.
-- `packages-desktop.txt`: AMD microcode, NVIDIA drivers, and CUDA/VAAPI support libraries.
+- `packages-desktop.txt`: AMD microcode, NVIDIA drivers, and VAAPI support libraries.
 - `packages-laptop.txt`: Intel microcode and VAAPI driver, hybrid NVIDIA drivers, and power management.
 - `services-*.txt`: Associated `systemd` units enabled and started automatically.
 - `user-services-*.txt`: `systemd --user` units enabled for the invoking user.
