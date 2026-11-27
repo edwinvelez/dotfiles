@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Clipboard history picker (cliphist + rofi), bound in hypr/configs/keybinds.lua.
+#   clipboard          pick an entry and copy it back
+#   clipboard delete   pick an entry and remove it from the history
+# Image entries get a thumbnail instead of cliphist's "[[ binary data ... ]]" text.
+# Thumbnails are cached by entry id, so each one is made only once.
+set -euo pipefail
+
+mode=${1:-copy}
+thumbs="${XDG_CACHE_HOME:-$HOME/.cache}/cliphist/thumbs"
+mkdir -p "$thumbs"
+
+list=$(cliphist list | tr -d '\0')   # a stray NUL in an entry would make bash warn
+
+# Drop thumbnails whose entry is gone (deleted, or pushed out of the history)
+declare -A live=()
+while IFS=$'\t' read -r id _; do live[$id]=1; done <<<"$list"
+for f in "$thumbs"/*.png; do
+  [[ -e "$f" ]] || continue
+  id=${f##*/}; id=${id%.png}
+  [[ -n "${live[$id]:-}" ]] || rm -f "$f"
+done
+
+rows() {
+  while IFS=$'\t' read -r id text; do
+    if [[ "$text" =~ ^\[\[\ binary\ data\ .*\ (png|jpe?g|webp|bmp|gif)\ ([0-9]+x[0-9]+)\ \]\]$ ]]; then
+      thumb="$thumbs/$id.png"
+      [[ -e "$thumb" ]] || cliphist decode "$id" | magick - -thumbnail 256x256 "$thumb" 2>/dev/null || true
+      # Keep the id so cliphist can find the entry; rofi hides it with -display-columns 2
+      printf '%s\t󰋩  Image %s\0icon\x1f%s\n' "$id" "${BASH_REMATCH[2]}" "$thumb"
+    else
+      printf '%s\t%s\n' "$id" "$text"
+    fi
+  done <<<"$list"
+}
+
+# One column (the launcher's 2-column grid truncates text) and bigger icons than
+# the launcher's, so thumbnails are recognisable
+args=(-dmenu -i -show-icons -display-columns 2
+  -theme-str 'listview { columns: 1; lines: 8; } element-icon { size: 48px; }')
+
+if [[ "$mode" == delete ]]; then
+  pick=$(rows | rofi "${args[@]}" -p '󰆴  Delete') || exit 0
+  cliphist delete <<<"$pick"
+else
+  pick=$(rows | rofi "${args[@]}" -p '󰅇  Clipboard') || exit 0
+  cliphist decode <<<"$pick" | wl-copy
+fi
