@@ -11,12 +11,12 @@
     // Desktop: GPU & Notification enabled, Battery disabled
     "modules-left": ["ext/workspaces", "idle_inhibitor", "custom/recording"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["pulseaudio", "cpu", "memory", "network", "custom/gpu", "tray", "custom/notification", "clock"],
+    "modules-right": ["mpris", "pulseaudio", "cpu", "memory", "network", "custom/gpu", "tray", "custom/notification", "clock"],
 {{- else if .is_laptop -}}
     // Laptop: Battery, Backlight & Notification enabled, GPU disabled (save power)
     "modules-left": ["ext/workspaces", "idle_inhibitor", "custom/recording"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["pulseaudio", "backlight", "cpu", "memory", "network", "power-profiles-daemon", "battery", "tray", "custom/notification", "clock"],
+    "modules-right": ["mpris", "pulseaudio", "backlight", "cpu", "memory", "network", "power-profiles-daemon", "battery", "tray", "custom/notification", "clock"],
 {{- end }}
 
     // --- Module Configurations ---
@@ -41,6 +41,19 @@
         },
         "tooltip-format-activated": "Idle Inhibitor: Active (Awake)",
         "tooltip-format-deactivated": "Idle Inhibitor: Inactive (Normal Sleep)"
+    },
+
+    // Now playing (any MPRIS player: Chrome tabs, mpv, Spotify). Hidden when nothing plays.
+    // Click: play/pause. Scroll: next/previous track. Paused shows in muted colour.
+    "mpris": {
+        "format": "{status_icon} {dynamic}",
+        "format-paused": "{status_icon} {dynamic}",
+        "status-icons": { "playing": "󰐊", "paused": "󰏤", "stopped": "󰓛" },
+        "dynamic-order": ["title", "artist"],
+        "dynamic-len": 40,
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous",
+        "tooltip-format": "{player}: {title} — {artist}\nClick: play/pause · Scroll: next/previous"
     },
 
     "hyprland/window": {
