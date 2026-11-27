@@ -1,0 +1,40 @@
+{{- $t := .theme -}}
+/* Generated from .chezmoidata/theme.toml ({{ $t.name }}).
+ * libadwaita (GTK4) and adw-gtk3 (GTK3) both read these named colours,
+ * so one palette restyles Thunar, portals, GNOME apps and dialogs alike. */
+
+/* Accent: dark text on the light steel blue (white on #7aa2f7 fails contrast) */
+@define-color accent_color #{{ $t.accent }};
+@define-color accent_bg_color #{{ $t.accent }};
+@define-color accent_fg_color #{{ $t.base }};
+
+@define-color destructive_color #{{ $t.alert }};
+@define-color destructive_bg_color #{{ $t.alert }};
+@define-color destructive_fg_color #{{ $t.base }};
+@define-color error_color #{{ $t.alert }};
+@define-color error_bg_color #{{ $t.alert }};
+@define-color error_fg_color #{{ $t.base }};
+@define-color warning_color #{{ $t.warn }};
+@define-color warning_bg_color #{{ $t.warn }};
+@define-color warning_fg_color #{{ $t.base }};
+@define-color success_color #{{ $t.ok }};
+@define-color success_bg_color #{{ $t.ok }};
+@define-color success_fg_color #{{ $t.base }};
+
+/* Surfaces: chrome on surface, content (file lists, text views) on base */
+@define-color window_bg_color #{{ $t.surface }};
+@define-color window_fg_color #{{ $t.text }};
+@define-color view_bg_color #{{ $t.base }};
+@define-color view_fg_color #{{ $t.text }};
+@define-color headerbar_bg_color #{{ $t.surface }};
+@define-color headerbar_fg_color #{{ $t.text }};
+@define-color headerbar_backdrop_color #{{ $t.base }};
+@define-color sidebar_bg_color #{{ $t.surface }};
+@define-color sidebar_fg_color #{{ $t.text }};
+@define-color sidebar_backdrop_color #{{ $t.base }};
+@define-color card_bg_color #{{ $t.overlay }};
+@define-color card_fg_color #{{ $t.text }};
+@define-color dialog_bg_color #{{ $t.surface }};
+@define-color dialog_fg_color #{{ $t.text }};
+@define-color popover_bg_color #{{ $t.surface }};
+@define-color popover_fg_color #{{ $t.text }};

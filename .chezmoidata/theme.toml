@@ -1,5 +1,5 @@
 # Shared desktop palette ("Slate"): calm neutral dark greys, one steel-blue accent.
-# Read by kitty, waybar, rofi, swaync, swappy, hyprland and hyprlock templates as .theme.*
+# Read by kitty, waybar, rofi, swaync, swappy, gtk, hyprland and hyprlock templates as .theme.*
 # UI keys are named by role (accent, alert, ...) so swapping colours never touches templates.
 # Hex without '#' so each template can use whatever syntax its app needs
 # (#rrggbb, rgba(rrggbbaa), alpha(#rrggbb, 0.8), ...).

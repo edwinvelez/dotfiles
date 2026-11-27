@@ -56,7 +56,8 @@ wtype
 wf-recorder
 
 # --- Theming, Typography & Styling ---
-materia-gtk-theme
+# adw-gtk3: libadwaita look for GTK3; colours from gtk-{3,4}.0/gtk.css
+adw-gtk-theme
 papirus-icon-theme
 bibata-cursor-theme-bin
 inter-font
