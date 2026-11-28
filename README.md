@@ -20,7 +20,7 @@ Declarative, templated configuration management and system provisioning architec
 ├── .chezmoi.toml.tmpl         # Master configuration template & chassis detection
 ├── .chezmoidata/theme.toml    # Shared colour palette, read by every themed template
 ├── .chezmoitemplates/         # Shared template fragments (e.g. GTK colours)
-├── .chezmoiscripts/           # run_onchange scripts (gsettings, lock-screen avatar, wallpaper)
+├── .chezmoiscripts/           # run_onchange scripts (gsettings, avatar, wallpaper, reloads)
 ├── .chezmoiignore             # Transient cache and local state exclusion rules
 ├── .chezmoiremove             # Targets deleted from $HOME after their source is removed
 ├── dot_config/                # Managed XDG_CONFIG_HOME projections
@@ -116,7 +116,7 @@ Package and service manifests reside in `setup/` and follow strict categorizatio
 Shell functions defined in `dot_zshrc`:
 
 ```bash
-# Pull the repo, apply it, and hot-reload Hyprland, hypridle, Waybar and SwayNC
+# Pull the repo and apply it (chezmoi hot-reloads any changed desktop components)
 dotfiles-sync
 
 # Full maintenance: packages (paru), runtimes (omz, fnm, bun), the claude and agy CLIs,

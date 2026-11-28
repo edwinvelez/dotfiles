@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Reloads running kitty terminals when kitty.conf or theme.conf changes.
+# kitty.conf: {{ include "dot_config/kitty/kitty.conf" | sha256sum }}
+# theme.conf: {{ includeTemplate "dot_config/kitty/theme.conf.tmpl" . | sha256sum }}
+set -euo pipefail
+
+if pgrep -x kitty >/dev/null; then
+    pkill -USR1 -x kitty && echo "[OK] kitty reloaded"
+fi

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Reloads SwayNC when its config or styles change.
+# config.json: {{ includeTemplate "dot_config/swaync/config.json.tmpl" . | sha256sum }}
+# style.css:   {{ includeTemplate "dot_config/swaync/style.css.tmpl" . | sha256sum }}
+set -euo pipefail
+
+systemctl --user show-environment >/dev/null 2>&1 || exit 0
+if systemctl --user is-active --quiet swaync.service; then
+    systemctl --user reload-or-restart swaync.service && echo "[OK] SwayNC reloaded"
+fi

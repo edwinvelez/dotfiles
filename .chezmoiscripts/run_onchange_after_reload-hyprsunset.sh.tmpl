@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Restarts hyprsunset when its schedule config changes.
+# hyprsunset.conf: {{ include "dot_config/hypr/hyprsunset.conf" | sha256sum }}
+set -euo pipefail
+
+systemctl --user show-environment >/dev/null 2>&1 || exit 0
+if systemctl --user is-active --quiet hyprsunset.service; then
+    systemctl --user restart hyprsunset.service && echo "[OK] hyprsunset restarted"
+fi

@@ -3,7 +3,7 @@
 # UI keys are named by role (accent, alert, ...) so swapping colours never touches templates.
 # Hex without '#' so each template can use whatever syntax its app needs
 # (#rrggbb, rgba(rrggbbaa), alpha(#rrggbb, 0.8), ...).
-# After editing: chezmoi apply && hyprctl reload && pkill -SIGUSR2 waybar && swaync-client -rs
+# After editing: chezmoi apply (run_onchange_after_ scripts reload affected desktop components)
 
 [theme]
 name    = "slate"

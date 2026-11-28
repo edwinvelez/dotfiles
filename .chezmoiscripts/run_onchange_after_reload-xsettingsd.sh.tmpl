@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Reloads systemd user daemon and xsettingsd when its config or unit drop-in changes.
+# xsettingsd.conf: {{ includeTemplate "dot_config/xsettingsd/xsettingsd.conf.tmpl" . | sha256sum }}
+# session.conf:    {{ include "dot_config/systemd/user/xsettingsd.service.d/session.conf" | sha256sum }}
+# wants symlink:   {{ include "dot_config/systemd/user/graphical-session.target.wants/symlink_xsettingsd.service" | sha256sum }}
+set -euo pipefail
+
+systemctl --user show-environment >/dev/null 2>&1 || exit 0
+systemctl --user daemon-reload
+if systemctl --user is-active --quiet xsettingsd.service; then
+    systemctl --user reload-or-restart xsettingsd.service && echo "[OK] xsettingsd reloaded"
+fi

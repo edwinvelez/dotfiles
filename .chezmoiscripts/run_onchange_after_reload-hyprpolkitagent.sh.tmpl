@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Restarts hyprpolkitagent when hyprtoolkit styling changes (read at process start).
+# hyprtoolkit.conf: {{ includeTemplate "dot_config/hypr/hyprtoolkit.conf.tmpl" . | sha256sum }}
+set -euo pipefail
+
+systemctl --user show-environment >/dev/null 2>&1 || exit 0
+if systemctl --user is-active --quiet hyprpolkitagent.service; then
+    systemctl --user restart hyprpolkitagent.service && echo "[OK] hyprpolkitagent restarted"
+fi

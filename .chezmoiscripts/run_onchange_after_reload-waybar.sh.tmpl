@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Reloads Waybar when its config or styles change.
+# config.jsonc: {{ includeTemplate "dot_config/waybar/config.jsonc.tmpl" . | sha256sum }}
+# colors.css:   {{ includeTemplate "dot_config/waybar/colors.css.tmpl" . | sha256sum }}
+# style.css:    {{ include "dot_config/waybar/style.css" | sha256sum }}
+set -euo pipefail
+
+systemctl --user show-environment >/dev/null 2>&1 || exit 0
+if systemctl --user is-active --quiet waybar.service; then
+    systemctl --user reload-or-restart waybar.service && echo "[OK] Waybar reloaded"
+fi

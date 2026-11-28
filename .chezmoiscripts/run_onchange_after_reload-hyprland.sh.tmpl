@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Reloads Hyprland when its rendered Lua config changes.
+# hyprland.lua:   {{ includeTemplate "dot_config/hypr/hyprland.lua.tmpl" . | sha256sum }}
+# env.lua:        {{ includeTemplate "dot_config/hypr/configs/env.lua.tmpl" . | sha256sum }}
+# execs.lua:      {{ includeTemplate "dot_config/hypr/configs/execs.lua.tmpl" . | sha256sum }}
+# monitors.lua:   {{ includeTemplate "dot_config/hypr/configs/monitors.lua.tmpl" . | sha256sum }}
+# events.lua:     {{ include "dot_config/hypr/configs/events.lua" | sha256sum }}
+# keybinds.lua:   {{ include "dot_config/hypr/configs/keybinds.lua" | sha256sum }}
+# windowrules.lua: {{ include "dot_config/hypr/configs/windowrules.lua" | sha256sum }}
+set -euo pipefail
+
+if command -v hyprctl >/dev/null 2>&1 && pgrep -x Hyprland >/dev/null; then
+    hyprctl reload >/dev/null && echo "[OK] Hyprland reloaded"
+fi

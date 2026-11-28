@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Restarts hypridle when its rendered config changes (it does not watch its config file).
+# hypridle.conf: {{ includeTemplate "dot_config/hypr/hypridle.conf.tmpl" . | sha256sum }}
+set -euo pipefail
+
+systemctl --user show-environment >/dev/null 2>&1 || exit 0
+if systemctl --user is-active --quiet hypridle.service; then
+    systemctl --user restart hypridle.service && echo "[OK] hypridle restarted"
+fi
