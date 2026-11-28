@@ -367,10 +367,10 @@ fi
 # ------------------------------------------------------------------------------
 if command -v chezmoi >/dev/null 2>&1; then
     if [[ ${DRY_RUN} -eq 1 ]]; then
-        log_info "[Dry-Run] Would execute: chezmoi apply --source ${DOTFILES_DIR}"
+        log_info "[Dry-Run] Would execute: chezmoi init --apply --source ${DOTFILES_DIR}"
     else
         log_info "Applying chezmoi dotfiles configurations..."
-        chezmoi apply --source "${DOTFILES_DIR}"
+        chezmoi init --apply --source "${DOTFILES_DIR}"
         log_success "Chezmoi configuration synchronization completed."
     fi
 else

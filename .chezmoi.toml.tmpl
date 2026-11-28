@@ -2,15 +2,21 @@
 {{- $is_my_desktop := eq $hostname "my-desktop" -}}
 {{- $is_my_laptop := eq $hostname "my-laptop" -}}
 
-{{- $chassis := "" -}}
-{{- if eq .chezmoi.os "linux" -}}
-{{-   $chassis = output "hostnamectl" "chassis" | trim -}}
+{{- /* SMBIOS chassis_type codes matching systemd-hostnamed's laptop/convertible set:
+     * 8 Portable, 9 Laptop, 10 Notebook, 14 Sub Notebook, 31 Convertible, 32 Detachable.
+     * Reading sysfs avoids D-Bus/hostnamectl, so `chezmoi init` works in chroot or containers. */ -}}
+{{- $is_chassis_laptop := false -}}
+{{- $dmi := "/sys/class/dmi/id/chassis_type" -}}
+{{- if and (eq .chezmoi.os "linux") (stat $dmi) -}}
+{{-   $is_chassis_laptop = has (include $dmi | trim) (list "8" "9" "10" "14" "31" "32") -}}
 {{- end -}}
 
-{{- $is_laptop := or (eq $chassis "laptop") $is_my_laptop -}}
+{{- $is_laptop := or $is_chassis_laptop $is_my_laptop -}}
 {{- $is_desktop := not $is_laptop -}}
 
-sourceDir = "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
+[merge]
+    command = "nvim"
+    args = ["-d", "{{ "{{ .Destination }}" }}", "{{ "{{ .Source }}" }}", "{{ "{{ .Target }}" }}"]
 
 [data]
     hostname = {{ $hostname | quote }}
