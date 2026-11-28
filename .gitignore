@@ -36,8 +36,5 @@ env/
 .env
 .env.*
 
-# --- Gemini CLI (Project Specific) ---
-common/.gemini/google_accounts.json
-common/.gemini/oauth_creds.json
-common/.gemini/state.json
-common/.gemini/tmp/
+# --- Local AI Tool State ---
+.claude/settings.local.json

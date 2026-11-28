@@ -31,3 +31,8 @@ setup/**
 .histfile
 .zsh_history
 .zcompdump*
+{{- if not .is_laptop }}
+
+# Laptop-only utilities
+.local/bin/battery-notify
+{{- end }}

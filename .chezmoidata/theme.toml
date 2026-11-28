@@ -43,3 +43,12 @@ blue    = "a3bdfa"
 magenta = "cbbdef"
 cyan    = "9dd4d4"
 white   = "f0f1f4"
+
+# Shared desktop UI tokens (read by GTK, Qt6, xsettingsd, Hyprland, rofi, gsettings, icons)
+[ui]
+gtk_theme    = "adw-gtk3-dark"
+icon_theme   = "Papirus-Dark"
+cursor_theme = "Bibata-Modern-Classic"
+font         = "Inter"
+font_size    = 11
+mono_font    = "JetBrainsMono Nerd Font"

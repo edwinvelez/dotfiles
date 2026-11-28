@@ -15,6 +15,6 @@ accent_secondary = rgba({{ $t.ansi_bright.blue }}ff)
 rounding_large = {{ $t.radius }}
 rounding_small = {{ div $t.radius 2 }}
 
-font_family           = Inter
-font_family_monospace = JetBrainsMono Nerd Font
-icon_theme            = Papirus-Dark
+font_family           = {{ .ui.font }}
+font_family_monospace = {{ .ui.mono_font }}
+icon_theme            = {{ .ui.icon_theme }}

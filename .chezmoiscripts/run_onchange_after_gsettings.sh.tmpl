@@ -1,19 +1,16 @@
 #!/usr/bin/env bash
 # Applies GNOME/GTK interface settings once per change instead of every login.
 # Values persist in dconf; chezmoi re-runs this only when this rendered file changes.
-# Keep in sync with gtk-3.0/gtk-4.0 settings.ini, xsettingsd.conf and hypr/configs/env.lua.
+# Values come from .chezmoidata/theme.toml ([ui]) and .chezmoi.toml.tmpl (cursor_size).
 set -euo pipefail
-
-{{- $cursorSize := 24 }}
-{{- if .is_laptop }}{{ $cursorSize = 32 }}{{ end }}
 
 apply() {
     local schema=org.gnome.desktop.interface
-    gsettings set "$schema" gtk-theme    'adw-gtk3-dark'
-    gsettings set "$schema" icon-theme   'Papirus-Dark'
-    gsettings set "$schema" cursor-theme 'Bibata-Modern-Classic'
-    gsettings set "$schema" cursor-size  {{ $cursorSize }}
-    gsettings set "$schema" font-name    'Inter 11'
+    gsettings set "$schema" gtk-theme    '{{ .ui.gtk_theme }}'
+    gsettings set "$schema" icon-theme   '{{ .ui.icon_theme }}'
+    gsettings set "$schema" cursor-theme '{{ .ui.cursor_theme }}'
+    gsettings set "$schema" cursor-size  {{ .cursor_size }}
+    gsettings set "$schema" font-name    '{{ .ui.font }} {{ .ui.font_size }}'
     gsettings set "$schema" color-scheme 'prefer-dark'
 }
 

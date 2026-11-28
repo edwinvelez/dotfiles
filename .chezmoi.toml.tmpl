@@ -14,6 +14,13 @@
 {{- $is_laptop := or $is_chassis_laptop $is_my_laptop -}}
 {{- $is_desktop := not $is_laptop -}}
 
+{{- $cursor_size := 24 -}}
+{{- $xft_dpi := 122880 -}}
+{{- if $is_laptop -}}
+{{-   $cursor_size = 32 -}}
+{{-   $xft_dpi = 147456 -}}
+{{- end -}}
+
 [merge]
     command = "nvim"
     args = ["-d", "{{ "{{ .Destination }}" }}", "{{ "{{ .Source }}" }}", "{{ "{{ .Target }}" }}"]
@@ -24,3 +31,5 @@
     is_desktop = {{ $is_desktop }}
     is_my_desktop = {{ $is_my_desktop }}
     is_my_laptop = {{ $is_my_laptop }}
+    cursor_size = {{ $cursor_size }}
+    xft_dpi = {{ $xft_dpi }}

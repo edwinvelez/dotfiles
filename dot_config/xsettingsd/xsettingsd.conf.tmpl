@@ -1,14 +1,9 @@
-Net/ThemeName "adw-gtk3-dark"
-Net/IconThemeName "Papirus-Dark"
-Gtk/CursorThemeName "Bibata-Modern-Classic"
-{{- if .is_laptop }}
-Gtk/CursorThemeSize 32
-Xft/DPI 147456
-{{- else }}
-Gtk/CursorThemeSize 24
-Xft/DPI 122880
-{{- end }}
-Gtk/FontName "Inter 11"
+Net/ThemeName "{{ .ui.gtk_theme }}"
+Net/IconThemeName "{{ .ui.icon_theme }}"
+Gtk/CursorThemeName "{{ .ui.cursor_theme }}"
+Gtk/CursorThemeSize {{ .cursor_size }}
+Xft/DPI {{ .xft_dpi }}
+Gtk/FontName "{{ .ui.font }} {{ .ui.font_size }}"
 Net/EnableEventSounds 0
 Net/EnableInputFeedbackSounds 0
 Xft/Antialias 1
